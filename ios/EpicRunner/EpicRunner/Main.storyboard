@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="FTf-h4-ssb">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <scenes>
+        <!--Map View Controller - EpicRunner: Map test-->
+        <scene sceneID="Wlk-cF-IBd">
+            <objects>
+                <viewController id="Tsx-2i-5rC" customClass="MapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="c6Q-p2-w7E"/>
+                        <viewControllerLayoutGuide type="bottom" id="RRg-pA-hXD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3vq-KY-5xe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zQ8-Fl-5TB">
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2vn-Ne-1wp">
+                                <rect key="frame" x="20" y="418" width="76" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.062495960505185355" green="1" blue="0.0" alpha="0.48999999999999999" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Run">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="zQ8-Fl-5TB" secondAttribute="bottom" id="6lr-D6-19n"/>
+                            <constraint firstItem="zQ8-Fl-5TB" firstAttribute="leading" secondItem="3vq-KY-5xe" secondAttribute="leading" id="bbt-Md-mES"/>
+                            <constraint firstAttribute="trailing" secondItem="zQ8-Fl-5TB" secondAttribute="trailing" id="nEf-yj-Sh0"/>
+                            <constraint firstItem="zQ8-Fl-5TB" firstAttribute="top" secondItem="c6Q-p2-w7E" secondAttribute="bottom" id="xrM-lQ-CMm"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="EpicRunner: Map test" id="5HB-Ww-KVC"/>
+                    <connections>
+                        <outlet property="mapView" destination="zQ8-Fl-5TB" id="ZY2-56-LsS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G8e-nc-Bgi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="808" y="11"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="w3k-Xb-Xo7">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FTf-h4-ssb" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kNR-HZ-VX8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Tsx-2i-5rC" kind="relationship" relationship="rootViewController" id="Npl-w7-AVc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Ed-IA-k0Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="282" y="11"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
