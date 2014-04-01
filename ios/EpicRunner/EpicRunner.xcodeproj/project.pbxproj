@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72508DBE18E1BF6C00A2E59C /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72508DBD18E1BF6C00A2E59C /* HistoryTableViewController.m */; };
+		72508DC218E1C1DF00A2E59C /* Run.m in Sources */ = {isa = PBXBuildFile; fileRef = 72508DC118E1C1DF00A2E59C /* Run.m */; };
+		726F7A0418E25876004EA130 /* RunFinishedSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 726F7A0318E25876004EA130 /* RunFinishedSummaryViewController.m */; };
 		72A7C6A818D87AF4007FF58B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A718D87AF4007FF58B /* Foundation.framework */; };
 		72A7C6AA18D87AF4007FF58B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A918D87AF4007FF58B /* CoreGraphics.framework */; };
 		72A7C6AC18D87AF4007FF58B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6AB18D87AF4007FF58B /* UIKit.framework */; };
@@ -35,6 +38,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		72508DBC18E1BF6C00A2E59C /* HistoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
+		72508DBD18E1BF6C00A2E59C /* HistoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewController.m; sourceTree = "<group>"; };
+		72508DC018E1C1DF00A2E59C /* Run.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Run.h; sourceTree = "<group>"; };
+		72508DC118E1C1DF00A2E59C /* Run.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Run.m; sourceTree = "<group>"; };
+		726F7A0218E25876004EA130 /* RunFinishedSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunFinishedSummaryViewController.h; sourceTree = "<group>"; };
+		726F7A0318E25876004EA130 /* RunFinishedSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunFinishedSummaryViewController.m; sourceTree = "<group>"; };
 		72A7C6A418D87AF4007FF58B /* EpicRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72A7C6A718D87AF4007FF58B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		72A7C6A918D87AF4007FF58B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -82,6 +91,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		72508DBF18E1C1BF00A2E59C /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				72508DC018E1C1DF00A2E59C /* Run.h */,
+				72508DC118E1C1DF00A2E59C /* Run.m */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
 		72A7C69B18D87AF3007FF58B = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +134,7 @@
 		72A7C6AD18D87AF4007FF58B /* EpicRunner */ = {
 			isa = PBXGroup;
 			children = (
+				72508DBF18E1C1BF00A2E59C /* Objects */,
 				72A7C6DA18D883D5007FF58B /* Controllers */,
 				72A7C6B618D87AF4007FF58B /* AppDelegate.h */,
 				72A7C6B718D87AF4007FF58B /* AppDelegate.m */,
@@ -160,6 +179,10 @@
 			children = (
 				72A7C6DB18D88417007FF58B /* MapViewController.h */,
 				72A7C6DC18D88417007FF58B /* MapViewController.m */,
+				72508DBC18E1BF6C00A2E59C /* HistoryTableViewController.h */,
+				72508DBD18E1BF6C00A2E59C /* HistoryTableViewController.m */,
+				726F7A0218E25876004EA130 /* RunFinishedSummaryViewController.h */,
+				726F7A0318E25876004EA130 /* RunFinishedSummaryViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -260,7 +283,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72508DBE18E1BF6C00A2E59C /* HistoryTableViewController.m in Sources */,
 				72A7C6DD18D88417007FF58B /* MapViewController.m in Sources */,
+				72508DC218E1C1DF00A2E59C /* Run.m in Sources */,
+				726F7A0418E25876004EA130 /* RunFinishedSummaryViewController.m in Sources */,
 				72A7C6B818D87AF4007FF58B /* AppDelegate.m in Sources */,
 				72A7C6B418D87AF4007FF58B /* main.m in Sources */,
 			);
@@ -461,6 +487,7 @@
 				72A7C6D218D87AF4007FF58B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		72A7C6D318D87AF4007FF58B /* Build configuration list for PBXNativeTarget "EpicRunnerTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +496,7 @@
 				72A7C6D518D87AF4007FF58B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

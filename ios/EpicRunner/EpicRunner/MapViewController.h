@@ -11,4 +11,6 @@
 
 @interface MapViewController : UIViewController
 
+- (IBAction)unwindToMap:(UIStoryboardSegue *)segue;
+
 @end

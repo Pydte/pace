@@ -7,19 +7,60 @@
 //
 
 #import "MapViewController.h"
+#import "Run.h"
+#import "RunFinishedSummaryViewController.h"
 
 @interface MapViewController ()
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-
+@property (weak, nonatomic) IBOutlet UIButton *runButton;
+@property BOOL capturing;
+@property Run *currentRun;
 @end
 
 @implementation MapViewController
+
+- (IBAction)runButtonClick:(id)sender {
+    if (self.capturing) {
+        //Stop the run
+        self.currentRun.end = [NSDate date];
+        
+        //Calculate the total distance of the run
+        if (self.currentRun.locations.count > 1) {
+            for (int i=0; i < self.currentRun.locations.count-1; i++) {
+                double distance = [self.currentRun.locations[i] distanceFromLocation:self.currentRun.locations[i+1]];
+                self.currentRun.distance += distance;
+            }
+        }
+        
+        //Change visual
+        [sender setTitle:@"Run" forState:UIControlStateNormal];
+        self.runButton.backgroundColor = [UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:0.50];
+        self.capturing = NO;
+        
+        //Change view
+        [self performSegueWithIdentifier: @"SegueRunFinished" sender: self];
+    } else {
+        //Start a new run
+        self.currentRun = [[Run alloc] init];
+        self.currentRun.start = [NSDate date];
+        
+        //Change visual
+        [sender setTitle:@"Done" forState:UIControlStateNormal];
+        self.runButton.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.60];
+        self.capturing = YES;
+    }
+}
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
     // Update region with new location in center
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 1000, 1000);
     [self.mapView setRegion:region animated:YES];
+    
+    if (self.capturing) {
+        //Should only capture with some larger interval!
+        [self.currentRun.locations addObject:userLocation.location];
+    }
 }
 
 
@@ -35,6 +76,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.capturing = NO;
     
     // Bind mapView delegate to this controller
     self.mapView.delegate = (id)self;
@@ -54,7 +97,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -62,7 +105,16 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:@"SegueRunFinished"])
+    {
+        RunFinishedSummaryViewController *runFinishedSummaryViewController = segue.destinationViewController;
+        runFinishedSummaryViewController.finishedRun = self.currentRun;
+    }
+    
 }
-*/
+
+- (IBAction)unwindToMap:(UIStoryboardSegue *)segue
+{
+}
 
 @end
