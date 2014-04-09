@@ -56,7 +56,7 @@
     // Update region with new location in center
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 1000, 1000);
     [self.mapView setRegion:region animated:YES];
-    
+
     if (self.capturing) {
         //Should only capture with some larger interval!
         [self.currentRun.locations addObject:userLocation.location];
@@ -76,6 +76,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //self.mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    //NSLog(self.mainDelegate.myTest);
     
     self.capturing = NO;
     

@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
 @interface HistoryTableViewController : UITableViewController
 
+@property AppDelegate *mainDelegate;
 @property NSMutableArray *runs;
 
 @end

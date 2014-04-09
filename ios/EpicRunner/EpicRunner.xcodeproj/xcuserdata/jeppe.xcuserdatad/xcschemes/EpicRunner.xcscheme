@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "72A7C6BE18D87AF4007FF58B"
-               BuildableName = "EpicRunnerTests.xctest"
-               BlueprintName = "EpicRunnerTests"
-               ReferencedContainer = "container:EpicRunner.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

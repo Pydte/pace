@@ -9,6 +9,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "RunFinishedSummaryViewController.h"
 #import <MapKit/MapKit.h>
+#import "sqlite3.h"
 
 @interface RunFinishedSummaryViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *detailsLabel;
@@ -30,7 +31,69 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    // Save run to database
+    sqlite3 *database;
+    sqlite3_stmt *statement;
+    
+    /// Open database
+    if(sqlite3_open(self.mainDelegate.databasePath, &database) != SQLITE_OK) {
+        NSLog(@"[ERROR] SQLITE: Failed to open database! Error: '%s' - RunFinishedSummaryViewController:viewDidLoad", sqlite3_errmsg(database));
+		return;
+    }
+    
+    /// Prepare insert of run
+	if(sqlite3_prepare_v2(database, "INSERT INTO runs (startDate, endDate, distance) VALUES(?,?,?)", -1, &statement, nil) != SQLITE_OK){
+		NSLog(@"[ERROR] SQLITE: Failed to prepare statement! Error: '%s' - RunFinishedSummaryViewController:viewDidLoad", sqlite3_errmsg(database));
+		return;
+	}
+	
+    /// Bind parametres
+	sqlite3_bind_int(statement, 1, [self.finishedRun.start timeIntervalSince1970]);
+	sqlite3_bind_int(statement, 2, [self.finishedRun.end timeIntervalSince1970]);
+	sqlite3_bind_double(statement, 3, self.finishedRun.distance);
+	
+    /// Execute insert of run
+	if (sqlite3_step(statement) == SQLITE_ERROR) {
+		NSLog(@"[ERROR] SQLITE: Failed to insert into database! Error: '%s' - RunFinishedSummaryViewController:viewDidLoad", sqlite3_errmsg(database));
+		return;
+	}
+	sqlite3_finalize(statement);
+	int runId = (int)sqlite3_last_insert_rowid(database);
+    
+    for (CLLocation *location in self.finishedRun.locations) {
+        /// Prepare insert of locations of run
+        if(sqlite3_prepare_v2(database, "INSERT INTO runs_location (latitude, runId, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp) VALUES(?,?,?,?,?,?,?,?)", -1, &statement, nil) != SQLITE_OK){
+            NSLog(@"[ERROR] SQLITE: Failed to prepare statement! Error: '%s' - RunFinishedSummaryViewController:viewDidLoad;locations", sqlite3_errmsg(database));
+            return;
+        }
+        
+        /// Bind parametres
+        sqlite3_bind_int(statement, 2, runId);                                      //runId SOMETHING IS NOT WORKING?
+        sqlite3_bind_double(statement, 1, location.coordinate.latitude);            //latitude
+        sqlite3_bind_double(statement, 3, location.coordinate.longitude);           //longitude
+        sqlite3_bind_double(statement, 4, location.horizontalAccuracy);             //horizontalAccuracy
+        sqlite3_bind_double(statement, 5, location.altitude);                       //altitude
+        sqlite3_bind_double(statement, 6, location.verticalAccuracy);               //verticalAccuracy
+        sqlite3_bind_double(statement, 7, location.speed);                          //speed
+        sqlite3_bind_int(statement, 8, [location.timestamp timeIntervalSince1970]); //timestamp
+        
+        /// Execute insert of location
+        if (sqlite3_step(statement) == SQLITE_ERROR) {
+            NSLog(@"[ERROR] SQLITE: Failed to insert into database! Error: '%s' - RunFinishedSummaryViewController:viewDidLoad", sqlite3_errmsg(database));
+            return;
+        }
+        sqlite3_finalize(statement);
+    }
+    
+    /// Close database
+    sqlite3_close(database);
+    database = nil;
+
+	
+    
+    // Populate view
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM. dd, yyyy, HH:mm"];
     

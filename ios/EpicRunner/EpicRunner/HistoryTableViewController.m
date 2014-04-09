@@ -28,10 +28,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
+    
     
     // Initialize runs array and load dummy data
     self.runs = [[NSMutableArray alloc] init];
-    [self loadInitialDummyData];
+    [self loadData];
+    //[self loadInitialDummyData];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -76,7 +79,7 @@
     NSMutableString *runText = [[NSMutableString alloc] init];
     [runText appendString:[dateFormatter stringFromDate:run.start]];
     [runText appendString:@" - "];
-    [runText appendString:[NSString stringWithFormat:@"%f",run.distance]];
+    [runText appendString:[NSString stringWithFormat:@"%.2f",run.distance/1000]];
     [runText appendString:@" km in "];
     [runText appendString:[NSString stringWithFormat:@"%d",runTimeInMinutes]];
     [runText appendString:@":"];
@@ -136,6 +139,42 @@
 }
 */
 
+
+- (void)loadData {
+    // Load runs from database
+    sqlite3 *database;
+    sqlite3_stmt *statement;
+    
+    // Open database
+    if(sqlite3_open(self.mainDelegate.databasePath, &database) != SQLITE_OK) {
+        NSLog(@"[ERROR] SQLITE: Failed to open database! Error: '%s' - RunFinishedSummaryViewController:viewDidLoad", sqlite3_errmsg(database));
+		return;
+    }
+    
+    // Read
+    if(sqlite3_prepare_v2(database, "SELECT startDate, endDate, distance FROM runs ORDER BY startDate DESC", -1, &statement, nil) != SQLITE_OK){
+		NSLog(@"[ERROR] SQLITE: Failed to prepare statement! Error: '%s' - HistoryTableViewController:loadData", sqlite3_errmsg(database));
+		return;
+	}
+    
+	while(sqlite3_step(statement) == SQLITE_ROW) {
+		int startDate = (int)sqlite3_column_int(statement, 0);
+		int endDate = (int)sqlite3_column_int(statement, 1);
+		double distance = (double)sqlite3_column_double(statement, 2);
+		
+        Run *run = [[Run alloc] init];
+        run.start = [NSDate dateWithTimeIntervalSince1970:startDate];
+        run.end = [NSDate dateWithTimeIntervalSince1970:endDate];
+        run.distance = distance;
+        [self.runs addObject:run];
+	}
+    sqlite3_finalize(statement);
+    
+    //Close db
+    sqlite3_close(database);
+    database = nil;
+    
+}
 
 
 - (void)loadInitialDummyData {

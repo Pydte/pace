@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 #import <MapKit/MapKit.h>
 
 @interface MapViewController : UIViewController
 
+@property AppDelegate *mainDelegate;
 - (IBAction)unwindToMap:(UIStoryboardSegue *)segue;
 
 @end

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Run.h"
+#import "AppDelegate.h"
 
 @interface RunFinishedSummaryViewController : UIViewController
 
+@property AppDelegate *mainDelegate;
 @property Run *finishedRun;
 
 @end

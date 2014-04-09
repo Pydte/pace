@@ -10,6 +10,7 @@
 		72508DBE18E1BF6C00A2E59C /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72508DBD18E1BF6C00A2E59C /* HistoryTableViewController.m */; };
 		72508DC218E1C1DF00A2E59C /* Run.m in Sources */ = {isa = PBXBuildFile; fileRef = 72508DC118E1C1DF00A2E59C /* Run.m */; };
 		726F7A0418E25876004EA130 /* RunFinishedSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 726F7A0318E25876004EA130 /* RunFinishedSummaryViewController.m */; };
+		72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A4008E18F4512600D739B3 /* libsqlite3.dylib */; };
 		72A7C6A818D87AF4007FF58B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A718D87AF4007FF58B /* Foundation.framework */; };
 		72A7C6AA18D87AF4007FF58B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A918D87AF4007FF58B /* CoreGraphics.framework */; };
 		72A7C6AC18D87AF4007FF58B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6AB18D87AF4007FF58B /* UIKit.framework */; };
@@ -44,6 +45,7 @@
 		72508DC118E1C1DF00A2E59C /* Run.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Run.m; sourceTree = "<group>"; };
 		726F7A0218E25876004EA130 /* RunFinishedSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunFinishedSummaryViewController.h; sourceTree = "<group>"; };
 		726F7A0318E25876004EA130 /* RunFinishedSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunFinishedSummaryViewController.m; sourceTree = "<group>"; };
+		72A4008E18F4512600D739B3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		72A7C6A418D87AF4007FF58B /* EpicRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72A7C6A718D87AF4007FF58B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		72A7C6A918D87AF4007FF58B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -71,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */,
 				72A7C6D918D8813C007FF58B /* MapKit.framework in Frameworks */,
 				72A7C6AA18D87AF4007FF58B /* CoreGraphics.framework in Frameworks */,
 				72A7C6AC18D87AF4007FF58B /* UIKit.framework in Frameworks */,
@@ -122,6 +125,7 @@
 		72A7C6A618D87AF4007FF58B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				72A4008E18F4512600D739B3 /* libsqlite3.dylib */,
 				72A7C6D818D8813C007FF58B /* MapKit.framework */,
 				72A7C6A718D87AF4007FF58B /* Foundation.framework */,
 				72A7C6A918D87AF4007FF58B /* CoreGraphics.framework */,

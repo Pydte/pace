@@ -12,6 +12,48 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    // SQLite setup
+    // - Check to see if SQLite db file exists, else create
+	sqlite3 *database = nil;
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	
+    NSString *sqlitePath = [documentsDirectory stringByAppendingPathComponent:@"epicDB.sqlite"];
+	self.databasePath = strdup([sqlitePath UTF8String]); //Convert to UTF8 char* and malloc
+    
+    if (![fileManager fileExistsAtPath:sqlitePath]){
+		if(![fileManager createFileAtPath:sqlitePath contents:nil attributes:nil]){
+			NSLog(@"[ERROR] SQLITE Database failed to initialize! File could not be created in application.");
+		} else {
+			if(sqlite3_open(self.databasePath, &database) == SQLITE_OK) {
+				sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS runs (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                                                        "startDate INTEGER, "
+                                                                        "endDate INTEGER, "
+                                                                        "distance REAL)", NULL, NULL, NULL);
+				sqlite3_exec(database, "CREATE TABLE IF NOT EXISTS runs_location (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                                                                 "runId INTEGER REFERENCES run(id) ON DELETE CASCADE, "
+                                                                                 "latitude REAL, "
+                                                                                 "longitude REAL, "
+                                                                                 "horizontalAccuracy REAL, "
+                                                                                 "altitude REAL, "
+                                                                                 "verticalAccuracy REAL, "
+                                                                                 "speed REAL, "
+                                                                                 "timestamp INTEGER)",NULL, NULL, NULL);
+				sqlite3_close(database);
+				database = nil;
+				NSLog(@"SQLITE Database created and is now a'okay.");
+			} else {
+				NSLog(@"[ERROR] SQLITE Could not seed tables!");
+			}
+            
+		}
+	}
+    
+    
+    
+    
+    
     return YES;
 }
 
