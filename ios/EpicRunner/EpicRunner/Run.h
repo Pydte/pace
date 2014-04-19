@@ -10,6 +10,7 @@
 
 @interface Run : NSObject
 
+@property int dbId;
 @property NSDate *start;
 @property NSDate *end;
 @property double distance;

@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *runButton;
 @property BOOL capturing;
 @property Run *currentRun;
+@property (nonatomic) IBOutlet UIBarButtonItem *btnMenu;
 @end
 
 @implementation MapViewController
@@ -79,6 +80,12 @@
     //self.mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     //NSLog(self.mainDelegate.myTest);
     
+    // Bind menu button
+    [self.btnMenu setTarget: self.revealViewController];
+    [self.btnMenu setAction: @selector( revealToggle: )];
+    [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
+    
+    // Do not capture/record data
     self.capturing = NO;
     
     // Bind mapView delegate to this controller

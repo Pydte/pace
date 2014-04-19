@@ -9,12 +9,14 @@
 #import "HistoryTableViewController.h"
 #import "Run.h"
 #import <tgmath.h>
+#import "DetailViewViewController.h"
 
 @interface HistoryTableViewController ()
-
-@end
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnMenu;@end
 
 @implementation HistoryTableViewController
+
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -30,6 +32,10 @@
     [super viewDidLoad];
     self.mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     
+    // Bind menu button
+    [self.btnMenu setTarget: self.revealViewController];
+    [self.btnMenu setAction: @selector( revealToggle: )];
+    [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     
     // Initialize runs array and load dummy data
     self.runs = [[NSMutableArray alloc] init];
@@ -90,6 +96,12 @@
 }
 
 
+// On cell click
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -128,7 +140,7 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -136,8 +148,16 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:@"SegueRunDetails"])
+    {
+        NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+        Run *run = [self.runs objectAtIndex: selectedRowIndexPath.row];
+
+        DetailViewViewController *detailViewViewController = segue.destinationViewController;
+        detailViewViewController.selectedRun = run;
+    }
 }
-*/
+
 
 
 - (void)loadData {
@@ -151,18 +171,20 @@
 		return;
     }
     
-    // Read
-    if(sqlite3_prepare_v2(database, "SELECT startDate, endDate, distance FROM runs ORDER BY startDate DESC", -1, &statement, nil) != SQLITE_OK){
+    // Read runs
+    if(sqlite3_prepare_v2(database, "SELECT id, startDate, endDate, distance FROM runs ORDER BY startDate DESC", -1, &statement, nil) != SQLITE_OK){
 		NSLog(@"[ERROR] SQLITE: Failed to prepare statement! Error: '%s' - HistoryTableViewController:loadData", sqlite3_errmsg(database));
 		return;
 	}
     
 	while(sqlite3_step(statement) == SQLITE_ROW) {
-		int startDate = (int)sqlite3_column_int(statement, 0);
-		int endDate = (int)sqlite3_column_int(statement, 1);
-		double distance = (double)sqlite3_column_double(statement, 2);
+        int dbId = (int)sqlite3_column_int(statement, 0);
+		int startDate = (int)sqlite3_column_int(statement, 1);
+		int endDate = (int)sqlite3_column_int(statement, 2);
+		double distance = (double)sqlite3_column_double(statement, 3);
 		
         Run *run = [[Run alloc] init];
+        run.dbId = dbId;
         run.start = [NSDate dateWithTimeIntervalSince1970:startDate];
         run.end = [NSDate dateWithTimeIntervalSince1970:endDate];
         run.distance = distance;
@@ -170,7 +192,43 @@
 	}
     sqlite3_finalize(statement);
     
-    //Close db
+    // Read all locations for all runs
+    for (Run *run in self.runs) {
+        NSMutableArray *locations = [[NSMutableArray alloc] init];
+        
+        // Read locations for this run //, timestamp
+        if(sqlite3_prepare_v2(database, "SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = ? ORDER BY id", -1, &statement, nil) != SQLITE_OK){
+            NSLog(@"[ERROR] SQLITE: Failed to prepare statement! Error: '%s' - HistoryTableViewController:loadData", sqlite3_errmsg(database));
+            return;
+        }
+        sqlite3_bind_int(statement, 1, run.dbId);
+        
+        while(sqlite3_step(statement) == SQLITE_ROW) {
+            double lat = (double)sqlite3_column_double(statement, 0);
+            double lon = (double)sqlite3_column_double(statement, 1);
+            double horizontalAcc = (double)sqlite3_column_double(statement, 2);
+            double altitude = (double)sqlite3_column_double(statement, 3);
+            double verticalAcc = (double)sqlite3_column_double(statement, 4);
+            double speed = (double)sqlite3_column_double(statement, 5);
+//            int timestamp = (double)sqlite3_column_double(statement, 6);
+            
+            // create location
+            CLLocationCoordinate2D pos = CLLocationCoordinate2DMake(lat, lon);
+            CLLocation *location = [[CLLocation alloc] initWithCoordinate:(pos)
+                                               altitude:(altitude)
+                                               horizontalAccuracy:(horizontalAcc)
+                                               verticalAccuracy:(verticalAcc)
+                                               course:(0)
+                                               speed:(speed)
+                                               timestamp:(nil)];
+
+            [locations addObject:location];
+        }
+        
+        run.locations = locations;
+    }
+    
+    // Close db
     sqlite3_close(database);
     database = nil;
     
