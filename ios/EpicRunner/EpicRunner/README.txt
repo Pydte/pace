@@ -1,1 +1,0 @@
-*EpicRunner for iOS
