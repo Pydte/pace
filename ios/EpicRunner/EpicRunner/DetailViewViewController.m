@@ -8,8 +8,9 @@
 
 #import "DetailViewViewController.h"
 #import <MapKit/MapKit.h>
+#import "HistoryTableViewController.h"
 
-@interface DetailViewViewController ()
+@interface DetailViewViewController ()<UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *lblDate;
 @property (weak, nonatomic) IBOutlet UILabel *lblDistance;
@@ -18,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblMaxSpeed;
 @property (weak, nonatomic) IBOutlet UILabel *lblMinAltitude;
 @property (weak, nonatomic) IBOutlet UILabel *lblMaxAltitude;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnDelete;
 
 @end
 
@@ -52,13 +54,15 @@
     self.lblDuration.text = runDuration;
     
     
-    // Find extreme coordinates
+    // Extreme coordinates
     double latTop    = -999999;
     double lonRight  = -999999;
     double latBottom = 999999;
     double lonLeft   = 999999;
     
     double avgSpeed = 0.0; // In min/km
+    double minAltitude = 999999;
+    double maxAltitude = -999999;
     
     for (CLLocation *location in self.selectedRun.locations) {
         //Find extreme coordinates
@@ -75,6 +79,14 @@
         
         // Plus all speed entries
         avgSpeed = avgSpeed + location.speed;
+        
+        
+        // Find min and max altitude
+        if (location.altitude < minAltitude)
+            minAltitude = location.altitude;
+        if (location.altitude > maxAltitude)
+            maxAltitude = location.altitude;
+        
     }
     
     // Divide accumulated speeds with number of entries
@@ -83,6 +95,10 @@
     // Convert avg. speed from m/s to min/km
     avgSpeed = 16.66666666666667/avgSpeed;
     self.lblAvgSpeed.text = [NSString stringWithFormat:@"%.2f",avgSpeed];
+    
+    // Set altitude
+    self.lblMinAltitude.text = [NSString stringWithFormat:@"%.0f", minAltitude];
+    self.lblMaxAltitude.text = [NSString stringWithFormat:@"%.0f", maxAltitude];;
     
     // Find longest distance horizontal and vertical
     CLLocation *locTopLeft    = [[CLLocation alloc] initWithLatitude:(latTop)longitude:(lonLeft)];
@@ -138,15 +154,36 @@
     else return nil;
 }
 
-/*
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // Delete run
+    if([segue.identifier isEqualToString:@"unwindToHistory"]) {
+        // Get reference to the destination view controller
+        HistoryTableViewController *hvc = [segue destinationViewController];
+        
+        // Tell history controller to delete run
+        [hvc deleteRun];
+    }
 }
-*/
+
+- (IBAction)deleteRun:(id)sender {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Are you sure?"
+                                                             message:@"Be aware, the run and all its data will be deleted permanently!"
+                                                            delegate:self
+                                                   cancelButtonTitle:@"Cancel"
+                                                   otherButtonTitles:@"Yes", nil];
+            [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self performSegueWithIdentifier:@"unwindToHistory" sender:self];
+    }
+}
 
 @end

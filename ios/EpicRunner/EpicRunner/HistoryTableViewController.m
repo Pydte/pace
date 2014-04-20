@@ -13,11 +13,11 @@
 
 @interface HistoryTableViewController ()
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnMenu;@end
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnMenu;
+@property int selectedIndex;
+@end
 
 @implementation HistoryTableViewController
-
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -155,10 +155,43 @@
 
         DetailViewViewController *detailViewViewController = segue.destinationViewController;
         detailViewViewController.selectedRun = run;
+        
+        self.selectedIndex = selectedRowIndexPath.row;
     }
 }
 
+- (void)deleteRun {
+    // Remove from database
+    sqlite3 *database;
+    
+    /// Open database
+    if(sqlite3_open(self.mainDelegate.databasePath, &database) != SQLITE_OK) {
+        NSLog(@"[ERROR] SQLITE: Failed to open database! Error: '%s' - RunFinishedSummaryViewController:viewDidLoad", sqlite3_errmsg(database));
+		return;
+    }
+    
+    /// Delete
+    Run *run = [self.runs objectAtIndex:(self.selectedIndex)];
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM runs WHERE id = %i", run.dbId];
+	if (sqlite3_exec(database, [deleteSql UTF8String], NULL, NULL, NULL) == SQLITE_ABORT) {
+		NSLog(@"[ERROR] SQLITE: Failed to delete record from the database! Error: '%s' - deleteRecordWithID:", sqlite3_errmsg(database));
+		return;
+	}
+    
+    /// Close db
+    sqlite3_close(database);
+    database = nil;
 
+    
+    // Remove from data source (in memory)
+    // Order Important! - Update source before table view, otherwise tableView gets confused. Silly table view.
+    [self.runs removeObjectAtIndex:(self.selectedIndex)];
+    
+    // Remove from tableView
+    [self.tableView deleteRowsAtIndexPaths:([NSArray arrayWithObjects:
+                                             [NSIndexPath indexPathForRow:self.selectedIndex inSection:0], nil])
+                          withRowAnimation:UITableViewRowAnimationFade];
+}
 
 - (void)loadData {
     // Load runs from database
@@ -250,6 +283,10 @@
     run2.end = [dateFormatter dateFromString:@"2014-03-23 15:02:20"];
     run2.distance = 3.96;
     [self.runs addObject:run2];
+}
+
+- (IBAction)unwindToHistory:(UIStoryboardSegue *)segue
+{
 }
 
 @end

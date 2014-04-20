@@ -16,6 +16,7 @@
 @property BOOL capturing;
 @property Run *currentRun;
 @property (nonatomic) IBOutlet UIBarButtonItem *btnMenu;
+@property CLLocation *prevLoc;
 @end
 
 @implementation MapViewController
@@ -54,13 +55,22 @@
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
+    // Minimum capture distance
+    double minCapDistance = 5.0;
+    
     // Update region with new location in center
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 1000, 1000);
     [self.mapView setRegion:region animated:YES];
 
     if (self.capturing) {
-        //Should only capture with some larger interval!
-        [self.currentRun.locations addObject:userLocation.location];
+        // ONLY save location IF it is further than "minCapDistance" meters from the previous data point
+        double distance = [self.prevLoc distanceFromLocation:userLocation.location];
+        if (self.prevLoc == nil || distance > minCapDistance) {
+            [self.currentRun.locations addObject:userLocation.location];
+            
+            //Update prev loc (for calc distance between this and next loc)
+            self.prevLoc = userLocation.location;
+        }
     }
 }
 

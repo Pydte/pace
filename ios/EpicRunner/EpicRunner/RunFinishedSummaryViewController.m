@@ -100,26 +100,14 @@
     NSTimeInterval runTimeInSeconds = [self.finishedRun.end timeIntervalSinceDate:self.finishedRun.start];
     int runTimeInMinutes = runTimeInSeconds/60;
     int runTimeRemainingSeconds = fmod(runTimeInSeconds, 60);
-    NSMutableString *runText = [[NSMutableString alloc] init];
-    [runText appendFormat:@"Run start:  "];
-    [runText appendString:[dateFormatter stringFromDate:self.finishedRun.start]];
-    [runText appendString:@"\nDistance:  "];
-    [runText appendString:[NSString stringWithFormat:@"%.2f",self.finishedRun.distance/1000]];
-    [runText appendString:@" km\nDuration:  "];
-    [runText appendString:[NSString stringWithFormat:@"%d",runTimeInMinutes]];
-    [runText appendString:@":"];
-    [runText appendString:[NSString stringWithFormat:@"%d",runTimeRemainingSeconds]];
-    [runText appendString:@" min\n\nAvg. Speed:  "];
-    [runText appendString:[NSString stringWithFormat:@"%.2f",runTimeInMinutes/(self.finishedRun.distance/1000)]];
-    [runText appendString:@" min/km"];
-    self.detailsLabel.text = runText;
-    
     
     // Find extreme coordinates
     double latTop    = -999999;
     double lonRight  = -999999;
     double latBottom = 999999;
     double lonLeft   = 999999;
+    
+    double avgSpeed = 0.0; // In min/km
     
     for (CLLocation *location in self.finishedRun.locations) {
         if (location.coordinate.latitude > latTop)
@@ -131,8 +119,19 @@
             lonRight = location.coordinate.longitude;
         if (location.coordinate.longitude < lonLeft)
             lonLeft = location.coordinate.longitude;
+        
+        
+        // Plus all speed entries
+        avgSpeed = avgSpeed + location.speed;
     }
-      
+    
+    // Divide accumulated speeds with number of entries
+    avgSpeed = avgSpeed/[self.finishedRun.locations count];
+    
+    // Convert avg. speed from m/s to min/km
+    avgSpeed = 16.66666666666667/avgSpeed;
+    
+    
     // Find longest distance horizontal and vertical
     CLLocation *locTopLeft    = [[CLLocation alloc] initWithLatitude:(latTop)longitude:(lonLeft)];
     CLLocation *locBottomLeft = [[CLLocation alloc] initWithLatitude:(latTop)longitude:(lonLeft)];
@@ -144,6 +143,23 @@
         distanceMargin = distanceLat/20;
     else
         distanceMargin = distanceLon/20;
+    
+    
+    // Output text
+    NSMutableString *runText = [[NSMutableString alloc] init];
+    [runText appendFormat:@"Run start:  "];
+    [runText appendString:[dateFormatter stringFromDate:self.finishedRun.start]];
+    [runText appendString:@"\nDistance:  "];
+    [runText appendString:[NSString stringWithFormat:@"%.2f",self.finishedRun.distance/1000]];
+    [runText appendString:@" km\nDuration:  "];
+    [runText appendString:[NSString stringWithFormat:@"%d",runTimeInMinutes]];
+    [runText appendString:@":"];
+    [runText appendString:[NSString stringWithFormat:@"%d",runTimeRemainingSeconds]];
+    [runText appendString:@" min\n\nAvg. Speed:  "];
+    [runText appendString:[NSString stringWithFormat:@"%.2f",avgSpeed]];
+    [runText appendString:@" min/km"];
+    self.detailsLabel.text = runText;
+    
     
     // Center map
     CLLocationCoordinate2D startCoord = CLLocationCoordinate2DMake((latTop+latBottom)/2, (lonRight+lonLeft)/2);

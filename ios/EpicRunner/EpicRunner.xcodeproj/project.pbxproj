@@ -16,7 +16,6 @@
 		7275AE4C1902CCC100D81950 /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7275AE4B1902CCC100D81950 /* MenuViewController.m */; };
 		7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE501902DDFB00D81950 /* reveal-icon.png */; };
 		7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE511902DDFB00D81950 /* reveal-icon@2x.png */; };
-		7275AE551902E21100D81950 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE541902E21100D81950 /* README.txt */; };
 		72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A4008E18F4512600D739B3 /* libsqlite3.dylib */; };
 		72A7C6A818D87AF4007FF58B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A718D87AF4007FF58B /* Foundation.framework */; };
 		72A7C6AA18D87AF4007FF58B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A918D87AF4007FF58B /* CoreGraphics.framework */; };
@@ -61,7 +60,6 @@
 		7275AE4B1902CCC100D81950 /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		7275AE501902DDFB00D81950 /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
 		7275AE511902DDFB00D81950 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
-		7275AE541902E21100D81950 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		72A4008E18F4512600D739B3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		72A7C6A418D87AF4007FF58B /* EpicRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72A7C6A718D87AF4007FF58B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -173,7 +171,6 @@
 				72A7C6B918D87AF4007FF58B /* Images.xcassets */,
 				72A7C6AE18D87AF4007FF58B /* Supporting Files */,
 				72A7C6D618D87EE8007FF58B /* Main.storyboard */,
-				7275AE541902E21100D81950 /* README.txt */,
 			);
 			path = EpicRunner;
 			sourceTree = "<group>";
@@ -306,7 +303,6 @@
 				7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */,
 				7275AE491902BD8C00D81950 /* README.txt in Resources */,
 				72A7C6BA18D87AF4007FF58B /* Images.xcassets in Resources */,
-				7275AE551902E21100D81950 /* README.txt in Resources */,
 				7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

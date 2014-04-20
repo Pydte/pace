@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 #import <MapKit/MapKit.h>
+#import "Run.h"
 
 @interface HistoryTableViewController : UITableViewController
 
 @property AppDelegate *mainDelegate;
 @property NSMutableArray *runs;
+- (void)deleteRun;
 
 @end
