@@ -32,6 +32,10 @@
 		72A7C6D718D87EE8007FF58B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72A7C6D618D87EE8007FF58B /* Main.storyboard */; };
 		72A7C6D918D8813C007FF58B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6D818D8813C007FF58B /* MapKit.framework */; };
 		72A7C6DD18D88417007FF58B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A7C6DC18D88417007FF58B /* MapViewController.m */; };
+		72B4FCE51906F4D2002AE72C /* sample-3d-model.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 72B4FCE41906F4D2002AE72C /* sample-3d-model.jpg */; };
+		72B4FCE81906F5AC002AE72C /* MainScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72B4FCE71906F5AC002AE72C /* MainScreenViewController.m */; };
+		72B4FCEA1906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72B4FCE91906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 */; };
+		72B4FCEC1906FBED002AE72C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72B4FCEB1906FBED002AE72C /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +85,11 @@
 		72A7C6D818D8813C007FF58B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		72A7C6DB18D88417007FF58B /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		72A7C6DC18D88417007FF58B /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		72B4FCE41906F4D2002AE72C /* sample-3d-model.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sample-3d-model.jpg"; sourceTree = "<group>"; };
+		72B4FCE61906F5AC002AE72C /* MainScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScreenViewController.h; sourceTree = "<group>"; };
+		72B4FCE71906F5AC002AE72C /* MainScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainScreenViewController.m; sourceTree = "<group>"; };
+		72B4FCE91906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "213423__taira-komori__coin05.mp3"; sourceTree = "<group>"; };
+		72B4FCEB1906FBED002AE72C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72B4FCEC1906FBED002AE72C /* AVFoundation.framework in Frameworks */,
 				72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */,
 				72A7C6D918D8813C007FF58B /* MapKit.framework in Frameworks */,
 				72A7C6AA18D87AF4007FF58B /* CoreGraphics.framework in Frameworks */,
@@ -150,6 +160,7 @@
 		72A7C6A618D87AF4007FF58B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				72B4FCEB1906FBED002AE72C /* AVFoundation.framework */,
 				72A4008E18F4512600D739B3 /* libsqlite3.dylib */,
 				72A7C6D818D8813C007FF58B /* MapKit.framework */,
 				72A7C6A718D87AF4007FF58B /* Foundation.framework */,
@@ -178,8 +189,10 @@
 		72A7C6AE18D87AF4007FF58B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				72B4FCE41906F4D2002AE72C /* sample-3d-model.jpg */,
 				7275AE501902DDFB00D81950 /* reveal-icon.png */,
 				7275AE511902DDFB00D81950 /* reveal-icon@2x.png */,
+				72B4FCE91906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 */,
 				72A7C6AF18D87AF4007FF58B /* EpicRunner-Info.plist */,
 				72A7C6B018D87AF4007FF58B /* InfoPlist.strings */,
 				72A7C6B318D87AF4007FF58B /* main.m */,
@@ -219,6 +232,8 @@
 				726F7A0318E25876004EA130 /* RunFinishedSummaryViewController.m */,
 				7212543819027F63006C1C0C /* DetailViewViewController.h */,
 				7212543919027F63006C1C0C /* DetailViewViewController.m */,
+				72B4FCE61906F5AC002AE72C /* MainScreenViewController.h */,
+				72B4FCE71906F5AC002AE72C /* MainScreenViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -301,6 +316,8 @@
 				72A7C6D718D87EE8007FF58B /* Main.storyboard in Resources */,
 				72A7C6B218D87AF4007FF58B /* InfoPlist.strings in Resources */,
 				7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */,
+				72B4FCE51906F4D2002AE72C /* sample-3d-model.jpg in Resources */,
+				72B4FCEA1906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 in Resources */,
 				7275AE491902BD8C00D81950 /* README.txt in Resources */,
 				72A7C6BA18D87AF4007FF58B /* Images.xcassets in Resources */,
 				7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */,
@@ -331,6 +348,7 @@
 				726F7A0418E25876004EA130 /* RunFinishedSummaryViewController.m in Sources */,
 				72A7C6B818D87AF4007FF58B /* AppDelegate.m in Sources */,
 				72A7C6B418D87AF4007FF58B /* main.m in Sources */,
+				72B4FCE81906F5AC002AE72C /* MainScreenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

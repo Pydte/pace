@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 Pandisign ApS. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
 #import "MapViewController.h"
 #import "Run.h"
 #import "RunFinishedSummaryViewController.h"
+
 
 @interface MapViewController ()
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -16,7 +18,14 @@
 @property BOOL capturing;
 @property Run *currentRun;
 @property (nonatomic) IBOutlet UIBarButtonItem *btnMenu;
+
 @property CLLocation *prevLoc;
+@property double totalDistance;
+@property double recordedDistance;
+@property double coinedDistance;
+
+@property AVAudioPlayer *avCoinSound;
+@property double timeToCoin;
 @end
 
 @implementation MapViewController
@@ -45,6 +54,10 @@
         //Start a new run
         self.currentRun = [[Run alloc] init];
         self.currentRun.start = [NSDate date];
+        self.prevLoc = nil;
+        self.totalDistance = 0.0;
+        self.recordedDistance = 0.0;
+        self.coinedDistance = 0.0;
         
         //Change visual
         [sender setTitle:@"Done" forState:UIControlStateNormal];
@@ -55,22 +68,35 @@
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
-    // Minimum capture distance
-    double minCapDistance = 5.0;
+    // Define distances (in meters)
+    double minRecordDistance = 5.0;
+    double coinDistance = 50.0;
     
     // Update region with new location in center
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 1000, 1000);
     [self.mapView setRegion:region animated:YES];
 
     if (self.capturing) {
-        // ONLY save location IF it is further than "minCapDistance" meters from the previous data point
-        double distance = [self.prevLoc distanceFromLocation:userLocation.location];
-        if (self.prevLoc == nil || distance > minCapDistance) {
+        // Update total distance
+        if (self.prevLoc != nil)
+            self.totalDistance += [self.prevLoc distanceFromLocation:userLocation.location];
+        
+        
+        // Record location if last recorded distance is further than "minRecordDistance" meters from the prev data point
+        if (self.totalDistance - self.recordedDistance > minRecordDistance) {
             [self.currentRun.locations addObject:userLocation.location];
-            
-            //Update prev loc (for calc distance between this and next loc)
-            self.prevLoc = userLocation.location;
+            self.recordedDistance += minRecordDistance;
         }
+        
+        
+        // Gain coin if it is time
+        if (self.totalDistance - self.coinedDistance > coinDistance) {
+            [self.avCoinSound play];
+            self.coinedDistance += coinDistance;
+        }
+        
+        //Update prev loc
+        self.prevLoc = userLocation.location;
     }
 }
 
@@ -108,6 +134,11 @@
     MKUserLocation *userLocation = self.mapView.userLocation;
     MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate, 6000, 6000);
     [self.mapView setRegion:region animated:NO];
+    
+    // Set coin sound
+    NSURL *soundURL = [[NSBundle mainBundle] URLForResource:@"213423__taira-komori__coin05"
+                                              withExtension:@"mp3"];
+    self.avCoinSound = [[AVAudioPlayer alloc] initWithContentsOfURL:soundURL error:nil];
 }
 
 - (void)didReceiveMemoryWarning

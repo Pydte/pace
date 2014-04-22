@@ -54,7 +54,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,21 +64,37 @@
     switch ( indexPath.row )
     {
         case 0:
-            CellIdentifier = @"map";
+            CellIdentifier = @"Profile";
             break;
             
         case 1:
-            CellIdentifier = @"blue";
+            CellIdentifier = @"Run";
             break;
-
+            
         case 2:
-            CellIdentifier = @"red";
+            CellIdentifier = @"History";
+            break;
+            
+        case 3:
+            CellIdentifier = @"Community";
+            break;
+            
+        case 4:
+            CellIdentifier = @"Settings";
             break;
     }
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier forIndexPath: indexPath];
- 
+
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {
+        return 45;
+    }
+    return 44;
 }
 
 @end
