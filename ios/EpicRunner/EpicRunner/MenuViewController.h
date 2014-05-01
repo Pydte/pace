@@ -13,5 +13,4 @@
 @end
 
 @interface MenuViewController : UITableViewController
-
 @end

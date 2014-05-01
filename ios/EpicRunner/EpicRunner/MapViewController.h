@@ -13,6 +13,9 @@
 @interface MapViewController : UIViewController
 
 @property AppDelegate *mainDelegate;
+@property BOOL multiplayer;
+@property BOOL autoroute1;
+
 - (IBAction)unwindToMap:(UIStoryboardSegue *)segue;
 
 @end
