@@ -15,6 +15,8 @@
 @property AppDelegate *mainDelegate;
 @property BOOL multiplayer;
 @property BOOL autoroute1;
+@property int onePointLocationRunDistance;
+@property CLLocation *onePointLocationLocation;
 
 - (IBAction)unwindToMap:(UIStoryboardSegue *)segue;
 

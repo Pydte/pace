@@ -31,43 +31,25 @@
 
 @property double player2timestamp;
 @property MKPointAnnotation *player2Annotation;
+
+@property BOOL autopoint1Generated;
+@property MKPointAnnotation *autopoint1Annotation;
+@property int onePointLocationRunGenPointTotalTries;
+@property int onePointLocationRunGenPointTries;
+@property double onePointLocationRunGenPointAccumDist;
+@property int onePointLocationRunShootOutDistance;
+
+
+
 @end
 
 @implementation MapViewController
 
 - (IBAction)runButtonClick:(id)sender {
     if (self.capturing) {
-        //Stop the run
-        self.currentRun.end = [NSDate date];
-        
-        //Calculate the total distance of the run
-        if (self.currentRun.locations.count > 1) {
-            for (int i=0; i < self.currentRun.locations.count-1; i++) {
-                double distance = [self.currentRun.locations[i] distanceFromLocation:self.currentRun.locations[i+1]];
-                self.currentRun.distance += distance;
-            }
-        }
-        
-        //Change visual
-        [sender setTitle:@"Run" forState:UIControlStateNormal];
-        self.runButton.backgroundColor = [UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:0.50];
-        self.capturing = NO;
-        
-        //Change view
-        [self performSegueWithIdentifier: @"SegueRunFinished" sender: self];
+        [self endCapturing];
     } else {
-        //Start a new run
-        self.currentRun = [[Run alloc] init];
-        self.currentRun.start = [NSDate date];
-        self.prevLoc = nil;
-        self.totalDistance = 0.0;
-        self.recordedDistance = 0.0;
-        self.coinedDistance = 0.0;
-        
-        //Change visual
-        [sender setTitle:@"Done" forState:UIControlStateNormal];
-        self.runButton.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.60];
-        self.capturing = YES;
+        [self startCapturing];
     }
 }
 - (IBAction)plusZoom:(id)sender {
@@ -84,6 +66,42 @@
                                                                    self.mapZoomlevel,
                                                                    self.mapZoomlevel);
     [self.mapView setRegion:region animated:YES];
+}
+
+- (void)startCapturing {
+    //Start a new run
+    self.currentRun = [[Run alloc] init];
+    self.currentRun.start = [NSDate date];
+    self.prevLoc = nil;
+    self.totalDistance = 0.0;
+    self.recordedDistance = 0.0;
+    self.coinedDistance = 0.0;
+    
+    //Change visual
+    [self.runButton setTitle:@"Done" forState:UIControlStateNormal];
+    self.runButton.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:0.60];
+    self.capturing = YES;
+}
+
+- (void)endCapturing {
+    //Stop the run
+    self.currentRun.end = [NSDate date];
+    
+    //Calculate the total distance of the run
+    if (self.currentRun.locations.count > 1) {
+        for (int i=0; i < self.currentRun.locations.count-1; i++) {
+            double distance = [self.currentRun.locations[i] distanceFromLocation:self.currentRun.locations[i+1]];
+            self.currentRun.distance += distance;
+        }
+    }
+    
+    //Change visual
+    [self.runButton setTitle:@"Run" forState:UIControlStateNormal];
+    self.runButton.backgroundColor = [UIColor colorWithRed:0.0 green:1.0 blue:0.0 alpha:0.50];
+    self.capturing = NO;
+    
+    //Change view
+    [self performSegueWithIdentifier: @"SegueRunFinished" sender: self];
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
@@ -126,6 +144,7 @@
     
     
     // Update Player 2 location
+    // Maybe eiher interpolate position or slowly grey-out point, to symbolize time since last updated
     if (self.multiplayer){
         double timeNowInS = [[NSDate date] timeIntervalSince1970];
         if (timeNowInS - self.player2timestamp > 3) {
@@ -162,6 +181,26 @@
             [dataTask resume];
         }
     }
+    
+    if (self.autoroute1 && self.autopoint1Generated) {
+        double acceptableDeltaDistInMeters = 25;
+        
+        //Calc distance between current and goal point
+        CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:userLocation.coordinate.latitude
+                                                               longitude:userLocation.coordinate.longitude];
+        CLLocation *endLocation = [[CLLocation alloc] initWithLatitude:self.autopoint1Annotation.coordinate.latitude
+                                                             longitude:self.autopoint1Annotation.coordinate.longitude];
+        CLLocationDistance distanceToGoal = [startLocation distanceFromLocation:endLocation]; // aka double
+        if (distanceToGoal < acceptableDeltaDistInMeters) {
+            NSLog(@"YOU REACHED GOAL, WOOOOOHH!!");
+            if (self.capturing) {
+                [self endCapturing];
+            }
+        }
+        
+    } else {
+        
+    }
 }
 
 
@@ -177,6 +216,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //Always show navigationBar
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [super viewWillAppear:NO];
+    
     //self.mainDelegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     //NSLog(self.mainDelegate.myTest);
     
@@ -192,7 +235,11 @@
     self.mapView.delegate = (id)self;
     
     // Set default zoom level
-    self.mapZoomlevel = 1000;
+    if (self.autoroute1) {
+        self.mapZoomlevel = self.onePointLocationRunDistance+800;
+    } else {
+        self.mapZoomlevel = 1000;
+    }
     
     // Turn on user tracking
     self.mapView.showsUserLocation = YES;
@@ -214,64 +261,142 @@
         [self.mapView addAnnotation: self.player2Annotation];
     }
     
-    // Init 1-point auto route
+
+    
+    // Init 1-point location run
     if (self.autoroute1) {
-        MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-        point.coordinate = [self coordinateFromCoord:self.mapView.userLocation.coordinate atDistanceKm:1 atBearingDegrees:90.0];
-        [self.mapView addAnnotation: point];
+        NSLog(@"autoroute1 START");
+        self.autopoint1Generated = false;
+        self.autopoint1Annotation = [[MKPointAnnotation alloc] init];
+        self.onePointLocationRunGenPointTries = 0;
+        self.onePointLocationRunGenPointTotalTries = 0;
+        self.onePointLocationRunGenPointAccumDist = 0;
+        self.onePointLocationRunShootOutDistance = self.onePointLocationRunDistance;
         
-//        MKDirectionsRequest *directionsRequest = [[MKDirectionsRequest alloc] init];
-//        [directionsRequest setSource:[MKMapItem mapItemForCurrentLocation]];
-//        [directionsRequest setDestination:[[MKMapItem alloc] init]];
-//        directionsRequest.transportType = MKDirectionsTransportTypeAutomobile;
-//        MKDirections *directions = [[MKDirections alloc] initWithRequest:directionsRequest];
-//        [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-//            if (error) {
-//                NSLog(@"Error %@", error.description);
-//            } else {
-//                routeDetails = response.routes.lastObject;
-//                [self.mapView addOverlay:routeDetails.polyline];
-//                self.destinationLabel.text = [placemark.addressDictionary objectForKey:@"Street"];
-//                self.distanceLabel.text = [NSString stringWithFormat:@"%0.1f Miles", routeDetails.distance/1609.344];
-//                self.transportLabel.text = [NSString stringWithFormat:@"%u" ,routeDetails.transportType];
-//                self.allSteps = @"";
-//                for (int i = 0; i < routeDetails.steps.count; i++) {
-//                    MKRouteStep *step = [routeDetails.steps objectAtIndex:i];
-//                    NSString *newStep = step.instructions;
-//                    self.allSteps = [self.allSteps stringByAppendingString:newStep];
-//                    self.allSteps = [self.allSteps stringByAppendingString:@"\n\n"];
-//                    self.steps.text = self.allSteps;
-//                }
-//            }
-//        }];
-        
-        
-//        
-//        MKDirectionsRequest *request = [[MKDirectionsRequest alloc] init];
-//        
-//        request.source = [MKMapItem mapItemForCurrentLocation];
-//        request.destination = [self coordinateFromCoord:[MKMapItem mapItemForCurrentLocation] atDistanceKm:3 atBearingDegrees:90.0];
-//        
-//        request.requestsAlternateRoutes = YES;
-//        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
-//        
-//        [directions calculateDirectionsWithCompletionHandler:
-//         ^(MKDirectionsResponse *response, NSError *error) {
-//             if (error) {
-//                 // Handle Error
-//             } else {
-//                 [self showRoute:response];
-//             }
-//         }];
+        if (self.onePointLocationLocation == Nil) {
+            [self autoroute1_generate_route];
+        } else {
+            NSLog(@"Using custom location");
+            MKPointAnnotation *autopoint1Annotation = [[MKPointAnnotation alloc] init];
+            autopoint1Annotation.coordinate = self.onePointLocationLocation.coordinate;
+            
+            // Draw point on map
+            self.autopoint1Annotation = autopoint1Annotation;
+            [self.mapView addAnnotation: self.autopoint1Annotation];
+            self.autopoint1Generated = true;
+        }
     }
 }
 
--(void)showRoute:(MKDirectionsResponse *)response
+
+
+-(void)autoroute1_generate_route
 {
-    for (MKRoute *route in response.routes)
-    {
-        [self.mapView addOverlay:route.polyline level:MKOverlayLevelAboveRoads];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,
+                                             (unsigned long)NULL), ^(void) {
+        NSLog(@"Generating interesting goal point!!");
+        
+        //Wished distance
+        float wishedDistInMeters = self.onePointLocationRunDistance;
+        //Shoot out distance
+        float shootOutDistInMeters = self.onePointLocationRunShootOutDistance;
+        //Acceptable distance (200m + 5%)
+        int acceptableDeltaDistInMeters = 200 + (self.onePointLocationRunDistance*0.05);
+        
+        
+        //Wait a little, so the map has a fix on the user's position
+        //Very ugly, but works for now..
+        [NSThread sleepForTimeInterval:1.0];
+        
+        
+        // Generate random point x distance away
+        double bearing = arc4random_uniform(360000)/1000;
+        MKPointAnnotation *autopoint1Annotation = [[MKPointAnnotation alloc] init];
+        autopoint1Annotation.coordinate = [self coordinateFromCoord:self.mapView.userLocation.coordinate atDistanceKm:(shootOutDistInMeters-acceptableDeltaDistInMeters)/1000 atBearingDegrees:bearing];
+        
+        
+        // Get point on nearest road
+        MKPlacemark *placemarkSource = [[MKPlacemark alloc] initWithCoordinate:self.mapView.userLocation.coordinate
+                                                             addressDictionary:nil];
+        MKMapItem *mapItemSource = [[MKMapItem alloc] initWithPlacemark:placemarkSource];
+        
+        MKPlacemark *placemarkDest = [[MKPlacemark alloc] initWithCoordinate:autopoint1Annotation.coordinate
+                                                             addressDictionary:nil];
+        MKMapItem *mapItemDest = [[MKMapItem alloc] initWithPlacemark:placemarkDest];
+        
+        MKDirectionsRequest *walkingRouteRequest = [[MKDirectionsRequest alloc] init];
+        walkingRouteRequest.transportType = MKDirectionsTransportTypeWalking;
+        [walkingRouteRequest setSource:mapItemSource];
+        [walkingRouteRequest setDestination:mapItemDest];
+        
+        MKDirections *walkingRouteDirections = [[MKDirections alloc] initWithRequest:walkingRouteRequest];
+        [walkingRouteDirections calculateDirectionsWithCompletionHandler:
+         ^(MKDirectionsResponse *response, NSError *error) {
+             self.onePointLocationRunGenPointTotalTries++;
+             
+             if (error) {
+                 //Some error happened, try again :)
+                 NSLog(@"Error %@", error.description);
+                 
+                 //If too many tries, do not continue
+                 if (self.onePointLocationRunGenPointTotalTries <= 16) {
+                     [self autoroute1_generate_route];
+                 }
+             } else {
+                 // Take the last MKRoute object
+                 MKRoute *route = response.routes.lastObject;
+                 NSUInteger pointCount = route.polyline.pointCount;
+                 
+                 // Allocate a C array to hold 1 points/coordinates
+                 CLLocationCoordinate2D *routeCoordinates = malloc(sizeof(CLLocationCoordinate2D));
+                 
+                 // Get the last coordinate of the polyline
+                 [route.polyline getCoordinates:routeCoordinates
+                                          range:NSMakeRange(pointCount-1, 1)];
+                 
+                 // Save data to adjust distance to "shoot out"
+                 self.onePointLocationRunGenPointTries++;
+                 self.onePointLocationRunGenPointAccumDist += route.distance;
+                 
+                 if (route.distance < wishedDistInMeters+acceptableDeltaDistInMeters && route.distance > wishedDistInMeters-acceptableDeltaDistInMeters) {
+                     //Acceptable distance
+                     NSLog(@"Acceptable distance - distance was: %.2f, with bearing: %.2f", route.distance, bearing);
+                     
+                     //Update annotation
+                     autopoint1Annotation.coordinate = routeCoordinates[0];
+                     
+                     // Draw point on map
+                     self.autopoint1Annotation = autopoint1Annotation;
+                     [self.mapView addAnnotation: self.autopoint1Annotation];
+                     self.autopoint1Generated = true;
+                 } else {
+                     //Not acceptable distance
+                     NSLog(@"NOT acceptable distance, retrying! - distance was: %.2f, with bearing: %.2f", route.distance, bearing);
+                     //Generate new rand point, test distance again.
+                     //Maybe, if possible, tage part of route to the discarded point?
+                     
+                     //This shoot out distance doesn't seems to work, adjust it
+                     if (self.onePointLocationRunGenPointTries == 5) {
+                         //See how much we differ in average
+                         double avgDistDiffer = self.onePointLocationRunGenPointAccumDist / self.onePointLocationRunGenPointTries - self.onePointLocationRunDistance;
+                         self.onePointLocationRunShootOutDistance -= (avgDistDiffer/2);
+                         
+                         self.onePointLocationRunGenPointTries = 0;
+                         self.onePointLocationRunGenPointAccumDist = 0;
+                         NSLog(@"Adjusting shoot out length with -%f", avgDistDiffer);
+                     }
+                     
+                     //If too many tries, do not continue
+                     if (self.onePointLocationRunGenPointTotalTries <= 16) {
+                         [self autoroute1_generate_route];
+                     }
+                 }
+                 
+                 free(routeCoordinates);
+             }
+         }];
+        
+    });
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
