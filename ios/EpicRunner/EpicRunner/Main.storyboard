@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZIN-YB-L81">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZIN-YB-L81">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -133,10 +133,10 @@
             </objects>
             <point key="canvasLocation" x="2218" y="172"/>
         </scene>
-        <!--Run Selector View Controller - Run Selector-->
+        <!--Demo Selector View Controller - Demo Selector-->
         <scene sceneID="3Z6-eu-TKT">
             <objects>
-                <viewController id="D5i-2R-Ad1" customClass="RunSelectorViewController" sceneMemberID="viewController">
+                <viewController id="D5i-2R-Ad1" customClass="DemoSelectorViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pBi-KY-e2b"/>
                         <viewControllerLayoutGuide type="bottom" id="g4N-uI-5Cf"/>
@@ -181,7 +181,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Run Selector" id="Nxc-Fo-dw2">
+                    <navigationItem key="navigationItem" title="Demo Selector" id="Nxc-Fo-dw2">
                         <barButtonItem key="leftBarButtonItem" image="reveal-icon.png" id="OaC-ey-lZ4"/>
                     </navigationItem>
                     <connections>
@@ -203,7 +203,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryPrototypeCell" textLabel="k8q-pr-7bt" style="IBUITableViewCellStyleDefault" id="lsc-WG-7lA">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lsc-WG-7lA" id="83x-3G-H0R">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -464,6 +464,61 @@
             </objects>
             <point key="canvasLocation" x="1811" y="172"/>
         </scene>
+        <!--Run Selector View Controller - Run Selector-->
+        <scene sceneID="Not-hp-Gsg">
+            <objects>
+                <viewController id="zOs-7I-Fgx" customClass="RunSelectorViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tD2-hu-weh"/>
+                        <viewControllerLayoutGuide type="bottom" id="E38-Kb-bY7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kth-3Z-Dxc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="360-SD-p3O">
+                                <rect key="frame" x="0.0" y="355" width="320" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.88478162469999999" green="0.89616593069999995" blue="0.8807364822" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-lm-h1T">
+                                <rect key="frame" x="20" y="377" width="280" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.88478162469999999" green="0.89616593069999995" blue="0.8807364822" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="** Epic Run **">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v1q-hT-NvA">
+                                <rect key="frame" x="20" y="426" width="280" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.88478162469999999" green="0.89616593069999995" blue="0.8807364822" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Free Run">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wgv-KF-HGK" customClass="RunSelectorItemView">
+                                <rect key="frame" x="20" y="306" width="280" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.88478162469999999" green="0.89616593069999995" blue="0.8807364822" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Run Selector" id="xCO-rI-oYw">
+                        <barButtonItem key="leftBarButtonItem" image="reveal-icon.png" id="RGe-h0-e1C"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="btnMenu" destination="RGe-h0-e1C" id="3Tk-TR-IAZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T1F-bQ-5oZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1182" y="1450"/>
+        </scene>
         <!--OneP Location Run View Controller-->
         <scene sceneID="aYF-5X-4wJ">
             <objects>
@@ -637,7 +692,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jr9-wX-fRz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="691" y="1402"/>
+            <point key="canvasLocation" x="675" y="818"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IaC-a8-xYV">
@@ -692,7 +747,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sdq-B3-oR7">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Demo Selector" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sdq-B3-oR7">
                                             <rect key="frame" x="15" y="0.0" width="290" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -703,6 +758,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="label" destination="sdq-B3-oR7" id="nSj-JB-XZv"/>
+                                    <segue destination="D5i-2R-Ad1" kind="custom" customClass="SWRevealViewControllerSegue" id="vug-KF-e0t"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Run" textLabel="nYb-Xy-5A6" style="IBUITableViewCellStyleDefault" id="thA-wX-jUz" customClass="SWUITableViewCell">
@@ -722,7 +778,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="label" destination="nYb-Xy-5A6" id="jSH-rn-PId"/>
-                                    <segue destination="D5i-2R-Ad1" kind="custom" customClass="SWRevealViewControllerSegue" id="PS5-tc-QHH"/>
+                                    <segue destination="zOs-7I-Fgx" kind="custom" customClass="SWRevealViewControllerSegue" id="YFR-Vz-Xcx"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="History" textLabel="loa-jn-2t1" style="IBUITableViewCellStyleDefault" id="gr1-uD-vdH" customClass="SWUITableViewCell">
@@ -850,7 +906,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ven-HH-dO0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="306" y="1402"/>
+            <point key="canvasLocation" x="290" y="818"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qO9-v4-xcf">
@@ -870,6 +926,24 @@
             </objects>
             <point key="canvasLocation" x="776" y="172"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iSO-vp-GAG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xiq-B9-izy" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kLT-Sa-ifr">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zOs-7I-Fgx" kind="relationship" relationship="rootViewController" id="Ovp-yw-I3B"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iPX-4z-0iV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="770" y="1450"/>
+        </scene>
     </scenes>
     <resources>
         <image name="reveal-icon.png" width="22" height="17"/>
@@ -881,9 +955,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="Ovp-yw-I3B"/>
         <segue reference="jme-Pj-U3p"/>
-        <segue reference="quw-R8-3KP"/>
-        <segue reference="TgW-bR-mSt"/>
+        <segue reference="nYe-7U-n7u"/>
         <segue reference="1bv-M6-sUt"/>
+        <segue reference="iOn-HB-JJZ"/>
     </inferredMetricsTieBreakers>
 </document>

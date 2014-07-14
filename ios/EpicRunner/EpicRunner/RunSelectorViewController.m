@@ -2,16 +2,20 @@
 //  RunSelectorViewController.m
 //  EpicRunner
 //
-//  Created by Jeppe on 30/04/14.
+//  Created by Jeppe on 01/07/14.
 //  Copyright (c) 2014 Pandisign ApS. All rights reserved.
 //
 
 #import "RunSelectorViewController.h"
-#import "MapViewController.h"
+#import "RunSelectorItemView.h"
 
 @interface RunSelectorViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *btnMenu;
-
+@property int itemHeaderOffset;
+@property int itemHeight;
+@property int itemVSpacing;
+@property int itemMargin;
+@property RunSelectorItemView *item1;
 @end
 
 @implementation RunSelectorViewController
@@ -37,7 +41,35 @@
     [self.btnMenu setAction: @selector( revealToggle: )];
     [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     
+    // Settings
+    self.itemHeaderOffset = 75;
+    self.itemHeight       = 41;
+    self.itemVSpacing     = 10;
+    self.itemMargin       = 20;
     
+    // Spawn item
+    CGRect sliderFrame = CGRectMake(20, -50, self.view.frame.size.width-(self.itemMargin*2), self.itemHeight);
+    self.item1 = [[RunSelectorItemView alloc] initWithFrame:sliderFrame andText:@"TYPE"];
+    [self.view addSubview:self.item1];
+    
+    // Move item to correct position
+    [self.item1 moveRelative:NO coordX:self.item1.frame.origin.x coordY:self.itemHeaderOffset];
+    
+    
+    // BUG: REMEMBER to delete timer! 
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(sendTicks)
+                                   userInfo:nil
+                                    repeats:YES];
+    
+}
+
+- (void)sendTicks {
+    if (self.item1 != nil && [self.item1 tick]) {
+        // Item dead
+        self.item1 = nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,7 +78,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -54,32 +86,8 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    if([segue.identifier isEqualToString:@"SegueMultiplayer"])
-    {
-        MapViewController *mapViewController = segue.destinationViewController;
-        mapViewController.multiplayer = true;
-    } else if ([segue.identifier isEqualToString:@"Segue1AutoRoute"]) {
-        MapViewController *mapViewController = segue.destinationViewController;
-        mapViewController.autoroute1 = true;
-        mapViewController.OnePointLocationRunDistance = self.OnePointLocationRunDistance;
-    }
 }
+*/
 
-- (IBAction)unwindToRunSelector:(UIStoryboardSegue *)segue
-{
-    //Always show navigationBar
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [super viewWillAppear:YES];
-    
-    if([segue.identifier isEqualToString:@"SegueStartRun"])
-    {
-        //[self performSegueWithIdentifier:@"SegueTest" sender:self];
-        //MapViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"ContactDetailViewController"];
-        //Contact *contact = [self.contacts objectAtIndex:indexPath.row];
-        //controller.contact = contact;
-        //[self.navigationController pushViewController:controller animated:YES];
-        NSLog(@"test");
-    }
-}
 
 @end

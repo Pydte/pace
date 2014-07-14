@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		720CE2381910FEEE00D1FA43 /* RunSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE2371910FEEE00D1FA43 /* RunSelectorViewController.m */; };
+		720CE2381910FEEE00D1FA43 /* DemoSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE2371910FEEE00D1FA43 /* DemoSelectorViewController.m */; };
 		720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */; };
 		720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23D19110BE900D1FA43 /* CJSONSerializer.m */; };
 		720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24019110BE900D1FA43 /* NSDictionary_JSONExtensions.m */; };
 		720CE24519110C0A00D1FA43 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24419110C0A00D1FA43 /* README.txt */; };
 		720CE24919112BA900D1FA43 /* player2_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24819112BA900D1FA43 /* player2_dot.png */; };
 		720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m */; };
+		720E0ECB1962BB100013C33E /* RunSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 720E0ECA1962BB100013C33E /* RunSelectorViewController.m */; };
+		720E0ED41962CA280013C33E /* RunSelectorItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 720E0ED31962CA280013C33E /* RunSelectorItemView.m */; };
 		7212543A19027F63006C1C0C /* DetailViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7212543919027F63006C1C0C /* DetailViewViewController.m */; };
 		72508DBE18E1BF6C00A2E59C /* HistoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72508DBD18E1BF6C00A2E59C /* HistoryTableViewController.m */; };
 		72508DC218E1C1DF00A2E59C /* Run.m in Sources */ = {isa = PBXBuildFile; fileRef = 72508DC118E1C1DF00A2E59C /* Run.m */; };
@@ -56,8 +58,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		720CE2361910FEEE00D1FA43 /* RunSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunSelectorViewController.h; sourceTree = "<group>"; };
-		720CE2371910FEEE00D1FA43 /* RunSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunSelectorViewController.m; sourceTree = "<group>"; };
+		720CE2361910FEEE00D1FA43 /* DemoSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoSelectorViewController.h; sourceTree = "<group>"; };
+		720CE2371910FEEE00D1FA43 /* DemoSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoSelectorViewController.m; sourceTree = "<group>"; };
 		720CE23A19110BE900D1FA43 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
 		720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
 		720CE23C19110BE900D1FA43 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
@@ -69,6 +71,10 @@
 		720CE24819112BA900D1FA43 /* player2_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player2_dot.png; sourceTree = "<group>"; };
 		720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnePLocationRunViewController.h; sourceTree = "<group>"; };
 		720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnePLocationRunViewController.m; sourceTree = "<group>"; };
+		720E0EC91962BB100013C33E /* RunSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunSelectorViewController.h; sourceTree = "<group>"; };
+		720E0ECA1962BB100013C33E /* RunSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunSelectorViewController.m; sourceTree = "<group>"; };
+		720E0ED21962CA280013C33E /* RunSelectorItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RunSelectorItemView.h; sourceTree = "<group>"; };
+		720E0ED31962CA280013C33E /* RunSelectorItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RunSelectorItemView.m; sourceTree = "<group>"; };
 		7212543819027F63006C1C0C /* DetailViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewViewController.h; sourceTree = "<group>"; };
 		7212543919027F63006C1C0C /* DetailViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewViewController.m; sourceTree = "<group>"; };
 		72508DBC18E1BF6C00A2E59C /* HistoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewController.h; sourceTree = "<group>"; };
@@ -159,6 +165,8 @@
 			children = (
 				72508DC018E1C1DF00A2E59C /* Run.h */,
 				72508DC118E1C1DF00A2E59C /* Run.m */,
+				720E0ED21962CA280013C33E /* RunSelectorItemView.h */,
+				720E0ED31962CA280013C33E /* RunSelectorItemView.m */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -271,10 +279,12 @@
 				7212543919027F63006C1C0C /* DetailViewViewController.m */,
 				72B4FCE61906F5AC002AE72C /* MainScreenViewController.h */,
 				72B4FCE71906F5AC002AE72C /* MainScreenViewController.m */,
-				720CE2361910FEEE00D1FA43 /* RunSelectorViewController.h */,
-				720CE2371910FEEE00D1FA43 /* RunSelectorViewController.m */,
+				720CE2361910FEEE00D1FA43 /* DemoSelectorViewController.h */,
+				720CE2371910FEEE00D1FA43 /* DemoSelectorViewController.m */,
 				720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h */,
 				720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m */,
+				720E0EC91962BB100013C33E /* RunSelectorViewController.h */,
+				720E0ECA1962BB100013C33E /* RunSelectorViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -386,13 +396,15 @@
 				720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m in Sources */,
 				7275AE4C1902CCC100D81950 /* MenuViewController.m in Sources */,
 				72A7C6DD18D88417007FF58B /* MapViewController.m in Sources */,
-				720CE2381910FEEE00D1FA43 /* RunSelectorViewController.m in Sources */,
+				720CE2381910FEEE00D1FA43 /* DemoSelectorViewController.m in Sources */,
 				72508DC218E1C1DF00A2E59C /* Run.m in Sources */,
 				7275AE471902BD3E00D81950 /* SWRevealViewController.m in Sources */,
 				720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */,
+				720E0ED41962CA280013C33E /* RunSelectorItemView.m in Sources */,
 				720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */,
 				7212543A19027F63006C1C0C /* DetailViewViewController.m in Sources */,
 				726F7A0418E25876004EA130 /* RunFinishedSummaryViewController.m in Sources */,
+				720E0ECB1962BB100013C33E /* RunSelectorViewController.m in Sources */,
 				72A7C6B818D87AF4007FF58B /* AppDelegate.m in Sources */,
 				720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */,
 				72A7C6B418D87AF4007FF58B /* main.m in Sources */,
