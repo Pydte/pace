@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HistoryTableViewControllerSwift: UITableViewController {
     @IBOutlet strong var myTableView: UITableView?;

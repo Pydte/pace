@@ -166,6 +166,9 @@ class SQLiteDB {
         }
         
         if virginDb {
+            execute("CREATE TABLE IF NOT EXISTS settings (loggedInUserId INTEGER, " +
+                "loggedInUserName TEXT)");
+            execute("INSERT INTO settings DEFAULT VALUES");
             execute("CREATE TABLE IF NOT EXISTS runs (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "startDate INTEGER, " +
                 "endDate INTEGER, " +
@@ -434,7 +437,7 @@ class SQLiteDB {
                 let buf = NSString(CString:cstr, encoding:NSUTF8StringEncoding) as NSString
                 let set = NSCharacterSet(charactersInString: "-:")
                 let range = buf.rangeOfCharacterFromSet(set)
-                if range.location != NSNotFound {
+                if range.location != Foundation.NSNotFound {
                     // Convert to time
                     var time:tm = tm(tm_sec: 0, tm_min: 0, tm_hour: 0, tm_mday: 0, tm_mon: 0, tm_year: 0, tm_wday: 0, tm_yday: 0, tm_isdst: 0, tm_gmtoff: 0, tm_zone:nil)
                     strptime(cstr, "%Y-%m-%d %H:%M:%S", &time)

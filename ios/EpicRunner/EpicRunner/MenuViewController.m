@@ -29,6 +29,11 @@
     // configure the segue.
     if ( [segue isKindOfClass: [SWRevealViewControllerSegue class]] )
     {
+        if ([segue.identifier isEqualToString:@"Logout"]) {
+            NSLog(@"logging out for real");
+            
+        }
+        
         SWRevealViewControllerSegue* rvcs = (SWRevealViewControllerSegue*) segue;
         
         SWRevealViewController* rvc = self.revealViewController;
@@ -54,7 +59,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    return 7;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,6 +90,10 @@
             
         case 5:
             CellIdentifier = @"Settings";
+            break;
+            
+        case 6:
+            CellIdentifier = @"Logout";
             break;
     }
 

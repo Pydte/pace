@@ -1,5 +1,5 @@
 //
-//  RunFinishedSummaryViewController.swift
+//  DetailViewViewControllerSwift.swift
 //  EpicRunner
 //
 //  Created by Jeppe on 20/07/14.
@@ -10,8 +10,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class RunFinishedSummaryViewControllerSwift: UIViewController {
+class DetailViewViewControllerSwift: UIViewController {
+
+    var selectedRun: Run?;
     
+    @IBOutlet var mapView: MKMapView
     @IBOutlet var lblDate: UILabel
     @IBOutlet var lblDistance: UILabel
     @IBOutlet var lblDuration: UILabel
@@ -19,26 +22,17 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
     @IBOutlet var lblMaxSpeed: UILabel
     @IBOutlet var lblMinAltitude: UILabel
     @IBOutlet var lblMaxAltitude: UILabel
-    @IBOutlet var mapView: MKMapView;
-    var finishedRun: Run? = nil;
+    @IBOutlet var btnDelete: UIBarButtonItem
+    
     
     override func viewDidLoad() {
-        super.viewDidLoad();
-        
-        // Save run to database
-        let db = SQLiteDB.sharedInstance();
-        db.execute("INSERT INTO runs (startDate, endDate, distance) VALUES(\(Int(finishedRun!.start!.timeIntervalSince1970)),\(Int(finishedRun!.end!.timeIntervalSince1970)),\(finishedRun!.distance))");
-        let runId: Int = Int(db.lastInsertedRowID());
-        
-        // Save all logged locations
-        for loc in finishedRun!.locations {
-            db.execute("INSERT INTO runs_location (latitude, runId, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp) VALUES(\(loc.coordinate.latitude),\(runId),\(loc.coordinate.longitude),\(loc.horizontalAccuracy),\(loc.altitude),\(loc.verticalAccuracy),\(loc.speed),\(Int(loc.timestamp.timeIntervalSince1970)))");
-        }
-    
-        
-        // Populate view
+        super.viewDidLoad()
+
+        // Present info
         presentInfo();
         
+        //Draw route
+        drawRoute();
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,14 +40,25 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if (overlay.isKindOfClass(MKPolyline)){
+            let route: MKPolyline = overlay as MKPolyline;
+            var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
+            routeRenderer.strokeColor = UIColor.blueColor();
+            return routeRenderer;
+        } else {
+            return nil;
+        }
+    }
+    
     func presentInfo() {
         var dateFormatter: NSDateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "MMM. dd, yyyy, HH:mm";
-        self.lblDate.text = dateFormatter.stringFromDate(self.finishedRun!.start);
+        self.lblDate.text = dateFormatter.stringFromDate(self.selectedRun!.start);
         
-        self.lblDistance.text = NSString(format: "%.2f", self.finishedRun!.distance/1000);
+        self.lblDistance.text = NSString(format: "%.2f", self.selectedRun!.distance/1000);
         
-        let runTimeInSeconds: NSNumber = self.finishedRun!.end!.timeIntervalSinceDate(self.finishedRun!.start);
+        let runTimeInSeconds: NSNumber = self.selectedRun!.end!.timeIntervalSinceDate(self.selectedRun!.start);
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
         let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);
         let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
@@ -71,7 +76,7 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         var minAltitude: Double = 999999;
         var maxAltitude: Double = -999999;
         
-        for loc in self.finishedRun!.locations {
+        for loc in self.selectedRun!.locations {
             //Find extreme coordinates
             if (loc.coordinate.latitude > latTop) {
                 latTop = loc.coordinate.latitude;
@@ -102,7 +107,7 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         }
         
         // Divide accumulated speeds with number of entries
-        avgSpeed = avgSpeed/Double(self.finishedRun!.locations.count);
+        avgSpeed = avgSpeed/Double(self.selectedRun!.locations.count);
         
         // Convert avg. speed from m/s to min/km
         avgSpeed = 16.66666666666667/avgSpeed;
@@ -135,37 +140,56 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         self.mapView.setRegion(adjustedRegion, animated: true);
     }
     
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
-        if (overlay.isKindOfClass(MKPolyline)){
-            let route: MKPolyline = overlay as MKPolyline;
-            var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
-            routeRenderer.strokeColor = UIColor.blueColor();
-            return routeRenderer;
-        } else {
-            return nil;
-        }
-    }
-    
     func drawRoute() {
         var pointsCoordinate: [CLLocationCoordinate2D] = [];
         
-        for (var i=0; i<self.finishedRun!.locations.count; i++) {
-            let location: CLLocation = self.finishedRun!.locations[i];
+        for (var i=0; i<self.selectedRun!.locations.count; i++) {
+            let location: CLLocation = self.selectedRun!.locations[i];
             pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
         }
         
-        let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.finishedRun!.locations.count);
+        let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.selectedRun!.locations.count);
         self.mapView.addOverlay(polyline);
     }
-
-    /*
+    
+    
+    @IBAction func deleteRun(sender: AnyObject) {
+        var alert: UIAlertView = UIAlertView()
+            alert.delegate = self
+            alert.title = "Are you sure?"
+            alert.message = "The run and its data will be deleted permanently."
+            alert.addButtonWithTitle("Cancel")
+            alert.addButtonWithTitle("Yes")
+            
+            alert.show()
+    }
+    
+    func alertView(View: UIAlertView!, clickedButtonAtIndex buttonIndex: Int){
+        switch buttonIndex{
+        case 1:
+            NSLog("Delete (yes)");
+            self.performSegueWithIdentifier("unwindToHistory", sender: self);
+            break;
+        default:
+            NSLog("Default");
+            break;
+        }
+    }
+    
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        // Delete run
+        if (segue.identifier == "unwindToHistory") {
+            // Get reference to the destination view controller
+            let hvc: HistoryTableViewControllerSwift = segue.destinationViewController as HistoryTableViewControllerSwift;
+            
+            // Tell history controller to delete run
+            hvc.deleteRun();
+        }
     }
-    */
 
 }
