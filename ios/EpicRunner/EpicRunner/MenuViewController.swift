@@ -11,7 +11,7 @@ class SWUITableViewCell: UITableViewCell {
     
 }
 
-class MenuViewControllerSwift: UITableViewController {
+class MenuViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         // configure the destination view controller:
         //    if ( [segue.destinationViewController isKindOfClass: [ColorViewController class]] &&
@@ -25,27 +25,93 @@ class MenuViewControllerSwift: UITableViewController {
         //    }
         
         // configure the segue.
-        if (segue.isKindOfClass(SWRevealViewControllerSegue)) {
-            let rvcs: SWRevealViewControllerSegue = segue as SWRevealViewControllerSegue;
+        //    if (segue.isKindOfClass(SWRevealViewControllerSegue)) {
+        //}
+        
+        if (segue.identifier == "Logout") {
+            println("Logging out...");
             
-            let rvc: SWRevealViewController? = self.revealViewController();
-            assert(rvc != nil, "oops! must have a revealViewController");
-            
-            assert(rvc?.frontViewController.isKindOfClass(UINavigationController), "oops!  for this segue we want a permanent navigation controller in the front!");
-            
-            rvcs.performBlock = {(rvc_segue: SWRevealViewControllerSegue!, svc: UIViewController!, dvc: UIViewController!) -> () in
-                //rvc?.pushFrontViewController(dvc, animated: true);
-            }
+            let db = SQLiteDB.sharedInstance();
+            let query = db.execute("UPDATE settings SET loggedInUserId=NULL");
         }
     }
     
+    // #pragma mark - Table view data source
+    
+    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+        // Return the number of sections.
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+        // Return the number of rows in the section.
+        return 7;
+    }
+    
+    
+    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell? {
+        var CellIdentifier: String = "Cell";
         
-//        rvcs.performBlock = ^(SWRevealViewControllerSegue* rvc_segue, UIViewController* svc, UIViewController* dvc)
-//        {
-//            UINavigationController* nc = [[UINavigationController alloc] initWithRootViewController:dvc];
-//            [rvc pushFrontViewController:nc animated:YES];
-//        };
-//        }
-//    }
-
+        switch (indexPath.row)
+        {
+        case 0:
+            CellIdentifier = "Profile";
+            break;
+            
+        case 1:
+            CellIdentifier = "Run";
+            break;
+            
+        case 2:
+            CellIdentifier = "History";
+            break;
+            
+        case 3:
+            CellIdentifier = "Community";
+            break;
+            
+        case 4:
+            CellIdentifier = "Shop";
+            break;
+            
+        case 5:
+            CellIdentifier = "Settings";
+            break;
+            
+        case 6:
+            CellIdentifier = "Logout";
+            break;
+        
+        default:
+            break;
+        }
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as UITableViewCell;
+        
+        return cell;
+    }
+    
+    
+    // #pragma mark state preservation / restoration
+    
+    override func encodeRestorableStateWithCoder(coder : NSCoder) {
+        //NSLog(@"%s", __PRETTY_FUNCTION__);
+        
+        // TODO save what you need here
+        
+        super.encodeRestorableStateWithCoder(coder);
+    }
+    
+    override func decodeRestorableStateWithCoder(coder: NSCoder) {
+        //NSLog(@"%s", __PRETTY_FUNCTION__);
+    
+        // TODO restore what you need here
+    
+        super.decodeRestorableStateWithCoder(coder);
+    }
+    
+    override func applicationFinishedRestoringState() {
+        //NSLog(@"%s", __PRETTY_FUNCTION__);
+    
+        // TODO call whatever function you need to visually restore
+    }
 }

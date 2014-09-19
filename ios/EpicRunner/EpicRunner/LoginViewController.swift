@@ -41,7 +41,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func btnLogIn(sender: UIButton) {
-        println("herp");
+        println("Logging in..");
         
         //Check not empty fields
         
@@ -74,7 +74,7 @@ class LoginViewController: UIViewController {
                     
                     //Save userID in database
                     let db = SQLiteDB.sharedInstance();
-                    let query = db.query("UPDATE settings SET loggedInUserId=\(id)");
+                    let query = db.execute("UPDATE settings SET loggedInUserId=\(id)");
                     
                     println("id: \(id)");
                     

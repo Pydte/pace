@@ -19,8 +19,9 @@ class RunSelectorItemView: UIView {
     let endDate: NSDate;
     let totalTime: NSTimeInterval;
     var destroyed = false;
+    var runId: Int = 0;
     
-    init(frame: CGRect, text: String, startDate: NSDate, endDate: NSDate) {
+    init(frame: CGRect, runId: Int, type: String, startDate: NSDate, endDate: NSDate, difficulty: Int, distance: Int) {
         self.startDate = startDate;
         self.endDate = endDate;
         self.totalTime = endDate.timeIntervalSince1970 - startDate.timeIntervalSince1970;
@@ -31,15 +32,34 @@ class RunSelectorItemView: UIView {
         self.originalLoc = self.frame.origin;
         self.userInteractionEnabled = true;
         self.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0);
+        self.runId = runId
         
         // Add timebar
         self.lblTimeBar.contentMode = UIViewContentMode.ScaleToFill;
         self.addSubview(self.lblTimeBar);
         
-        // Add text
-        let lblText = UILabel(frame: CGRectMake(10, 0, 100, self.frame.size.height));
-        lblText.text = text;
-        self.addSubview(lblText);
+        // Add type
+        let lblType = UILabel(frame: CGRectMake(10, 0, 150, self.frame.size.height));
+        lblType.text = type;
+        self.addSubview(lblType);
+        
+        // Add difficulty
+        let lblDiff = UILabel(frame: CGRectMake(self.frame.size.width-30, self.frame.size.height/2-7, 14, 14));
+        lblType.text = type;
+        if (difficulty == 1) {
+            lblDiff.backgroundColor = UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1.0);
+        } else if (difficulty == 2) {
+            lblDiff.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.2, alpha: 1.0);
+        } else if (difficulty == 3) {
+            lblDiff.backgroundColor = UIColor(red: 0.2, green: 1.0, blue: 0.2, alpha: 1.0);
+        }
+        self.addSubview(lblDiff);
+        
+        // Add distance
+        let lblDist = UILabel(frame: CGRectMake(160, 0, 100, self.frame.size.height));
+        lblDist.text = "≈\(distance) km";
+        self.addSubview(lblDist);
+        
         
         // Register long press
         var longPress = UILongPressGestureRecognizer(target: self, action: "handleLongPress:");
@@ -48,6 +68,13 @@ class RunSelectorItemView: UIView {
         
         // Tick
         self.tickTimer = NSTimer.scheduledTimerWithTimeInterval(self.secBetweenTicks, target: self, selector: "tick", userInfo: nil, repeats: true);
+    }
+    
+    override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
+        // On touch open detail view
+        let h = superview.nextResponder() as RunSelectorViewControllerSwift;
+        h.selectedRunId = self.runId;
+        h.performSegueWithIdentifier("segueDetailView", sender: self);
     }
     
     func move(relative: Bool, coord: CGPoint) {

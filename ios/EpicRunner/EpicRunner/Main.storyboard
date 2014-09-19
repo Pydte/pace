@@ -527,21 +527,31 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="360-SD-p3O">
                                 <rect key="frame" x="0.0" y="355" width="320" height="1"/>
                                 <color key="backgroundColor" red="0.88478162469999999" green="0.89616593069999995" blue="0.8807364822" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                <state key="normal" title="Seperator"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-lm-h1T">
-                                <rect key="frame" x="20" y="377" width="280" height="41"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j2z-xf-3yh">
+                                <rect key="frame" x="0.0" y="414" width="320" height="1"/>
                                 <color key="backgroundColor" red="0.88478162469999999" green="0.89616593069999995" blue="0.8807364822" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="** Epic Run **">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                <state key="normal" title="Seperator"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v1q-hT-NvA">
                                 <rect key="frame" x="20" y="426" width="280" height="41"/>
                                 <color key="backgroundColor" red="0.88478162469999999" green="0.89616593069999995" blue="0.8807364822" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Free Run">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Tsx-2i-5rC" kind="push" identifier="segueFreeRun" id="cGr-4D-Jrw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNf-lm-h1T">
+                                <rect key="frame" x="20" y="364" width="280" height="41"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="** Drag here to lock run **">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
@@ -553,11 +563,100 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnMenu" destination="RGe-h0-e1C" id="EA1-P0-ImH"/>
+                        <segue destination="EB2-Os-PCx" kind="push" identifier="segueDetailView" id="gyZ-LH-nBQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T1F-bQ-5oZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1182" y="1450"/>
+        </scene>
+        <!--Detail View-->
+        <scene sceneID="FLi-6q-e8R">
+            <objects>
+                <viewController id="EB2-Os-PCx" customClass="MissionDVViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JUx-V8-sfs"/>
+                        <viewControllerLayoutGuide type="bottom" id="aID-Zf-5Bb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wWb-aL-w2a">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Detail View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ena-MC-XKz">
+                                <rect key="frame" x="115" y="32" width="91" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ppz-QA-wid">
+                                <rect key="frame" x="63" y="430" width="195" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Generate mission">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bronze" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63C-3j-4Jc">
+                                <rect key="frame" x="47" y="286" width="57" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Silver" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfa-gv-N3k">
+                                <rect key="frame" x="143" y="286" width="50" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gold" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nim-er-Tlx">
+                                <rect key="frame" x="231" y="286" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xx" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1q-lT-fke">
+                                <rect key="frame" x="47" y="307" width="57" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xx" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98m-cz-KeB">
+                                <rect key="frame" x="143" y="307" width="48" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xx" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZH-dO-wnd">
+                                <rect key="frame" x="231" y="307" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Runs out in x min" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="87g-Ix-VKZ">
+                                <rect key="frame" x="20" y="75" width="280" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is a little short description of the mission in question. This description will tell you the main point of the mission." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="bi8-hn-C14">
+                                <rect key="frame" x="20" y="104" width="280" height="55"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Detail View" id="XLh-HR-bSb"/>
+                    <connections>
+                        <outlet property="lblBronze" destination="v1q-lT-fke" id="cwa-eE-HpT"/>
+                        <outlet property="lblGold" destination="LZH-dO-wnd" id="4sJ-1l-vn9"/>
+                        <outlet property="lblSilver" destination="98m-cz-KeB" id="r5B-3B-FIe"/>
+                        <outlet property="lblTimeRemaning" destination="87g-Ix-VKZ" id="MJe-QM-HOi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IS4-Xp-yVo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1644" y="1450"/>
         </scene>
         <!--OneP Location Run View Controller Swift-->
         <scene sceneID="aYF-5X-4wJ">
@@ -690,7 +789,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="D5i-2R-Ad1" kind="push" id="1BD-q7-4aT"/>
+                                    <segue destination="zOs-7I-Fgx" kind="push" id="TCo-xG-qvc"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZSD-WL-r3Q">
@@ -756,7 +855,7 @@
         <!--Menu View Controller-->
         <scene sceneID="88e-7y-CfX">
             <objects>
-                <tableViewController id="9R5-rp-iev" customClass="MenuViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MenuViewController" id="9R5-rp-iev" customClass="MenuViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="x3B-VM-dl2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -780,7 +879,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="label" destination="sdq-B3-oR7" id="nSj-JB-XZv"/>
-                                    <segue destination="D5i-2R-Ad1" kind="custom" customClass="SWRevealViewControllerSegue" id="vug-KF-e0t"/>
+                                    <segue destination="PS6-S7-6yK" kind="custom" identifier="DemoSelector" customClass="SWRevealViewControllerSeguePushController" id="73I-gB-P97"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Run" textLabel="nYb-Xy-5A6" style="IBUITableViewCellStyleDefault" id="thA-wX-jUz" customClass="SWUITableViewCell">
@@ -800,7 +899,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="label" destination="nYb-Xy-5A6" id="jSH-rn-PId"/>
-                                    <segue destination="zOs-7I-Fgx" kind="custom" customClass="SWRevealViewControllerSegue" id="YFR-Vz-Xcx"/>
+                                    <segue destination="xiq-B9-izy" kind="custom" identifier="RunSelector" customClass="SWRevealViewControllerSeguePushController" id="sqv-J8-Zh2"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="History" textLabel="loa-jn-2t1" style="IBUITableViewCellStyleDefault" id="gr1-uD-vdH" customClass="SWUITableViewCell">
@@ -821,7 +920,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="label" destination="loa-jn-2t1" id="S1y-bC-8dH"/>
-                                    <segue destination="slv-S4-aJ2" kind="custom" customClass="SWRevealViewControllerSegue" id="TgW-bR-mSt"/>
+                                    <segue destination="Ugi-Wg-shH" kind="custom" identifier="History" customClass="SWRevealViewControllerSeguePushController" id="w2r-eN-XkL"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Community" textLabel="ZzV-PY-U9q" style="IBUITableViewCellStyleDefault" id="d6K-ve-DFj" customClass="SWUITableViewCell">
@@ -902,14 +1001,14 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="label" destination="NXZ-l3-dn9" id="u66-pb-17m"/>
-                                    <segue destination="2BX-Pb-UOX" kind="custom" identifier="Logout" customClass="SWRevealViewControllerSegue" id="Zro-Gy-3Zr"/>
+                                    <segue destination="2BX-Pb-UOX" kind="custom" identifier="Logout" customClass="SWRevealViewControllerSeguePushController" id="Zro-Gy-3Zr"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
                         <connections>
-                            <outlet property="dataSource" destination="9R5-rp-iev" id="dpl-Sg-bGT"/>
-                            <outlet property="delegate" destination="9R5-rp-iev" id="Yv5-WS-TUt"/>
+                            <outlet property="dataSource" destination="9R5-rp-iev" id="clL-Hl-i6g"/>
+                            <outlet property="delegate" destination="9R5-rp-iev" id="iXt-oD-T6Z"/>
                         </connections>
                     </tableView>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -925,8 +1024,8 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <segue destination="9R5-rp-iev" kind="custom" identifier="sw_rear" customClass="SWRevealViewControllerSegue" id="snp-Rr-4bY"/>
-                        <segue destination="06V-dE-ckG" kind="custom" identifier="sw_front" customClass="SWRevealViewControllerSegue" id="Bhg-Sl-vMl"/>
+                        <segue destination="9R5-rp-iev" kind="custom" identifier="sw_rear" customClass="SWRevealViewControllerSegueSetController" id="snp-Rr-4bY"/>
+                        <segue destination="06V-dE-ckG" kind="custom" identifier="sw_front" customClass="SWRevealViewControllerSegueSetController" id="Bhg-Sl-vMl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S4m-u7-sU4" sceneMemberID="firstResponder"/>
@@ -1235,12 +1334,10 @@
         </simulatedScreenMetrics>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Zro-Gy-3Zr"/>
         <segue reference="LU8-OD-Lhj"/>
-        <segue reference="TgW-bR-mSt"/>
-        <segue reference="vug-KF-e0t"/>
-        <segue reference="YFR-Vz-Xcx"/>
-        <segue reference="1bv-M6-sUt"/>
-        <segue reference="quw-R8-3KP"/>
+        <segue reference="Zro-Gy-3Zr"/>
+        <segue reference="Ovp-yw-I3B"/>
+        <segue reference="cGr-4D-Jrw"/>
+        <segue reference="d0x-cK-PT8"/>
     </inferredMetricsTieBreakers>
 </document>

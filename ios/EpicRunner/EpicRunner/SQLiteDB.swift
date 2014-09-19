@@ -178,6 +178,10 @@ class SQLiteDB {
                                                               "latitude REAL, longitude REAL, " +
                                                               "horizontalAccuracy REAL, altitude REAL, " +
                                                               "verticalAccuracy REAL, speed REAL, timestamp INTEGER)");
+            execute("CREATE TABLE IF NOT EXISTS active_runs (runId INTEGER NOT NULL PRIMARY KEY, runTypeId INTEGER NOT NULL, " +
+                " startDate INTEGER NOT NULL , endDate INTEGER, distance REAL, medalBronze INTEGER, medalSilver INTEGER, " +
+                " medalGold INTEGER, duration INTEGER, difficulty INTEGER, locked BOOL NOT NULL DEFAULT 0)");
+            
             println("SQLITE Database created and is now a'okay.");
         }
     }
