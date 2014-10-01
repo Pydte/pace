@@ -13,6 +13,7 @@ import CoreLocation
 class DetailViewViewControllerSwift: UIViewController {
 
     var selectedRun: Run?;
+    let db = SQLiteDB.sharedInstance();
     
     @IBOutlet var mapView: MKMapView
     @IBOutlet var lblDate: UILabel
@@ -24,14 +25,16 @@ class DetailViewViewControllerSwift: UIViewController {
     @IBOutlet var lblMaxAltitude: UILabel
     @IBOutlet var btnDelete: UIBarButtonItem
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Load all data points into memory
+        loadRouteData();
+        
         // Present info
         presentInfo();
         
-        //Draw route
+        // Draw route
         drawRoute();
     }
 
@@ -48,6 +51,31 @@ class DetailViewViewControllerSwift: UIViewController {
             return routeRenderer;
         } else {
             return nil;
+        }
+    }
+    
+    func loadRouteData() {
+        // Check if the data points already is in memory, otherwise load them from db.
+        if (self.selectedRun!.locations.count == 0) {
+            let queryLocs = db.query("SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = \(self.selectedRun!.dbId) ORDER BY id");
+            for locInDb in queryLocs {
+                // Retrieve loc data
+                let lat = locInDb["latitude"]!.double;
+                let lon = locInDb["longitude"]!.double;
+                let horizontalAcc = locInDb["horizontalAccuracy"]!.double;
+                let altitude = locInDb["altitude"]!.double;
+                let verticalAcc = locInDb["verticalAccuracy"]!.double;
+                let speed = locInDb["speed"]!.double;
+                let loc = CLLocation(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon),
+                    altitude: altitude,
+                    horizontalAccuracy: horizontalAcc,
+                    verticalAccuracy: verticalAcc,
+                    course: 0,
+                    speed: speed,
+                    timestamp: nil)
+                
+                self.selectedRun!.locations.append(loc);
+            }
         }
     }
     
@@ -152,7 +180,6 @@ class DetailViewViewControllerSwift: UIViewController {
         self.mapView.addOverlay(polyline);
     }
     
-    
     @IBAction func deleteRun(sender: AnyObject) {
         var alert: UIAlertView = UIAlertView()
             alert.delegate = self
@@ -177,12 +204,12 @@ class DetailViewViewControllerSwift: UIViewController {
     }
     
     // #pragma mark - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        // Delete run
+        
+        // Delete run (LOCAL ONLY)
         if (segue.identifier == "unwindToHistory") {
             // Get reference to the destination view controller
             let hvc: HistoryTableViewControllerSwift = segue.destinationViewController as HistoryTableViewControllerSwift;

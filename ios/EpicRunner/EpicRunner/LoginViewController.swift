@@ -41,59 +41,28 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func btnLogIn(sender: UIButton) {
+        func callbackSuccess(data: AnyObject) {
+            println("Sign in successful");
+            let dic: NSDictionary = data as NSDictionary;
+            let id: Int = dic.objectForKey("id").integerValue;
+            
+            //Save userID in database
+            let db = SQLiteDB.sharedInstance();
+            let query = db.execute("UPDATE settings SET loggedInUserId=\(id), loggedInUsername='\(self.txtEmail.text)'");
+            
+            println("id: \(id)");
+            
+            //Forward user
+            self.performSegueWithIdentifier("segueFromLoginToApp", sender: self);
+        }
+        
         println("Logging in..");
         
         //Check not empty fields
         
         //Send data to server
-        let defaultConfigObject: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
-        let defaultSession: NSURLSession = NSURLSession(configuration: defaultConfigObject, delegate: nil, delegateQueue: NSOperationQueue.mainQueue());
-        
-        let url: NSURL = NSURL.URLWithString("http://epicrunner.com.pandiweb.dk/webservice/user-login");
-        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url);
-        
-        let params: String = "email=\(txtEmail.text)&password=\(txtPassword.text)";
-        urlRequest.HTTPMethod = "POST";
-        urlRequest.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false);
-        
-        let dataTask: NSURLSessionDataTask = defaultSession.dataTaskWithRequest(urlRequest, completionHandler: {(data: NSData!, response: NSURLResponse!, error: NSError!) in
-            //println("Response:\(response)\n");
-            if (error == nil) {
-                let text: NSString = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println(text);
-                
-                var error: NSError?
-                let dic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as NSDictionary;
-                
-                let status: Bool = dic.objectForKey("success").boolValue;
-                
-                if (status) {
-                    println("Sign in successful");
-                    
-                    let id: Int = dic.objectForKey("id").integerValue;
-                    
-                    //Save userID in database
-                    let db = SQLiteDB.sharedInstance();
-                    let query = db.execute("UPDATE settings SET loggedInUserId=\(id)");
-                    
-                    println("id: \(id)");
-                    
-                    //Forward user
-                    self.performSegueWithIdentifier("segueFromLoginToApp", sender: self);
-                } else {
-                    println("Mr. Server is not happy.");
-                    
-                    
-                    
-                }
-                
-                
-            } else {
-                println("Failed to contact server.");
-            }
-            });
-        dataTask.resume();
-    }
+        HelperFunctions().callWebService("user-login", params: "email=\(txtEmail.text)&password=\(txtPassword.text)", callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
+        }
 
     /*
     // #pragma mark - Navigation

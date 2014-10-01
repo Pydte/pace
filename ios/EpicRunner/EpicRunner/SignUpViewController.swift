@@ -30,6 +30,21 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func btnSignUp(sender: UIButton) {
+        func callbackSuccess(data: AnyObject) {
+            println("Sign up successful");
+            
+            let dic: NSDictionary = data as NSDictionary;
+            let id: Int = dic.objectForKey("id").integerValue;
+            println("id: \(id)");
+            
+            //Log in this user aka. save userID in db
+            let db = SQLiteDB.sharedInstance();
+            let query = db.execute("UPDATE settings SET loggedInUserId=\(id), loggedInUsername='\(self.txtEmail.text)'");
+            
+            //Forward user
+            self.performSegueWithIdentifier("segueFromSignUpToApp", sender: self);
+        }
+        
         println("Signing up");
         
 
@@ -56,52 +71,8 @@ class SignUpViewController: UIViewController {
         }
         
         //Send data to server
-        let defaultConfigObject: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
-        let defaultSession: NSURLSession = NSURLSession(configuration: defaultConfigObject, delegate: nil, delegateQueue: NSOperationQueue.mainQueue());
-        
-        let url: NSURL = NSURL.URLWithString("http://epicrunner.com.pandiweb.dk/webservice/user-create");
-        let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url);
-        
-        //let params: String = "email=test@test.dk&password=pass&name=Test&gender=male&birth_date=0";
         let params: String = "email=\(txtEmail.text)&password=\(txtPassword.text)&name=\(txtFullname.text)&gender=\(gender)&birth_date=\(birthDate.timeIntervalSince1970)";
-        urlRequest.HTTPMethod = "POST";
-        urlRequest.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false);
-        
-        let dataTask: NSURLSessionDataTask = defaultSession.dataTaskWithRequest(urlRequest, completionHandler: {(data: NSData!, response: NSURLResponse!, error: NSError!) in
-            //println("Response:\(response)\n");
-            if (error == nil) {
-                let text: NSString = NSString(data: data, encoding: NSUTF8StringEncoding)
-                println(text);
-                
-                var error: NSError?
-                let dic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as NSDictionary;
-                
-                let status: Bool = dic.objectForKey("success").boolValue;
-                
-                if (status) {
-                    println("Sign up successful");
-                    
-                    let id: Int = dic.objectForKey("id").integerValue;
-                    println("id: \(id)");
-                    
-                    //Forward user
-                    self.performSegueWithIdentifier("segueFromSignUpToApp", sender: self);
-                } else {
-                    println("Mr. Server is not happy.");
-                    
-                    
-                    
-                }
-                
-                
-                
-            } else {
-                println("Failed to contact server.");
-            }
-        });
-        dataTask.resume();
-        
-        
+        HelperFunctions().callWebService("user-create", params: params, callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
     }
 
     /*

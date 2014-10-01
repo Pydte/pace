@@ -11,6 +11,7 @@ import UIKit
 class DemoSelectorViewControllerSwift: UIViewController {
     @IBOutlet var btnMenu: UIBarButtonItem
     
+    
     var OnePointLocationRunDistance: Double = 0.0;
     
     override func viewDidLoad() {
@@ -67,5 +68,16 @@ class DemoSelectorViewControllerSwift: UIViewController {
             //[self.navigationController pushViewController:controller animated:YES];
             println("test");
         }
+    }
+    
+    @IBAction func btnErrTest(sender: AnyObject) {
+        println("btn clicked");
+        func testSuccess(data: AnyObject) {
+            println("Success");
+        }
+        
+        //HelperFunctions().callWebservice("test", params:"", callbackSuccess:testSuccess, callbackFail:testFail);
+        //Seems not to work correct?
+        HelperFunctions().callWebService("selectable-runs", params:"id=6", callbackSuccess:testSuccess, callbackFail:HelperFunctions().webServiceDefaultFail);
     }
 }

@@ -10,11 +10,14 @@ import UIKit
 import MapKit
 import AVFoundation
 
-class MapViewControllerSwift: UIViewController, MKMapViewDelegate {
+class MapViewControllerSwift: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     @IBOutlet var btnMenu: UIBarButtonItem
     @IBOutlet var mapView: MKMapView
     @IBOutlet var runButton: UIButton
-
+    
+    let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
+    var locationManager: CLLocationManager = CLLocationManager();
+    
     var multiplayer: Bool = false;
     var autoroute1: Bool = false;
     var onePointLocationRunDistance: Double = 0.0;
@@ -40,11 +43,78 @@ class MapViewControllerSwift: UIViewController, MKMapViewDelegate {
     var onePointLocationRunGenPointTries: Int = 0;
     var onePointLocationRunGenPointAccumDist: Double = 0.0;
     var onePointLocationRunShootOutDistance: Double = 0.0;
-
     
+    
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!)  {
+        let userLocation: CLLocation = locations[0] as CLLocation;
+        let isInBackground: Bool = UIApplication.sharedApplication().applicationState == UIApplicationState.Background;
+        
+        
+        // Define distances (in meters)
+        let minRecordDistance: Double = 5.0;
+        let coinDistance: Double = 50.0;
+        
+        if (self.capturing) {
+            // Update total distance
+            if (self.prevLoc != nil) {
+                self.totalDistance += self.prevLoc!.distanceFromLocation(userLocation);
+            }
+            
+            // Record location if last recorded distance is further than "minRecordDistance" meters from the prev data point
+            if (self.totalDistance - self.recordedDistance > minRecordDistance) {
+                self.currentRun!.locations.append(userLocation);
+                self.recordedDistance += minRecordDistance;
+            }
+            
+            
+            // Gain coin if it is time
+            if (self.totalDistance - self.coinedDistance > coinDistance) {
+                self.avCoinSound?.play();
+                self.coinedDistance += coinDistance;
+            }
+            
+            //Update prev loc
+            self.prevLoc = userLocation;
+        }
+    
+        
+        // -- Mode specific below --
+        // Autoroute1
+        if (self.autoroute1 && self.autopoint1Generated) {
+            let acceptableDeltaDistInMeters: Double = 25;
+            
+            //Calc distance between current and goal point
+            let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
+            let endLocation: CLLocation = CLLocation(latitude: self.autopoint1Annotation!.coordinate.latitude, longitude: self.autopoint1Annotation!.coordinate.longitude);
+            let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+            
+            if (distanceToGoal < acceptableDeltaDistInMeters) {
+                println("YOU REACHED GOAL, WOOOOOHH!!");
+                if (self.capturing) {
+                    endCapturing();
+                }
+            }
+        }
+    }
+    
+    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager!) {
+        println("lc didPause??? Who the hell did that?!");
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Init location manager
+        self.locationManager.distanceFilter = kCLDistanceFilterNone;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.locationManager.delegate = self;
+        self.locationManager.pausesLocationUpdatesAutomatically = false;
+
+        if (self.iosVersion >= 8) {
+            self.locationManager.requestWhenInUseAuthorization(); // Necessary for iOS 8 and crashes iOS 7...
+        }
+        self.locationManager.startUpdatingLocation();
+        
         
         // Always show navigationBar
         self.navigationController.setNavigationBarHidden(false, animated: false);
@@ -122,40 +192,14 @@ class MapViewControllerSwift: UIViewController, MKMapViewDelegate {
         // Make dot not selectable
         userLocation.title = "";
         
-        // Define distances (in meters)
-        let minRecordDistance: Double = 5.0;
-        let coinDistance: Double = 50.0;
-        
         // Update region with new location in center
         let region: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(userLocation.location.coordinate,
             self.mapZoomlevel,
             self.mapZoomlevel);
         self.mapView.setRegion(region, animated:true);
         
-        if (self.capturing) {
-            // Update total distance
-            if (self.prevLoc != nil) {
-                self.totalDistance += self.prevLoc!.distanceFromLocation(userLocation.location);
-            }
-            
-            // Record location if last recorded distance is further than "minRecordDistance" meters from the prev data point
-            if (self.totalDistance - self.recordedDistance > minRecordDistance) {
-                self.currentRun!.locations.append(userLocation.location);
-                self.recordedDistance += minRecordDistance;
-            }
-            
-            
-            // Gain coin if it is time
-            if (self.totalDistance - self.coinedDistance > coinDistance) {
-                self.avCoinSound?.play();
-                self.coinedDistance += coinDistance;
-            }
-            
-            //Update prev loc
-            self.prevLoc = userLocation.location;
-        }
         
-        
+        // -- Mode specific below --
         // Update Player 2 location
         // Maybe eiher interpolate position or slowly grey-out point, to symbolize time since last updated
         if (self.multiplayer) {
@@ -189,23 +233,6 @@ class MapViewControllerSwift: UIViewController, MKMapViewDelegate {
                     }
                 });
                 dataTask.resume();
-            }
-        }
-        
-        
-        if (self.autoroute1 && self.autopoint1Generated) {
-            let acceptableDeltaDistInMeters: Double = 25;
-            
-            //Calc distance between current and goal point
-            let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
-            let endLocation: CLLocation = CLLocation(latitude: self.autopoint1Annotation!.coordinate.latitude, longitude: self.autopoint1Annotation!.coordinate.longitude);
-            let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
-            
-            if (distanceToGoal < acceptableDeltaDistInMeters) {
-                println("YOU REACHED GOAL, WOOOOOHH!!");
-                if (self.capturing) {
-                    endCapturing();
-                }
             }
         }
     }

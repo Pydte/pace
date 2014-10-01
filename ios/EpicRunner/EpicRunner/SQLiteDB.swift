@@ -166,21 +166,19 @@ class SQLiteDB {
         }
         
         if virginDb {
-            execute("CREATE TABLE IF NOT EXISTS settings (loggedInUserId INTEGER, " +
-                "loggedInUserName TEXT)");
+            execute("CREATE TABLE IF NOT EXISTS settings (loggedInUserId INTEGER, loggedInUserName TEXT)");
             execute("INSERT INTO settings DEFAULT VALUES");
             execute("CREATE TABLE IF NOT EXISTS runs (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "startDate INTEGER, " +
-                "endDate INTEGER, " +
-                "distance REAL)");
+                "startDate INTEGER, endDate INTEGER, distance REAL, " +
+                "duration REAL, avgSpeed REAL, maxSpeed REAL, minAltitude REAL, maxAltitude REAL, realRunId INTEGER, userId INTEGER NOT NULL)");
             execute("CREATE TABLE IF NOT EXISTS runs_location (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                                               "runId INTEGER REFERENCES run(id) ON DELETE CASCADE, " +
                                                               "latitude REAL, longitude REAL, " +
                                                               "horizontalAccuracy REAL, altitude REAL, " +
                                                               "verticalAccuracy REAL, speed REAL, timestamp INTEGER)");
-            execute("CREATE TABLE IF NOT EXISTS active_runs (runId INTEGER NOT NULL PRIMARY KEY, runTypeId INTEGER NOT NULL, " +
-                " startDate INTEGER NOT NULL , endDate INTEGER, distance REAL, medalBronze INTEGER, medalSilver INTEGER, " +
-                " medalGold INTEGER, duration INTEGER, difficulty INTEGER, locked BOOL NOT NULL DEFAULT 0)");
+            execute("CREATE TABLE IF NOT EXISTS active_runs (runId INTEGER NOT NULL PRIMARY KEY, userId INTEGER NOT NULL, " +
+                " runTypeId INTEGER NOT NULL, startDate INTEGER NOT NULL , endDate INTEGER, distance REAL, medalBronze INTEGER, " +
+                " medalSilver INTEGER, medalGold INTEGER, duration INTEGER, difficulty INTEGER, locked BOOL NOT NULL DEFAULT 0)");
             
             println("SQLITE Database created and is now a'okay.");
         }

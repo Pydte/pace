@@ -20,25 +20,36 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
     @IBOutlet var lblMinAltitude: UILabel
     @IBOutlet var lblMaxAltitude: UILabel
     @IBOutlet var mapView: MKMapView;
+    let db = SQLiteDB.sharedInstance();
     var finishedRun: Run? = nil;
+    var runId: Int = 0;
+    var run_locations: String = "";
+    
+    @IBOutlet var lblSynchronizeStatus: UILabel
+    @IBOutlet var idcSynchronizeStatus: UIActivityIndicatorView
+    var synchronized: Bool = false;
     
     override func viewDidLoad() {
         super.viewDidLoad();
         
         // Save run to database
-        let db = SQLiteDB.sharedInstance();
-        db.execute("INSERT INTO runs (startDate, endDate, distance) VALUES(\(Int(finishedRun!.start!.timeIntervalSince1970)),\(Int(finishedRun!.end!.timeIntervalSince1970)),\(finishedRun!.distance))");
-        let runId: Int = Int(db.lastInsertedRowID());
+        db.execute("INSERT INTO runs (userId, startDate, endDate, distance) VALUES((SELECT loggedInUserId FROM Settings),\(Int(finishedRun!.start!.timeIntervalSince1970)),\(Int(finishedRun!.end!.timeIntervalSince1970)),\(finishedRun!.distance))");
+        self.runId = Int(self.db.lastInsertedRowID());
         
         // Save all logged locations
         for loc in finishedRun!.locations {
-            db.execute("INSERT INTO runs_location (latitude, runId, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp) VALUES(\(loc.coordinate.latitude),\(runId),\(loc.coordinate.longitude),\(loc.horizontalAccuracy),\(loc.altitude),\(loc.verticalAccuracy),\(loc.speed),\(Int(loc.timestamp.timeIntervalSince1970)))");
+            self.db.execute("INSERT INTO runs_location (latitude, runId, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp) VALUES(\(loc.coordinate.latitude),\(runId),\(loc.coordinate.longitude),\(loc.horizontalAccuracy),\(loc.altitude),\(loc.verticalAccuracy),\(loc.speed),\(Int(loc.timestamp.timeIntervalSince1970)))");
+            run_locations += "&latitude[]=\(loc.coordinate.latitude)&longitude[]=\(loc.coordinate.longitude)&horizontal_accuracy[]=\(loc.horizontalAccuracy)&vertical_accuracy[]=\(loc.verticalAccuracy)&altitude[]=\(loc.altitude)&speed[]=\(loc.speed)&timestamp[]=\(Int(loc.timestamp.timeIntervalSince1970))";
         }
-    
         
         // Populate view
         presentInfo();
         
+        // Draw route
+        drawRoute()
+        
+        // Synchronize
+        uploadRun();
     }
 
     override func didReceiveMemoryWarning() {
@@ -133,6 +144,44 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         let startCoord: CLLocationCoordinate2D = CLLocationCoordinate2DMake((latTop+latBottom)/2, (lonRight+lonLeft)/2);
         let adjustedRegion = MKCoordinateRegionMakeWithDistance(startCoord, Double(distanceLat+distanceMargin), Double(distanceLon+distanceMargin));
         self.mapView.setRegion(adjustedRegion, animated: true);
+        
+        
+        // Update database
+        self.db.execute("UPDATE runs SET duration=\(runTimeInSeconds), avgSpeed=\(avgSpeed), maxSpeed=0, minAltitude=\(minAltitude), maxAltitude=\(maxAltitude) WHERE id=\(self.runId)");
+    }
+   
+    func uploadRun() {
+        func callbackSuccess(data: AnyObject) {
+            println("Upload successful");
+            
+            // Update realRunId
+            //let realRunId: Int = dic.objectForKey("id").integerValue;
+            //self.db.execute("UPDATE Runs SET realRunId=\(realRunId) WHERE id=\(self.runId)");
+            
+            self.lblSynchronizeStatus.text = "Synchronized";
+            self.idcSynchronizeStatus.stopAnimating();
+            self.synchronized = true;
+        }
+        
+        func callbackError(err: String) {
+            println(err);
+            self.lblSynchronizeStatus.text = "Synchronize failed";
+            self.idcSynchronizeStatus.stopAnimating();
+            self.synchronized = true;
+        }
+        
+        let runDataQuery = self.db.query("SELECT s.loggedInUserId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude FROM Settings s, Runs r WHERE r.id=\(self.runId)");
+        let userId: Int = runDataQuery[0]["loggedInUserId"]!.integer;
+        let distance: Double = runDataQuery[0]["distance"]!.double;
+        let duration: Double = runDataQuery[0]["duration"]!.double;
+        let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.double;
+        let maxSpeed: Double = runDataQuery[0]["maxSpeed"]!.double;
+        let minAltitude: Double = runDataQuery[0]["minAltitude"]!.double;
+        let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.double;
+        
+        
+        let params: String = "user_id=\(userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
+        HelperFunctions().callWebService("post-free-run", params: params, callbackSuccess: callbackSuccess, callbackFail: callbackError)
     }
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
@@ -158,9 +207,21 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         self.mapView.addOverlay(polyline);
     }
 
-    /*
+    
     // #pragma mark - Navigation
-
+    override func shouldPerformSegueWithIdentifier(identifier: String!, sender: AnyObject!) -> Bool {
+        if (self.synchronized == false) {
+            var alert: UIAlertView = UIAlertView()
+            alert.title = "Easy there cowboy!"
+            alert.message = "We havn't uploaded the run to our servers yet, please wait a second."
+            alert.addButtonWithTitle("I understand")
+            
+            alert.show()
+            return false;
+        }
+        return true;
+    }
+    /*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.

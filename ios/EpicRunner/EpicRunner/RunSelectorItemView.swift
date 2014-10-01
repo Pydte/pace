@@ -11,7 +11,7 @@ import UIKit
 class RunSelectorItemView: UIView {
     var originalLoc: CGPoint = CGPoint();
     var currentLoc: CGPoint = CGPoint();
-    var toBeDeleted: Bool = false;
+    var toBeLocked: Bool = false;
     var lblTimeBar: UILabel = UILabel(frame: CGRectMake(0, 38, 0, 3));
     let secBetweenTicks = 1.0;
     var tickTimer: NSTimer?;
@@ -19,7 +19,10 @@ class RunSelectorItemView: UIView {
     let endDate: NSDate;
     let totalTime: NSTimeInterval;
     var destroyed = false;
+    var locked = false;
     var runId: Int = 0;
+    let lockPlaceholderY: Int = 364;
+    let lockPlaceholderX: Int = 20;
     
     init(frame: CGRect, runId: Int, type: String, startDate: NSDate, endDate: NSDate, difficulty: Int, distance: Int) {
         self.startDate = startDate;
@@ -94,7 +97,6 @@ class RunSelectorItemView: UIView {
                 self.originalLoc = self.frame.origin;
             },
             completion: { _ in
-                println("move of item completed");
             });
     }
 
@@ -108,11 +110,11 @@ class RunSelectorItemView: UIView {
             self.center.y += point.y - self.currentLoc.y;
             
             // Check for dropzone
-            if (self.frame.origin.y > 320 && self.frame.origin.y < 345) {
-                self.toBeDeleted = true;
-                self.backgroundColor = UIColor(red: 0.7, green: 0.1, blue: 0.1, alpha: 1.0);
+            if (self.frame.origin.y > 345 && self.frame.origin.y < 390) {
+                self.toBeLocked = true;
+                self.backgroundColor = UIColor(red: 0.1, green: 0.7, blue: 0.1, alpha: 1.0);
             } else {
-                self.toBeDeleted = false;
+                self.toBeLocked = false;
                 self.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0);
             }
             
@@ -127,8 +129,22 @@ class RunSelectorItemView: UIView {
             self.layer.zPosition = 1;
             
             // Check for dropzone
-            if (self.toBeDeleted) {
-                destroy();
+            if (self.toBeLocked) {
+                // Lock run
+                lock();
+                
+                // Snap to placeholder
+                UIView.animateWithDuration(0.5,
+                    delay: 0.1,
+                    options: .CurveEaseOut,
+                    animations: { _ in
+                        self.frame.origin = CGPoint(x: self.lockPlaceholderX, y: self.lockPlaceholderY);
+                    },
+                    completion: { _ in
+                    }
+                );
+                
+                println("My time among you suckers are over! [item locks]");
             } else {
                 //  Restore position
                 UIView.animateWithDuration(0.5,
@@ -158,12 +174,8 @@ class RunSelectorItemView: UIView {
         if (t > 100) {
             // 100 %, we're done
             
-            // No more ticks are needed
-            self.tickTimer?.invalidate();
-        
-            destroy();
-            
-            println("My time is up on this planet! [item commits suicide]");
+            destroy(true);
+            println("My time on this planet is over! [item commits suicide]");
             
             return true;
             
@@ -202,24 +214,52 @@ class RunSelectorItemView: UIView {
         return false;
     }
     
-    func destroy() {
-        if (!destroyed) {
-        // Clean up timer (we want no memory leak, yirks!)
-        self.tickTimer?.invalidate();
-        self.tickTimer = nil;
-        
-        // Let the controller know that i'm out
-        let h = superview.nextResponder() as RunSelectorViewControllerSwift;
-        h.itemKilled();
+    func lock() {
+        if (!locked) {
+            // To avoid the rediculous case where the destroy function already is scheduled
+            // and then gets called before the scheduled one
+            locked = true;
             
-        // To avoid the rediculous case where the destroy function already is scheduled 
-        // and then gets called before the scheduled one
-        destroyed = true;
-        
-        // Commit suicide
-        self.removeFromSuperview();
+            // Clean up timer (we want no memory leak, yirks!)
+            self.tickTimer?.invalidate();
+            self.tickTimer = nil;
+            
+            // Visually remove timer
+            UIView.animateWithDuration(self.secBetweenTicks,
+                delay: 0.0,
+                options: .CurveLinear,
+                animations: { _ in
+                    self.lblTimeBar.frame.size.width = 0;
+                },
+                completion: { _ in ()}
+            );
+            
+            // Let the controller know that i'm out
+            let h = superview.nextResponder() as RunSelectorViewControllerSwift;
+            h.lockRun(self.runId);
         }
     }
+    
+    func destroy(timedOut: Bool) {
+        if (!destroyed) {
+            println("destroY: \(self.runId) - \(timedOut)");
+            // To avoid the rediculous case where the destroy function already is scheduled
+            // and then gets called before the scheduled one
+            destroyed = true;
+            
+            // Clean up timer (we want no memory leak, yirks!)
+            self.tickTimer?.invalidate();
+            self.tickTimer = nil;
+            
+            // Let the controller know that i'm out
+            let h = superview.nextResponder() as RunSelectorViewControllerSwift;
+            h.itemKilled(timedOut);
+            
+            // Commit suicide
+            self.removeFromSuperview();
+        }
+    }
+    
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

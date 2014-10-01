@@ -148,10 +148,20 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Synchronizing     -" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HhN-FR-34L">
+                                <rect key="frame" x="150" y="50" width="150" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Italic" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kNm-yA-BWp">
+                                <rect key="frame" x="280" y="51" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="idcSynchronizeStatus" destination="kNm-yA-BWp" id="D3a-Xb-sY4"/>
                         <outlet property="lblAvgSpeed" destination="Yu8-aE-LSO" id="V7J-2f-Hcf"/>
                         <outlet property="lblDate" destination="JIQ-50-SOk" id="pdd-hh-H2l"/>
                         <outlet property="lblDistance" destination="XTf-l5-efT" id="FqZ-dk-U04"/>
@@ -159,6 +169,7 @@
                         <outlet property="lblMaxAltitude" destination="Lf3-fy-Rte" id="rU1-BT-6R4"/>
                         <outlet property="lblMaxSpeed" destination="kIg-vP-9VO" id="gaS-79-lw4"/>
                         <outlet property="lblMinAltitude" destination="qcf-R5-WgV" id="21A-ZY-Eag"/>
+                        <outlet property="lblSynchronizeStatus" destination="HhN-FR-34L" id="VLN-FH-2Uu"/>
                         <outlet property="mapView" destination="fwJ-pQ-1eM" id="ryJ-Bz-m4I"/>
                     </connections>
                 </viewController>
@@ -267,6 +278,15 @@
                                 </state>
                                 <connections>
                                     <segue destination="QFE-Uz-t4R" kind="push" id="f5I-3n-fu6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xm4-m9-2Gt">
+                                <rect key="frame" x="130" y="244" width="61" height="30"/>
+                                <state key="normal" title="Err test">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnErrTest:" destination="D5i-2R-Ad1" eventType="touchUpInside" id="GbI-42-dKY"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -562,6 +582,7 @@
                         <barButtonItem key="leftBarButtonItem" image="reveal-icon.png" id="RGe-h0-e1C"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnLockedRunPlaceholder" destination="fNf-lm-h1T" id="yxz-QL-FyX"/>
                         <outlet property="btnMenu" destination="RGe-h0-e1C" id="EA1-P0-ImH"/>
                         <segue destination="EB2-Os-PCx" kind="push" identifier="segueDetailView" id="gyZ-LH-nBQ"/>
                     </connections>
@@ -596,37 +617,37 @@
                                 </state>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bronze" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63C-3j-4Jc">
-                                <rect key="frame" x="47" y="286" width="57" height="21"/>
+                                <rect key="frame" x="47" y="207" width="57" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Silver" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dfa-gv-N3k">
-                                <rect key="frame" x="143" y="286" width="50" height="21"/>
+                                <rect key="frame" x="143" y="207" width="50" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gold" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nim-er-Tlx">
-                                <rect key="frame" x="231" y="286" width="42" height="21"/>
+                                <rect key="frame" x="231" y="207" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xx" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1q-lT-fke">
-                                <rect key="frame" x="47" y="307" width="57" height="21"/>
+                                <rect key="frame" x="47" y="228" width="57" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xx" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98m-cz-KeB">
-                                <rect key="frame" x="143" y="307" width="48" height="21"/>
+                                <rect key="frame" x="143" y="228" width="48" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="xx" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZH-dO-wnd">
-                                <rect key="frame" x="231" y="307" width="42" height="21"/>
+                                <rect key="frame" x="231" y="228" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -637,8 +658,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is a little short description of the mission in question. This description will tell you the main point of the mission." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="bi8-hn-C14">
-                                <rect key="frame" x="20" y="104" width="280" height="55"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is a little short description of the mission in question. This description will tell you the main point of the mission." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="bi8-hn-C14">
+                                <rect key="frame" x="20" y="96" width="280" height="96"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -649,6 +670,7 @@
                     <navigationItem key="navigationItem" title="Detail View" id="XLh-HR-bSb"/>
                     <connections>
                         <outlet property="lblBronze" destination="v1q-lT-fke" id="cwa-eE-HpT"/>
+                        <outlet property="lblDescription" destination="bi8-hn-C14" id="6ia-wn-Fxy"/>
                         <outlet property="lblGold" destination="LZH-dO-wnd" id="4sJ-1l-vn9"/>
                         <outlet property="lblSilver" destination="98m-cz-KeB" id="r5B-3B-FIe"/>
                         <outlet property="lblTimeRemaning" destination="87g-Ix-VKZ" id="MJe-QM-HOi"/>
@@ -782,7 +804,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YdE-hk-oxc">
-                                <rect key="frame" x="35" y="417" width="251" height="43"/>
+                                <rect key="frame" x="35" y="423" width="251" height="43"/>
                                 <color key="backgroundColor" red="0.95246688180000005" green="0.95246688180000005" blue="0.95246688180000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Run Selector">
@@ -799,8 +821,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sample-3d-model.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="kEu-d7-Q8a">
-                                <rect key="frame" x="35" y="75" width="251" height="319"/>
+                                <rect key="frame" x="35" y="96" width="251" height="319"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Logged in user" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lak-qc-soQ">
+                                <rect key="frame" x="35" y="77" width="251" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -809,6 +837,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnMenu" destination="g4n-4S-FQn" id="Etu-lw-eD5"/>
+                        <outlet property="lblEmail" destination="lak-qc-soQ" id="2g6-Ic-iwO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jr9-wX-fRz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1334,10 +1363,10 @@
         </simulatedScreenMetrics>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="LU8-OD-Lhj"/>
         <segue reference="Zro-Gy-3Zr"/>
-        <segue reference="Ovp-yw-I3B"/>
-        <segue reference="cGr-4D-Jrw"/>
+        <segue reference="LU8-OD-Lhj"/>
+        <segue reference="TCo-xG-qvc"/>
+        <segue reference="nYe-7U-n7u"/>
         <segue reference="d0x-cK-PT8"/>
     </inferredMetricsTieBreakers>
 </document>

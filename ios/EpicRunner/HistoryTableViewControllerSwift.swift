@@ -13,6 +13,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
     @IBOutlet strong var myTableView: UITableView?;
     @IBOutlet var btnMenu: UIBarButtonItem;
     
+    let db = SQLiteDB.sharedInstance();
     var runs: [Run] = [];
     var selectedIndex: Int = -1;
     
@@ -164,10 +165,9 @@ class HistoryTableViewControllerSwift: UITableViewController {
     }
 
     func loadData() {
-        let db = SQLiteDB.sharedInstance();
         
         // Read all runs
-        let queryRuns = db.query("SELECT id, startDate, endDate, distance FROM runs ORDER BY startDate DESC");
+        let queryRuns = db.query("SELECT id, startDate, endDate, distance FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC");
         for runInDb in queryRuns {
             // Retrieve run data
             var run: Run = Run();
@@ -179,7 +179,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
             // Read all locations for runs
             // - Probably use parameters........
             // - Maybe first load these data on detail click?
-            let queryLocs = db.query("SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = \(run.dbId) ORDER BY id");
+            /*let queryLocs = db.query("SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = \(run.dbId) ORDER BY id");
             for locInDb in queryLocs {
                 // Retrieve loc data
                 let lat = locInDb["latitude"]!.double;
@@ -197,7 +197,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
                     timestamp: nil)
                 
                 run.locations.append(loc);
-            }
+            }*/
             
             self.runs.append(run);
         }
