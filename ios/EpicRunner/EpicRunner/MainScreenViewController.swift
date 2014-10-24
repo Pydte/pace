@@ -31,4 +31,7 @@ class MainScreenViewControllerSwift: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func unwindToMain(segue: UIStoryboardSegue) {
+    }
 }

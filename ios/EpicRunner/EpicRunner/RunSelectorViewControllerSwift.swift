@@ -44,7 +44,7 @@ class RunSelectorViewControllerSwift: UIViewController {
     
     func loadRunSelector() {
         // Check if any runs are timed out
-        let queryActiveRuns = db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance, locked FROM active_runs WHERE userId=(SELECT loggedInUserId FROM settings)");
+        let queryActiveRuns = db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance, locked, disabled FROM active_runs WHERE userId=(SELECT loggedInUserId FROM settings)");
         let nowUnix: Int = Int(NSDate().timeIntervalSince1970);
         var runTimedOut: Bool = false;
         var numberOfRuns: Int = 0;
@@ -69,7 +69,8 @@ class RunSelectorViewControllerSwift: UIViewController {
                     startDate: NSDate(timeIntervalSince1970: Double(run["startDate"]!.integer)),
                     endDate: NSDate(timeIntervalSince1970: Double(run["endDate"]!.integer)),
                     difficulty: run["difficulty"]!.integer,
-                    distance: Int(run["distance"]!.double));
+                    distance: Int(run["distance"]!.double),
+                    disabled: Bool(run["disabled"]!.integer));
                 self.view.addSubview(itemLocked);
             }
         }
@@ -96,7 +97,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         }
         
         
-        let activeRuns = db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance FROM active_runs WHERE userId=(SELECT loggedInUserId FROM settings) AND locked=0 ORDER BY endDate DESC");
+        let activeRuns = db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance, disabled FROM active_runs WHERE userId=(SELECT loggedInUserId FROM settings) AND locked=0 ORDER BY endDate DESC");
         
         var curId = 0;
         item1 = RunSelectorItemView(frame: CGRectMake(20, -41, self.view.frame.size.width - 40, 41),
@@ -105,7 +106,8 @@ class RunSelectorViewControllerSwift: UIViewController {
             startDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["startDate"]!.integer)),
             endDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["endDate"]!.integer)),
             difficulty: activeRuns[curId]["difficulty"]!.integer,
-            distance: Int(activeRuns[curId]["distance"]!.double));
+            distance: Int(activeRuns[curId]["distance"]!.double),
+            disabled: Bool(activeRuns[curId]["disabled"]!.integer));
         self.view.addSubview(item1);
         
         
@@ -116,7 +118,8 @@ class RunSelectorViewControllerSwift: UIViewController {
             startDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["startDate"]!.integer)),
             endDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["endDate"]!.integer)),
             difficulty: activeRuns[curId]["difficulty"]!.integer,
-            distance: Int(activeRuns[curId]["distance"]!.double));
+            distance: Int(activeRuns[curId]["distance"]!.double),
+            disabled: Bool(activeRuns[curId]["disabled"]!.integer));
         self.view.addSubview(item2);
         
         
@@ -127,7 +130,8 @@ class RunSelectorViewControllerSwift: UIViewController {
             startDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["startDate"]!.integer)),
             endDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["endDate"]!.integer)),
             difficulty: activeRuns[curId]["difficulty"]!.integer,
-            distance: Int(activeRuns[curId]["distance"]!.double));
+            distance: Int(activeRuns[curId]["distance"]!.double),
+            disabled: Bool(activeRuns[curId]["disabled"]!.integer));
         self.view.addSubview(item3);
         
         
@@ -138,7 +142,8 @@ class RunSelectorViewControllerSwift: UIViewController {
             startDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["startDate"]!.integer)),
             endDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["endDate"]!.integer)),
             difficulty: activeRuns[curId]["difficulty"]!.integer,
-            distance: Int(activeRuns[curId]["distance"]!.double));
+            distance: Int(activeRuns[curId]["distance"]!.double),
+            disabled: Bool(activeRuns[curId]["disabled"]!.integer));
         self.view.addSubview(item4);
         
         
@@ -149,7 +154,8 @@ class RunSelectorViewControllerSwift: UIViewController {
             startDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["startDate"]!.integer)),
             endDate: NSDate(timeIntervalSince1970: Double(activeRuns[curId]["endDate"]!.integer)),
             difficulty: activeRuns[curId]["difficulty"]!.integer,
-            distance: Int(activeRuns[curId]["distance"]!.double));
+            distance: Int(activeRuns[curId]["distance"]!.double),
+            disabled: Bool(activeRuns[curId]["disabled"]!.integer));
         self.view.addSubview(item5);
         
         
@@ -238,7 +244,7 @@ class RunSelectorViewControllerSwift: UIViewController {
             // Show replacement run & UI
             let newRunIdTemp: AnyObject! = runs[0];
             let newRunId: Int = newRunIdTemp.objectForKey("id").integerValue;
-            let newRun = self.db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance FROM active_runs WHERE runId=\(newRunId)");
+            let newRun = self.db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance, disabled FROM active_runs WHERE runId=\(newRunId)");
             
             switch runId {
             case self.item1!.runId:
@@ -249,7 +255,8 @@ class RunSelectorViewControllerSwift: UIViewController {
                     startDate: NSDate(timeIntervalSince1970: Double(newRun[0]["startDate"]!.integer)),
                     endDate: NSDate(timeIntervalSince1970: Double(newRun[0]["endDate"]!.integer)),
                     difficulty: newRun[0]["difficulty"]!.integer,
-                    distance: Int(newRun[0]["distance"]!.double));
+                    distance: Int(newRun[0]["distance"]!.double),
+                    disabled: Bool(newRun[0]["disabled"]!.integer));
                 self.view.addSubview(self.item1);
             case self.item2!.runId:
                 self.itemLocked = self.item2;
@@ -259,7 +266,8 @@ class RunSelectorViewControllerSwift: UIViewController {
                     startDate: NSDate(timeIntervalSince1970: Double(newRun[0]["startDate"]!.integer)),
                     endDate: NSDate(timeIntervalSince1970: Double(newRun[0]["endDate"]!.integer)),
                     difficulty: newRun[0]["difficulty"]!.integer,
-                    distance: Int(newRun[0]["distance"]!.double));
+                    distance: Int(newRun[0]["distance"]!.double),
+                    disabled: Bool(newRun[0]["disabled"]!.integer));
                 self.view.addSubview(self.item2);
             case self.item3!.runId:
                 self.itemLocked = self.item3;
@@ -269,7 +277,8 @@ class RunSelectorViewControllerSwift: UIViewController {
                     startDate: NSDate(timeIntervalSince1970: Double(newRun[0]["startDate"]!.integer)),
                     endDate: NSDate(timeIntervalSince1970: Double(newRun[0]["endDate"]!.integer)),
                     difficulty: newRun[0]["difficulty"]!.integer,
-                    distance: Int(newRun[0]["distance"]!.double));
+                    distance: Int(newRun[0]["distance"]!.double),
+                    disabled: Bool(newRun[0]["disabled"]!.integer));
                 self.view.addSubview(self.item3);
             case self.item4!.runId:
                 self.itemLocked = self.item4;
@@ -279,7 +288,8 @@ class RunSelectorViewControllerSwift: UIViewController {
                     startDate: NSDate(timeIntervalSince1970: Double(newRun[0]["startDate"]!.integer)),
                     endDate: NSDate(timeIntervalSince1970: Double(newRun[0]["endDate"]!.integer)),
                     difficulty: newRun[0]["difficulty"]!.integer,
-                    distance: Int(newRun[0]["distance"]!.double));
+                    distance: Int(newRun[0]["distance"]!.double),
+                    disabled: Bool(newRun[0]["disabled"]!.integer));
                 self.view.addSubview(self.item4);
             case self.item5!.runId:
                 self.itemLocked = self.item5;
@@ -289,7 +299,8 @@ class RunSelectorViewControllerSwift: UIViewController {
                     startDate: NSDate(timeIntervalSince1970: Double(newRun[0]["startDate"]!.integer)),
                     endDate: NSDate(timeIntervalSince1970: Double(newRun[0]["endDate"]!.integer)),
                     difficulty: newRun[0]["difficulty"]!.integer,
-                    distance: Int(newRun[0]["distance"]!.double));
+                    distance: Int(newRun[0]["distance"]!.double),
+                    disabled: Bool(newRun[0]["disabled"]!.integer));
                 self.view.addSubview(self.item5);
             default:
                 println("Hmm, something went wrong? o.O");
@@ -308,8 +319,6 @@ class RunSelectorViewControllerSwift: UIViewController {
     }
     
     func itemKilled(timedOut: Bool) {
-        println("The master has recognized that an item was killed..");
-        
         if (timedOut) {
             // Get new item
             HelperFunctions().callWebService("selectable-runs", params: "id=\(self.userId)", callbackSuccess: rearrangeItems, callbackFail: HelperFunctions().webServiceDefaultFail);
@@ -336,7 +345,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         item2 = item1;
         
         // Show new item
-        let newRun = db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance FROM active_runs WHERE userId=(SELECT loggedInUserId FROM settings) AND locked=0 ORDER BY startDate LIMIT 1");
+        let newRun = db.query("SELECT runId, runTypeId, startDate, endDate, difficulty, distance, disabled FROM active_runs WHERE userId=(SELECT loggedInUserId FROM settings) AND locked=0 ORDER BY startDate DESC LIMIT 1");
         
         item1 = RunSelectorItemView(frame: CGRectMake(20, 79, self.view.frame.size.width - 40, 41),
             runId: newRun[0]["runId"]!.integer,
@@ -344,7 +353,8 @@ class RunSelectorViewControllerSwift: UIViewController {
             startDate: NSDate(timeIntervalSince1970: Double(newRun[0]["startDate"]!.integer)),
             endDate: NSDate(timeIntervalSince1970: Double(newRun[0]["endDate"]!.integer)),
             difficulty: newRun[0]["difficulty"]!.integer,
-            distance: Int(newRun[0]["distance"]!.double));
+            distance: Int(newRun[0]["distance"]!.double),
+            disabled: Bool(newRun[0]["disabled"]!.integer));
         self.view.addSubview(item1);
     }
     

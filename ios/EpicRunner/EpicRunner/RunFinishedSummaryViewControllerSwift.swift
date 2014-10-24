@@ -12,6 +12,7 @@ import CoreLocation
 
 class RunFinishedSummaryViewControllerSwift: UIViewController {
     
+    @IBOutlet var lblTitle: UILabel
     @IBOutlet var lblDate: UILabel
     @IBOutlet var lblDistance: UILabel
     @IBOutlet var lblDuration: UILabel
@@ -32,14 +33,23 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
         
+        // realRunId = nil if "Free run", format to db null/int
+        var realRunIdDbFormat:String = "null";
+        if (finishedRun?.realRunId) {
+            realRunIdDbFormat = String(self.finishedRun!.realRunId!);
+            // Get and set runTypeId from db
+            let realRunIdQuery = db.query("SELECT runTypeId FROM active_runs WHERE runId = \(finishedRun!.realRunId!)");
+            self.finishedRun!.runTypeId = realRunIdQuery[0]["runTypeId"]!.integer;
+        }
+        
         // Save run to database
-        db.execute("INSERT INTO runs (userId, startDate, endDate, distance) VALUES((SELECT loggedInUserId FROM Settings),\(Int(finishedRun!.start!.timeIntervalSince1970)),\(Int(finishedRun!.end!.timeIntervalSince1970)),\(finishedRun!.distance))");
+        db.execute("INSERT INTO runs (userId, realRunId, startDate, endDate, distance, runTypeId, aborted) VALUES((SELECT loggedInUserId FROM Settings),\(realRunIdDbFormat),\(Int(finishedRun!.start!.timeIntervalSince1970)),\(Int(finishedRun!.end!.timeIntervalSince1970)),\(finishedRun!.distance),\(finishedRun!.runTypeId),\(Int(finishedRun!.aborted)))");
         self.runId = Int(self.db.lastInsertedRowID());
         
         // Save all logged locations
         for loc in finishedRun!.locations {
             self.db.execute("INSERT INTO runs_location (latitude, runId, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp) VALUES(\(loc.coordinate.latitude),\(runId),\(loc.coordinate.longitude),\(loc.horizontalAccuracy),\(loc.altitude),\(loc.verticalAccuracy),\(loc.speed),\(Int(loc.timestamp.timeIntervalSince1970)))");
-            run_locations += "&latitude[]=\(loc.coordinate.latitude)&longitude[]=\(loc.coordinate.longitude)&horizontal_accuracy[]=\(loc.horizontalAccuracy)&vertical_accuracy[]=\(loc.verticalAccuracy)&altitude[]=\(loc.altitude)&speed[]=\(loc.speed)&timestamp[]=\(Int(loc.timestamp.timeIntervalSince1970))";
+            run_locations += "&la[]=\(loc.coordinate.latitude)&lo[]=\(loc.coordinate.longitude)&ho[]=\(loc.horizontalAccuracy)&ve[]=\(loc.verticalAccuracy)&al[]=\(loc.altitude)&sp[]=\(loc.speed)&ti[]=\(Int(loc.timestamp.timeIntervalSince1970))";
         }
         
         // Populate view
@@ -58,6 +68,12 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
     }
     
     func presentInfo() {
+        if (self.finishedRun!.aborted) {
+            self.lblTitle.text = "Run aborted";
+        } else {
+            self.lblTitle.text = "Run completed";
+        }
+        
         var dateFormatter: NSDateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "MMM. dd, yyyy, HH:mm";
         self.lblDate.text = dateFormatter.stringFromDate(self.finishedRun!.start);
@@ -154,9 +170,15 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         func callbackSuccess(data: AnyObject) {
             println("Upload successful");
             
-            // Update realRunId
-            //let realRunId: Int = dic.objectForKey("id").integerValue;
-            //self.db.execute("UPDATE Runs SET realRunId=\(realRunId) WHERE id=\(self.runId)");
+            // Update realRunId, synced
+            let dic: NSDictionary = data as NSDictionary;
+            let realRunId: Int = dic.objectForKey("posted_id").integerValue;
+            self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.runId)");
+            
+            // Remove from active_runs (run selector) IF NOT free run AND Locked
+            if (self.finishedRun!.realRunId?) {
+                self.db.execute("DELETE FROM active_runs WHERE locked=1 AND runId=\(self.finishedRun!.realRunId!)");
+            }
             
             self.lblSynchronizeStatus.text = "Synchronized";
             self.idcSynchronizeStatus.stopAnimating();
@@ -170,8 +192,9 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
             self.synchronized = true;
         }
         
-        let runDataQuery = self.db.query("SELECT s.loggedInUserId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude FROM Settings s, Runs r WHERE r.id=\(self.runId)");
+        let runDataQuery = self.db.query("SELECT s.loggedInUserId, r.realRunId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude FROM Settings s, Runs r WHERE r.id=\(self.runId)");
         let userId: Int = runDataQuery[0]["loggedInUserId"]!.integer;
+        let realRunId: Int = runDataQuery[0]["realRunId"]!.integer;
         let distance: Double = runDataQuery[0]["distance"]!.double;
         let duration: Double = runDataQuery[0]["duration"]!.double;
         let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.double;
@@ -180,8 +203,13 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.double;
         
         
-        let params: String = "user_id=\(userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
-        HelperFunctions().callWebService("post-free-run", params: params, callbackSuccess: callbackSuccess, callbackFail: callbackError)
+        var params: String = "user_id=\(userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
+        var webService: String = "post-free-run";
+        if (self.finishedRun!.runTypeId != 0) {
+            webService = "post-run";
+            params = "run_id=\(realRunId)&" + params;
+        }
+        HelperFunctions().callWebService(webService, params: params, callbackSuccess: callbackSuccess, callbackFail: callbackError);
     }
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {

@@ -203,6 +203,59 @@ class DetailViewViewControllerSwift: UIViewController {
         }
     }
     
+    @IBAction func btnUpload(sender: AnyObject) {
+        func callbackSuccess(data: AnyObject) {
+            println("Upload successful");
+            
+            // Update realRunId, synced
+            let dic: NSDictionary = data as NSDictionary;
+            let realRunId: Int = dic.objectForKey("posted_id").integerValue;
+            self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.selectedRun!.dbId)");
+            
+            // Remove from active_runs (run selector) IF NOT free run AND Locked
+            if (self.selectedRun!.realRunId?) {
+                self.db.execute("DELETE FROM active_runs WHERE locked=1 AND runId=\(self.selectedRun!.realRunId!)");
+            }
+            
+            println("Synchronized");
+        }
+        
+        func callbackError(err: String) {
+            println(err);
+            println("Synchronize failed");
+        }
+        
+        // If not already synced
+        let runDataQuery = self.db.query("SELECT s.loggedInUserId, r.realRunId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude, r.synced FROM Settings s, Runs r WHERE r.id=\(self.selectedRun!.dbId)");
+        let userId: Int = runDataQuery[0]["loggedInUserId"]!.integer;
+        let realRunId: Int = runDataQuery[0]["realRunId"]!.integer;
+        let distance: Double = runDataQuery[0]["distance"]!.double;
+        let duration: Double = runDataQuery[0]["duration"]!.double;
+        let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.double;
+        let maxSpeed: Double = runDataQuery[0]["maxSpeed"]!.double;
+        let minAltitude: Double = runDataQuery[0]["minAltitude"]!.double;
+        let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.double;
+        let synced: Bool = Bool(runDataQuery[0]["synced"]!.integer);
+        
+        if (synced) {
+            println("Already synced!!");
+        } else {
+            println("Sync started..");
+            var run_locations: String = "";
+            for loc in selectedRun!.locations {
+                run_locations += "&la[]=\(loc.coordinate.latitude)&lo[]=\(loc.coordinate.longitude)&ho[]=\(loc.horizontalAccuracy)&ve[]=\(loc.verticalAccuracy)&al[]=\(loc.altitude)&sp[]=\(loc.speed)&ti[]=\(Int(loc.timestamp.timeIntervalSince1970))";
+            }
+            
+            var params: String = "user_id=\(userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
+            var webService: String = "post-free-run";
+            if (self.selectedRun!.runTypeId != 0) {
+                webService = "post-run";
+                params = "run_id=\(realRunId)&" + params;
+            }
+            HelperFunctions().callWebService(webService, params: params, callbackSuccess: callbackSuccess, callbackFail: callbackError);
+        }
+    }
+    
     // #pragma mark - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {

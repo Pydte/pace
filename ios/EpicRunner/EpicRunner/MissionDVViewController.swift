@@ -16,6 +16,8 @@ class MissionDVViewController: UIViewController {
     @IBOutlet var lblGold: UILabel
     @IBOutlet var lblDescription: UILabel
     
+    var distance: Double = 0.0;
+    
     var selectedRunId = 0;
     let db = SQLiteDB.sharedInstance();
     
@@ -34,6 +36,7 @@ class MissionDVViewController: UIViewController {
         var medalBronze: Int = selectedRunQuery[0]["medalBronze"]!.integer;
         let medalSilver: Int = selectedRunQuery[0]["medalSilver"]!.integer;
         let medalGold: Int = selectedRunQuery[0]["medalGold"]!.integer;
+        distance = selectedRunQuery[0]["distance"]!.double;
         self.title = runTypeName[runType-1];
         
         // Set time remaining
@@ -65,19 +68,19 @@ class MissionDVViewController: UIViewController {
     }
     
     func populateLocationRun() {
-        lblDescription.text = "You have to run from point A to point B and back to point A. Point A is your current physical location when you press 'Generate mission', while point B is a location of our choosing."
+        lblDescription.text = HelperFunctions().runDescription[1];
         lblDescription.numberOfLines = 0;
         lblDescription.sizeToFit();
     }
     
     func populateIntervalRun() {
-        lblDescription.text = "You have to run x intervals, which is made up of two parts; one part walking and one part sprinting. This is a radically different way of running, one of constant high intensity rather than medium, long-term load."
+        lblDescription.text = HelperFunctions().runDescription[2];
         lblDescription.numberOfLines = 0;
         lblDescription.sizeToFit();
     }
     
     func populateCollectorRun() {
-        lblDescription.text = "You have to collect a series of objects and return them to your base (starting point). Each time an object is collected it must be returned to the base. An object is effectively collected by running through its position on the map and is registered as 'collected' by running through the 'base' point on the map. There is no specific order to collect the objects in, but you can only carry one object at the time."
+        lblDescription.text = HelperFunctions().runDescription[3];
         lblDescription.numberOfLines = 0;
         lblDescription.sizeToFit();
     }
@@ -88,14 +91,18 @@ class MissionDVViewController: UIViewController {
     }
     
 
-    /*
+    
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if (segue.identifier == "SegueGenerateRun") {
+            var generateRunViewController: GenerateRunViewController = segue.destinationViewController as GenerateRunViewController;
+            generateRunViewController.runId = self.selectedRunId;
+            generateRunViewController.locRunDistance = self.distance*1000;
+        }
     }
-    */
 
 }

@@ -7,16 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		720CE2381910FEEE00D1FA43 /* DemoSelectorViewController.m.old in Sources */ = {isa = PBXBuildFile; fileRef = 720CE2371910FEEE00D1FA43 /* DemoSelectorViewController.m.old */; };
 		720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */; };
 		720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23D19110BE900D1FA43 /* CJSONSerializer.m */; };
 		720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24019110BE900D1FA43 /* NSDictionary_JSONExtensions.m */; };
 		720CE24519110C0A00D1FA43 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24419110C0A00D1FA43 /* README.txt */; };
 		720CE24919112BA900D1FA43 /* player2_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24819112BA900D1FA43 /* player2_dot.png */; };
 		720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */; };
+		7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */; };
+		7215A81F19FAB69C0041751B /* RunScreenContainerLeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */; };
 		721AF6C519755AB20084E0D1 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721AF6C419755AB20084E0D1 /* Run.swift */; };
 		721AF6C9197569600084E0D1 /* RunSelectorViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721AF6C8197569600084E0D1 /* RunSelectorViewControllerSwift.swift */; };
 		721AF6CB19757A750084E0D1 /* RunSelectorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721AF6CA19757A750084E0D1 /* RunSelectorItemView.swift */; };
+		7224EEDE19F57E98005E701E /* RunScreenContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */; };
 		723A50F919CC6B5F00B443BF /* MissionDVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */; };
 		7244D509197BF6390034D91F /* DetailViewViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D508197BF6390034D91F /* DetailViewViewControllerSwift.swift */; };
 		7244D50B197BF6700034D91F /* DemoSelectorViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D50A197BF6700034D91F /* DemoSelectorViewControllerSwift.swift */; };
@@ -40,11 +42,11 @@
 		72A7C6CD18D87AF4007FF58B /* EpicRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A7C6CC18D87AF4007FF58B /* EpicRunnerTests.m */; };
 		72A7C6D718D87EE8007FF58B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72A7C6D618D87EE8007FF58B /* Main.storyboard */; };
 		72A7C6D918D8813C007FF58B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6D818D8813C007FF58B /* MapKit.framework */; };
-		72A7C6DD18D88417007FF58B /* MapViewController.m.old in Sources */ = {isa = PBXBuildFile; fileRef = 72A7C6DC18D88417007FF58B /* MapViewController.m.old */; };
 		72AA3A3419D9C9E300179DA8 /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72AA3A3319D9C9E300179DA8 /* HelperFunctions.swift */; };
 		72B4FCE51906F4D2002AE72C /* sample-3d-model.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 72B4FCE41906F4D2002AE72C /* sample-3d-model.jpg */; };
 		72B4FCEA1906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72B4FCE91906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 */; };
 		72B4FCEC1906FBED002AE72C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72B4FCEB1906FBED002AE72C /* AVFoundation.framework */; };
+		72BD3D3C19E7FECC00AEAC11 /* GenerateRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BD3D3B19E7FECC00AEAC11 /* GenerateRunViewController.swift */; };
 		72CD37BA19C7676C0049AD4E /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CD37B919C7676C0049AD4E /* MenuViewController.m */; };
 		72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CD37BC19C768520049AD4E /* SWRevealViewController.m */; };
 		72DF2438197AED7800F9A96B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF2437197AED7800F9A96B /* MenuViewController.swift */; };
@@ -82,8 +84,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		720CE2361910FEEE00D1FA43 /* DemoSelectorViewController.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DemoSelectorViewController.h.old; sourceTree = "<group>"; };
-		720CE2371910FEEE00D1FA43 /* DemoSelectorViewController.m.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DemoSelectorViewController.m.old; sourceTree = "<group>"; };
 		720CE23A19110BE900D1FA43 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
 		720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
 		720CE23C19110BE900D1FA43 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
@@ -95,10 +95,13 @@
 		720CE24819112BA900D1FA43 /* player2_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player2_dot.png; sourceTree = "<group>"; };
 		720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.h.old; sourceTree = "<group>"; };
 		720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.m.old; sourceTree = "<group>"; };
+		7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerRightViewController.swift; sourceTree = "<group>"; };
+		7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerLeftViewController.swift; sourceTree = "<group>"; };
 		721AF6C319755AB20084E0D1 /* EpicRunner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EpicRunner-Bridging-Header.h"; sourceTree = "<group>"; };
 		721AF6C419755AB20084E0D1 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
 		721AF6C8197569600084E0D1 /* RunSelectorViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunSelectorViewControllerSwift.swift; sourceTree = "<group>"; };
 		721AF6CA19757A750084E0D1 /* RunSelectorItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunSelectorItemView.swift; sourceTree = "<group>"; };
+		7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerViewController.swift; sourceTree = "<group>"; };
 		723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionDVViewController.swift; sourceTree = "<group>"; };
 		7244D508197BF6390034D91F /* DetailViewViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewViewControllerSwift.swift; sourceTree = "<group>"; };
 		7244D50A197BF6700034D91F /* DemoSelectorViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoSelectorViewControllerSwift.swift; sourceTree = "<group>"; };
@@ -125,12 +128,11 @@
 		72A7C6CC18D87AF4007FF58B /* EpicRunnerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EpicRunnerTests.m; sourceTree = "<group>"; };
 		72A7C6D618D87EE8007FF58B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		72A7C6D818D8813C007FF58B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		72A7C6DB18D88417007FF58B /* MapViewController.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MapViewController.h.old; sourceTree = "<group>"; };
-		72A7C6DC18D88417007FF58B /* MapViewController.m.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MapViewController.m.old; sourceTree = "<group>"; };
 		72AA3A3319D9C9E300179DA8 /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		72B4FCE41906F4D2002AE72C /* sample-3d-model.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "sample-3d-model.jpg"; sourceTree = "<group>"; };
 		72B4FCE91906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "213423__taira-komori__coin05.mp3"; sourceTree = "<group>"; };
 		72B4FCEB1906FBED002AE72C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		72BD3D3B19E7FECC00AEAC11 /* GenerateRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateRunViewController.swift; sourceTree = "<group>"; };
 		72CD37B819C7676C0049AD4E /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		72CD37B919C7676C0049AD4E /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		72CD37BB19C768520049AD4E /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -297,15 +299,11 @@
 				72CD37B819C7676C0049AD4E /* MenuViewController.h */,
 				72CD37B919C7676C0049AD4E /* MenuViewController.m */,
 				72DF2437197AED7800F9A96B /* MenuViewController.swift */,
-				72A7C6DB18D88417007FF58B /* MapViewController.h.old */,
-				72A7C6DC18D88417007FF58B /* MapViewController.m.old */,
 				72A79B7C19813BD80054ADC0 /* MapViewControllerSwift.swift */,
 				7244D510197BF74C0034D91F /* HistoryTableViewControllerSwift.swift */,
 				7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */,
 				7244D508197BF6390034D91F /* DetailViewViewControllerSwift.swift */,
 				72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */,
-				720CE2361910FEEE00D1FA43 /* DemoSelectorViewController.h.old */,
-				720CE2371910FEEE00D1FA43 /* DemoSelectorViewController.m.old */,
 				7244D50A197BF6700034D91F /* DemoSelectorViewControllerSwift.swift */,
 				720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h.old */,
 				720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */,
@@ -314,6 +312,10 @@
 				72F1EBF319BE0CC800DB0DE1 /* LoginViewController.swift */,
 				72F1EBF519BE1D1600DB0DE1 /* SignUpViewController.swift */,
 				723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */,
+				72BD3D3B19E7FECC00AEAC11 /* GenerateRunViewController.swift */,
+				7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */,
+				7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */,
+				7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -444,23 +446,25 @@
 				72F1EBF419BE0CC800DB0DE1 /* LoginViewController.swift in Sources */,
 				7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */,
 				72DF2477197BCC1000F9A96B /* Bridge.m in Sources */,
-				72A7C6DD18D88417007FF58B /* MapViewController.m.old in Sources */,
 				72AA3A3419D9C9E300179DA8 /* HelperFunctions.swift in Sources */,
 				72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */,
 				72DF2470197BCB4B00F9A96B /* SQLiteDB.swift in Sources */,
-				720CE2381910FEEE00D1FA43 /* DemoSelectorViewController.m.old in Sources */,
 				72CD37BA19C7676C0049AD4E /* MenuViewController.m in Sources */,
 				72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */,
+				7215A81F19FAB69C0041751B /* RunScreenContainerLeftViewController.swift in Sources */,
 				72DF246B197BC7C400F9A96B /* AppDelegate.swift in Sources */,
 				721AF6CB19757A750084E0D1 /* RunSelectorItemView.swift in Sources */,
+				72BD3D3C19E7FECC00AEAC11 /* GenerateRunViewController.swift in Sources */,
 				723A50F919CC6B5F00B443BF /* MissionDVViewController.swift in Sources */,
 				7244D50B197BF6700034D91F /* DemoSelectorViewControllerSwift.swift in Sources */,
 				720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */,
 				720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */,
+				7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */,
 				7244D509197BF6390034D91F /* DetailViewViewControllerSwift.swift in Sources */,
 				72F1EBF619BE1D1600DB0DE1 /* SignUpViewController.swift in Sources */,
 				721AF6C9197569600084E0D1 /* RunSelectorViewControllerSwift.swift in Sources */,
 				72DF2438197AED7800F9A96B /* MenuViewController.swift in Sources */,
+				7224EEDE19F57E98005E701E /* RunScreenContainerViewController.swift in Sources */,
 				7244D511197BF74C0034D91F /* HistoryTableViewControllerSwift.swift in Sources */,
 				720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */,
 				7244D50D197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift in Sources */,

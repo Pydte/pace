@@ -23,11 +23,13 @@ class RunSelectorItemView: UIView {
     var runId: Int = 0;
     let lockPlaceholderY: Int = 364;
     let lockPlaceholderX: Int = 20;
+    var disabled = false;
     
-    init(frame: CGRect, runId: Int, type: String, startDate: NSDate, endDate: NSDate, difficulty: Int, distance: Int) {
+    init(frame: CGRect, runId: Int, type: String, startDate: NSDate, endDate: NSDate, difficulty: Int, distance: Int, disabled: Bool) {
         self.startDate = startDate;
         self.endDate = endDate;
         self.totalTime = endDate.timeIntervalSince1970 - startDate.timeIntervalSince1970;
+        self.disabled = disabled;
         
         super.init(frame: frame);
         
@@ -37,6 +39,11 @@ class RunSelectorItemView: UIView {
         self.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0);
         self.runId = runId
         
+        var textColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0);
+        if (disabled) {
+            textColor = UIColor(red: 0.333, green: 0.333, blue: 0.333, alpha: 1.0);
+        }
+        
         // Add timebar
         self.lblTimeBar.contentMode = UIViewContentMode.ScaleToFill;
         self.addSubview(self.lblTimeBar);
@@ -44,11 +51,23 @@ class RunSelectorItemView: UIView {
         // Add type
         let lblType = UILabel(frame: CGRectMake(10, 0, 150, self.frame.size.height));
         lblType.text = type;
+        lblType.textColor = textColor;
         self.addSubview(lblType);
+        
+        // Add disabled
+        if (disabled) {
+            let lblDisabled = UILabel(frame: CGRectMake(self.frame.size.width-40, 2, 40, 10));
+            lblDisabled.text = "Disabled";
+            lblDisabled.font = UIFont(name: lblDisabled.font.fontName, size: 8);
+            lblDisabled.alignmentRectInsets().right;
+            lblDisabled.textColor = textColor;
+            self.addSubview(lblDisabled);
+            
+            self.backgroundColor = UIColor(red: 0.67, green: 0.67, blue: 0.67, alpha: 1.0);
+        }
         
         // Add difficulty
         let lblDiff = UILabel(frame: CGRectMake(self.frame.size.width-30, self.frame.size.height/2-7, 14, 14));
-        lblType.text = type;
         if (difficulty == 1) {
             lblDiff.backgroundColor = UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1.0);
         } else if (difficulty == 2) {
@@ -61,6 +80,7 @@ class RunSelectorItemView: UIView {
         // Add distance
         let lblDist = UILabel(frame: CGRectMake(160, 0, 100, self.frame.size.height));
         lblDist.text = "≈\(distance) km";
+        lblDist.textColor = textColor;
         self.addSubview(lblDist);
         
         
@@ -69,15 +89,29 @@ class RunSelectorItemView: UIView {
         longPress.minimumPressDuration = 1.0;
         self.addGestureRecognizer(longPress);
         
+        // Register tap
+        var tap = UITapGestureRecognizer(target: self, action: "handleTap:");
+        self.addGestureRecognizer(tap);
+        
+        
         // Tick
         self.tickTimer = NSTimer.scheduledTimerWithTimeInterval(self.secBetweenTicks, target: self, selector: "tick", userInfo: nil, repeats: true);
     }
-    
-    override func touchesEnded(touches: NSSet!, withEvent event: UIEvent!) {
-        // On touch open detail view
-        let h = superview.nextResponder() as RunSelectorViewControllerSwift;
-        h.selectedRunId = self.runId;
-        h.performSegueWithIdentifier("segueDetailView", sender: self);
+
+    func handleTap(recognizer: UITapGestureRecognizer) {
+        if (self.disabled) {
+            // On touch, inform this run has been run
+            var alert: UIAlertView = UIAlertView();
+            alert.title = "This run is not available";
+            alert.message = "This run has already been run and is thus not available anymore.";
+            alert.addButtonWithTitle("Ok");
+            alert.show();
+        } else {
+            // On touch open detail view
+            let h = superview.nextResponder() as RunSelectorViewControllerSwift;
+            h.selectedRunId = self.runId;
+            h.performSegueWithIdentifier("segueDetailView", sender: self);
+        }
     }
     
     func move(relative: Bool, coord: CGPoint) {
@@ -101,69 +135,71 @@ class RunSelectorItemView: UIView {
     }
 
     func handleLongPress(recognizer: UILongPressGestureRecognizer) {
-        let point: CGPoint = recognizer.locationInView(self.superview);
-        
-        switch recognizer.state {
-        case UIGestureRecognizerState.Changed:
-            // Move to touched position
-            self.center.x += point.x - self.currentLoc.x;
-            self.center.y += point.y - self.currentLoc.y;
+        if (!self.disabled) {
+            let point: CGPoint = recognizer.locationInView(self.superview);
             
-            // Check for dropzone
-            if (self.frame.origin.y > 345 && self.frame.origin.y < 390) {
-                self.toBeLocked = true;
-                self.backgroundColor = UIColor(red: 0.1, green: 0.7, blue: 0.1, alpha: 1.0);
-            } else {
-                self.toBeLocked = false;
+            switch recognizer.state {
+            case UIGestureRecognizerState.Changed:
+                // Move to touched position
+                self.center.x += point.x - self.currentLoc.x;
+                self.center.y += point.y - self.currentLoc.y;
+                
+                // Check for dropzone
+                if (self.frame.origin.y > 345 && self.frame.origin.y < 390) {
+                    self.toBeLocked = true;
+                    self.backgroundColor = UIColor(red: 0.1, green: 0.7, blue: 0.1, alpha: 1.0);
+                } else {
+                    self.toBeLocked = false;
+                    self.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0);
+                }
+                
+            case UIGestureRecognizerState.Began:
+                println("LONG PRESS BEGAN");
                 self.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0);
+                self.layer.zPosition = 99;
+                
+            case UIGestureRecognizerState.Ended:
+                println("LONG PRESS ENDED");
+                self.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0);
+                self.layer.zPosition = 1;
+                
+                // Check for dropzone
+                if (self.toBeLocked) {
+                    // Lock run
+                    lock();
+                    
+                    // Snap to placeholder
+                    UIView.animateWithDuration(0.5,
+                        delay: 0.1,
+                        options: .CurveEaseOut,
+                        animations: { _ in
+                            self.frame.origin = CGPoint(x: self.lockPlaceholderX, y: self.lockPlaceholderY);
+                        },
+                        completion: { _ in
+                        }
+                    );
+                    
+                    println("My time among you suckers are over! [item locks]");
+                } else {
+                    //  Restore position
+                    UIView.animateWithDuration(0.5,
+                        delay: 0.1,
+                        options: .CurveEaseOut,
+                        animations: { _ in
+                            self.frame.origin = self.originalLoc;
+                        },
+                        completion: { _ in
+                            println("item pos restored");
+                        }
+                    );
+                }
+                
+            default:
+                ();
             }
             
-        case UIGestureRecognizerState.Began:
-            println("LONG PRESS BEGAN");
-            self.backgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0);
-            self.layer.zPosition = 99;
-            
-        case UIGestureRecognizerState.Ended:
-            println("LONG PRESS ENDED");
-            self.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0);
-            self.layer.zPosition = 1;
-            
-            // Check for dropzone
-            if (self.toBeLocked) {
-                // Lock run
-                lock();
-                
-                // Snap to placeholder
-                UIView.animateWithDuration(0.5,
-                    delay: 0.1,
-                    options: .CurveEaseOut,
-                    animations: { _ in
-                        self.frame.origin = CGPoint(x: self.lockPlaceholderX, y: self.lockPlaceholderY);
-                    },
-                    completion: { _ in
-                    }
-                );
-                
-                println("My time among you suckers are over! [item locks]");
-            } else {
-                //  Restore position
-                UIView.animateWithDuration(0.5,
-                    delay: 0.1,
-                    options: .CurveEaseOut,
-                    animations: { _ in
-                        self.frame.origin = self.originalLoc;
-                    },
-                    completion: { _ in
-                        println("item pos restored");
-                    }
-                );
-            }
-            
-        default:
-            ();
+            self.currentLoc = point;
         }
-        
-        self.currentLoc = point;
     }
     
     func tick() -> Bool {
@@ -173,11 +209,10 @@ class RunSelectorItemView: UIView {
         
         if (t > 100) {
             // 100 %, we're done
-            
-            destroy(true);
             println("My time on this planet is over! [item commits suicide]");
+            destroy(true);
             
-            return true;
+            return false;
             
         } else if (t > 90) {
             // Above 90 %, make red, add progress
@@ -241,11 +276,12 @@ class RunSelectorItemView: UIView {
     }
     
     func destroy(timedOut: Bool) {
-        if (!destroyed) {
-            println("destroY: \(self.runId) - \(timedOut)");
+        if (!self.destroyed) {
             // To avoid the rediculous case where the destroy function already is scheduled
             // and then gets called before the scheduled one
-            destroyed = true;
+            self.destroyed = true;
+            
+            //println("destroY: \(self.runId) - \(timedOut)");
             
             // Clean up timer (we want no memory leak, yirks!)
             self.tickTimer?.invalidate();
@@ -258,6 +294,10 @@ class RunSelectorItemView: UIView {
             // Commit suicide
             self.removeFromSuperview();
         }
+    }
+    
+    deinit {
+        self.tickTimer?.invalidate();
     }
     
     /*

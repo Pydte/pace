@@ -1,0 +1,283 @@
+//
+//  GenerateRunViewController.swift
+//  EpicRunner
+//
+//  Created by Jeppe on 10/10/14.
+//  Copyright (c) 2014 Pandisign ApS. All rights reserved.
+//
+
+import UIKit
+import MapKit
+
+class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIAlertViewDelegate {
+
+    @IBOutlet var btnReady: UIButton
+    @IBOutlet var mapView: MKMapView
+    @IBOutlet var loadingIndicator: UIActivityIndicatorView
+    
+    let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
+    var locationManager: CLLocationManager = CLLocationManager();
+    let db = SQLiteDB.sharedInstance();
+    
+    var btnReadyWorking: Bool = false;
+    var countDownCounter: Int = 5;
+    var countDownTimer: NSTimer? = nil;
+    
+    var runId: Int = 0; //Is set from other controller
+    
+    // Location Run
+    var locRunPointA: CLLocationCoordinate2D? = nil;
+    var locRunPointB: CLLocationCoordinate2D? = nil;
+    var locRunDistance: Double = 0.0; //Is set from other controller
+    var locRunGenPointTotalTries: Int = 0;
+    var locRunGenPointTries: Int = 0;
+    var locRunGenPointAccumDist: Double = 0.0;
+    var locRunShootOutDistance: Double = 0.0;
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+        // Init location manager
+        self.locationManager.distanceFilter = kCLDistanceFilterNone;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        self.locationManager.delegate = self;
+        self.locationManager.pausesLocationUpdatesAutomatically = false;
+        
+        if (self.iosVersion >= 8) {
+            self.locationManager.requestWhenInUseAuthorization(); // Necessary for iOS 8 and crashes iOS 7...
+        }
+        self.locationManager.startUpdatingLocation();
+        
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func btnReadyTouchUp(sender: AnyObject) {
+        if (self.btnReadyWorking == false) {
+            if (self.btnReady.titleLabel.text == "Run now") {
+                // RUN NOW
+                let pU = CLLocation(latitude: self.mapView.userLocation.coordinate.latitude, longitude: self.mapView.userLocation.coordinate.longitude);
+                let pA = CLLocation(latitude: self.locRunPointA!.latitude, longitude: self.locRunPointA!.longitude);
+                if (pU.distanceFromLocation(pA) >= 50.0) {
+                    // Get back to starting location!
+                    var alert: UIAlertView = UIAlertView()
+                    alert.title = "Get back!"
+                    alert.message = "You have moved too far away from your chosen start location. Move back to start the run."
+                    alert.addButtonWithTitle("Ok")
+                    alert.show()
+                } else {
+                    // START
+                    self.btnReadyWorking = true;
+                    self.countDownTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "countDown", userInfo: nil, repeats: true);
+                }
+            } else if (self.btnReady.titleLabel.text == "Ready"){
+                // READY
+                var alert: UIAlertView = UIAlertView();
+                alert.title = "Be aware!";
+                alert.message = "Your current location will be the start location of the run, this cannot be changed.";
+                alert.addButtonWithTitle("Ok");
+                alert.addButtonWithTitle("Cancel");
+                alert.delegate = self;
+                alert.show();
+            } else {
+                // TRY AGAIN
+                self.locRunGenPointTotalTries = 0;
+                preGenerateRoute(false);
+            }
+        }
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex:NSInteger)
+    {
+        if (buttonIndex == 0)
+        {
+            // Ok
+            preGenerateRoute(true);
+        }
+        else if(buttonIndex == 1)
+        {
+            // Cancel
+        }
+    }
+    
+    func preGenerateRoute(firstTime: Bool) {
+        // Loading state
+        self.btnReadyWorking = true;
+        self.btnReady.setTitle("Preparing your run..", forState: UIControlState.Normal);
+        self.btnReady.backgroundColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1.0);
+        self.loadingIndicator.startAnimating();
+        
+        if (firstTime) {
+            // Lock start point
+            self.locRunPointA = self.mapView.userLocation.coordinate;
+        
+            // Draw start point on map
+            var pointAAnno: MKPointAnnotation = MKPointAnnotation();
+            pointAAnno.coordinate = self.locRunPointA!;
+            self.mapView.addAnnotation(pointAAnno);
+        
+            // Set region on map
+            let region: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.coordinate,
+                self.locRunDistance * 1.5,
+                self.locRunDistance * 1.5);
+            self.mapView.setRegion(region, animated:true);
+        }
+        
+        // Generate point B
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "generateRoute", userInfo: nil, repeats: false);
+    }
+    
+    func generateRoute() {
+        println("Generating interesting goal point!!");
+        
+        //Wished distance
+        var wishedDistInMeters: Double = self.locRunDistance;
+        //Shoot out distance
+        var shootOutDistInMeters: Double = self.locRunShootOutDistance;
+        //Acceptable distance (200m + 5%)
+        var acceptableDeltaDistInMeters: Double = 200.0 + self.locRunDistance*0.05;
+
+        
+        // Generate random point, x distance away
+        let bearing: Double = Double(arc4random_uniform(360000))/1000.0;
+        var autopoint1Annotation: MKPointAnnotation = MKPointAnnotation();
+        autopoint1Annotation.coordinate = HelperFunctions().coordinateFromCoord(self.locRunPointA!, distanceKm: (shootOutDistInMeters-acceptableDeltaDistInMeters)/1000.0, bearingDegrees: bearing);
+        
+        
+        // Get point on nearest road
+        let placemarkSource: MKPlacemark = MKPlacemark(coordinate: self.mapView.userLocation.coordinate, addressDictionary: nil);
+        let mapItemSource: MKMapItem = MKMapItem(placemark: placemarkSource);
+        
+        let placemarkDest: MKPlacemark = MKPlacemark(coordinate: autopoint1Annotation.coordinate, addressDictionary: nil);
+        let mapItemDest: MKMapItem = MKMapItem(placemark:placemarkDest);
+        
+        var walkingRouteRequest: MKDirectionsRequest = MKDirectionsRequest();
+        walkingRouteRequest.transportType = MKDirectionsTransportType.Walking;
+        walkingRouteRequest.setSource(mapItemSource);
+        walkingRouteRequest.setDestination(mapItemDest);
+        
+        var walkingRouteDirections: MKDirections = MKDirections(request: walkingRouteRequest);
+        walkingRouteDirections.calculateDirectionsWithCompletionHandler({(response:MKDirectionsResponse!, error: NSError!) in
+            self.locRunGenPointTotalTries++;
+            
+            if (error) {
+                //Some error happened, try again :)
+                println("Error %@", error.description);
+                
+                //If too many tries, do not continue
+                if (self.locRunGenPointTotalTries <= 16) {
+                    self.generateRoute();
+                } else {
+                    println("I GIVE UP11!!!!");
+                    // Change btn state
+                    self.btnReady.setTitle("Try again (ready)", forState: UIControlState.Normal);
+                    self.btnReady.backgroundColor = UIColor(red: 0.5, green: 0, blue: 0.5, alpha: 1.0);
+                    self.loadingIndicator.stopAnimating();
+                    self.btnReadyWorking = false;
+                }
+            } else {
+                // Take the last MKRoute object
+                let route: MKRoute = response.routes[response.routes.count-1] as MKRoute;
+                let pointCount: Int = route.polyline.pointCount;
+                
+                // Allocate a array to hold 1 points/coordinates
+                // - Important to add 1 dummy item, which will be overwritten
+                var routeCoordinates: [CLLocationCoordinate2D] = [CLLocationCoordinate2D(latitude: 0, longitude: 0)];
+                
+                // Get the last coordinate of the polyline
+                route.polyline.getCoordinates(&routeCoordinates, range: NSMakeRange(pointCount-1, 1));
+                
+                // Save data to adjust distance to "shoot out"
+                self.locRunGenPointTries++;
+                self.locRunGenPointAccumDist += route.distance;
+                
+                if (route.distance < wishedDistInMeters+acceptableDeltaDistInMeters && route.distance > wishedDistInMeters-acceptableDeltaDistInMeters) {
+                    
+                    // Acceptable distance
+                    let routeDistanceFormat = NSString(format: "%.2f", route.distance);
+                    let bearingFormat = NSString(format: "%.2f", bearing);
+                    println("Acceptable distance - distance was: \(routeDistanceFormat), with bearing: \(bearingFormat)");
+                    
+                    // Update annotation  --THIS FAILS, or does it?
+                    self.locRunPointB = routeCoordinates[0];
+                    
+                    // Draw point on map
+                    var pointBAnno: MKPointAnnotation = MKPointAnnotation();
+                    pointBAnno.coordinate = self.locRunPointB!;
+                    self.mapView.addAnnotation(pointBAnno);
+                    
+                    // Save data in database
+                    // TODO: Save that the run is selected, pointA and pointB.
+                    self.db.execute("UPDATE active_runs SET disabled=1 WHERE runId=\(self.runId)");
+                    
+                    // Change btn state
+                    self.btnReady.setTitle("Run now", forState: UIControlState.Normal);
+                    self.btnReady.backgroundColor = UIColor(red: 0, green: 1.0, blue: 0, alpha: 1.0);
+                    self.loadingIndicator.stopAnimating();
+                    self.btnReadyWorking = false;
+                    
+                } else {
+                    // Not acceptable distance
+                    let routeDistanceFormat = NSString(format: "%.2f", route.distance);
+                    let bearingFormat = NSString(format: "%.2f", bearing);
+                    println("NOT acceptable distance, retrying! - distance was: \(routeDistanceFormat), with bearing: \(bearingFormat)");
+                    //Generate new rand point, test distance again.
+                    //Maybe, if possible, take part of route to the discarded point?
+                    
+                    //This shoot out distance doesn't seems to work, adjust it
+                    if (self.locRunGenPointTries == 5) {
+                        //See how much we differ in average
+                        let avgDistDiffer: Double = self.locRunGenPointAccumDist / Double(self.locRunGenPointTries) - self.locRunDistance;
+                        self.locRunShootOutDistance -= (avgDistDiffer/2);
+                        
+                        self.locRunGenPointTries = 0;
+                        self.locRunGenPointAccumDist = 0;
+                        println("Adjusting shoot out length with -\(avgDistDiffer)");
+                    }
+                    
+                    //If too many tries, do not continue
+                    if (self.locRunGenPointTotalTries <= 16) {
+                        self.generateRoute();
+                    } else {
+                        println("I GIVE UP22!!!!");
+                        // Change btn state
+                        self.btnReady.setTitle("Try again (ready)", forState: UIControlState.Normal);
+                        self.btnReady.backgroundColor = UIColor(red: 0.5, green: 0, blue: 0.5, alpha: 1.0);
+                        self.loadingIndicator.stopAnimating();
+                        self.btnReadyWorking = false;
+                    }
+                }
+            }
+        })
+    }
+
+    func countDown() {
+        if (self.countDownCounter == 0) {
+            self.countDownTimer?.invalidate();
+            self.performSegueWithIdentifier("segueLocationRun", sender: self);
+        } else {
+            self.btnReady.setTitle("Go in \(self.countDownCounter) seconds!", forState: UIControlState.Normal);
+            self.countDownCounter -= 1;
+        }
+    }
+
+    
+    // #pragma mark - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if (segue.identifier == "segueLocationRun") {
+            let mapViewController: MapViewControllerSwift = segue.destinationViewController as MapViewControllerSwift;
+            mapViewController.locRunActive = true;
+            mapViewController.locRunPointA = self.locRunPointA;
+            mapViewController.locRunPointB = self.locRunPointB;
+            mapViewController.runId = self.runId;
+        }
+    }
+    
+}
