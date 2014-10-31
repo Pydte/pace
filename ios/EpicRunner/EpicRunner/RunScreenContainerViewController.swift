@@ -24,6 +24,9 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     // Shared
     var multiplayer: Bool = false;
     var runTypeId: Int = 0;
+    var medalBronze: Int = 0;
+    var medalSilver: Int = 0;
+    var medalGold: Int = 0;
     
     /// Location Run
     var locRunActive: Bool = false;

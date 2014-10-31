@@ -108,5 +108,14 @@ class HelperFunctions {
         let result: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude:  degreesFromRadians(toLatRadians), longitude: degreesFromRadians(toLonRadians));
         return result;
     }
+    
+    // Takes secs and returns "MM:SS"
+    func formatSecToMinSec(secs: Int) -> String {
+        let runTimeInMinutes: Double = Double(secs) / Double(60);
+        let runRemainingTimeInSeconds: Double = fmod(Double(secs), 60);
+        let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
+        let runRemainingTimeInSecondsFormat = NSString(format: "%02d", Int(runRemainingTimeInSeconds));
+        return "\(runTimeInMinutesFormat):\(runRemainingTimeInSecondsFormat)";
+    }
    
 }

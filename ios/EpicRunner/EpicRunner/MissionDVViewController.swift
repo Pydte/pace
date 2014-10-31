@@ -15,12 +15,21 @@ class MissionDVViewController: UIViewController {
     @IBOutlet var lblSilver: UILabel
     @IBOutlet var lblGold: UILabel
     @IBOutlet var lblDescription: UILabel
+    @IBOutlet var lblDistance: UILabel
     
     var distance: Double = 0.0;
+    var difficulty: Int = 0;
+    var medalBronze: Int = 0;
+    var medalSilver: Int = 0;
+    var medalGold: Int = 0;
     
     var selectedRunId = 0;
+    var selectedRunTypeId = 0;
     let db = SQLiteDB.sharedInstance();
     
+    var intervalsBronze: Int = 0;
+    var intervalsSilver: Int = 0;
+    var intervalsGold: Int = 0;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,14 +39,15 @@ class MissionDVViewController: UIViewController {
         
         let runTypeName = ["Location Run","Interval Run","Collector Run"];
         
-        let runType: Int = selectedRunQuery[0]["runTypeId"]!.integer;
+        self.selectedRunTypeId = selectedRunQuery[0]["runTypeId"]!.integer;
         let endDateUnix: Int = selectedRunQuery[0]["endDate"]!.integer;
         let locked: Bool = Bool(selectedRunQuery[0]["locked"]!.integer);
-        var medalBronze: Int = selectedRunQuery[0]["medalBronze"]!.integer;
-        let medalSilver: Int = selectedRunQuery[0]["medalSilver"]!.integer;
-        let medalGold: Int = selectedRunQuery[0]["medalGold"]!.integer;
-        distance = selectedRunQuery[0]["distance"]!.double;
-        self.title = runTypeName[runType-1];
+        self.medalBronze = selectedRunQuery[0]["medalBronze"]!.integer;
+        self.medalSilver = selectedRunQuery[0]["medalSilver"]!.integer;
+        self.medalGold = selectedRunQuery[0]["medalGold"]!.integer;
+        self.difficulty = selectedRunQuery[0]["difficulty"]!.integer;
+        self.distance = selectedRunQuery[0]["distance"]!.double;
+        self.title = runTypeName[self.selectedRunTypeId-1];
         
         // Set time remaining
         if (locked) {
@@ -49,13 +59,15 @@ class MissionDVViewController: UIViewController {
             lblTimeRemaning.text = "This mission runs out at \(endDateFormatter.stringFromDate(endDate))";
         }
         
-        // Set medals
-        lblBronze.text = "\(medalBronze)";
-        lblSilver.text = "\(medalSilver)";
-        lblGold.text = "\(medalGold)";
+        // Set distance
+        lblDistance.text = "Distance: " + NSString(format: "%.2f km", self.distance);
         
+        // Set description
+        lblDescription.text = HelperFunctions().runDescription[self.selectedRunTypeId];
+        lblDescription.numberOfLines = 0;
+        lblDescription.sizeToFit();
         
-        switch runType {
+        switch self.selectedRunTypeId {
         case 1:
             populateLocationRun();
         case 2:
@@ -68,21 +80,54 @@ class MissionDVViewController: UIViewController {
     }
     
     func populateLocationRun() {
-        lblDescription.text = HelperFunctions().runDescription[1];
-        lblDescription.numberOfLines = 0;
-        lblDescription.sizeToFit();
+        // Set medals
+        if (medalBronze == 0) {
+            lblBronze.text = "If finish";
+        } else {
+            lblBronze.text = "in \(HelperFunctions().formatSecToMinSec(medalBronze))";
+        }
+        lblSilver.text = "in \(HelperFunctions().formatSecToMinSec(medalSilver))";
+        lblGold.text = "in \(HelperFunctions().formatSecToMinSec(medalGold))";
     }
     
     func populateIntervalRun() {
-        lblDescription.text = HelperFunctions().runDescription[2];
-        lblDescription.numberOfLines = 0;
-        lblDescription.sizeToFit();
+        switch self.difficulty {
+        case 1:
+            self.intervalsBronze = 3;
+            self.intervalsSilver = 4;
+            self.intervalsGold = 5;
+        case 2:
+            self.intervalsBronze = 3;
+            self.intervalsSilver = 5;
+            self.intervalsGold = 7;
+        case 3:
+            self.intervalsBronze = 4;
+            self.intervalsSilver = 7;
+            self.intervalsGold = 10;
+        default:
+            println("Unknown difficulty");
+        }
+        
+        // Override "Distance" label with intervals
+        lblDistance.text = "Intervals: \(self.intervalsGold) (\(self.intervalsGold*2) min)";
+        
+        // Set medals
+        lblBronze.text = "\(self.intervalsBronze) intervals";
+        lblSilver.text = "\(self.intervalsSilver) intervals";
+        lblGold.text = "\(self.intervalsGold) intervals";
     }
     
     func populateCollectorRun() {
-        lblDescription.text = HelperFunctions().runDescription[3];
-        lblDescription.numberOfLines = 0;
-        lblDescription.sizeToFit();
+        // Set medals
+        if (medalBronze == 0) {
+            lblBronze.text = "If finish";
+        } else if (medalBronze == 1) {
+            lblBronze.text = "\(medalBronze) object";
+        } else {
+            lblBronze.text = "\(medalBronze) objects";
+        }
+        lblSilver.text = "\(medalSilver) objects";
+        lblGold.text = "\(medalGold) objects";
     }
     
     override func didReceiveMemoryWarning() {
@@ -101,7 +146,11 @@ class MissionDVViewController: UIViewController {
         if (segue.identifier == "SegueGenerateRun") {
             var generateRunViewController: GenerateRunViewController = segue.destinationViewController as GenerateRunViewController;
             generateRunViewController.runId = self.selectedRunId;
+            generateRunViewController.runTypeId = self.selectedRunTypeId;
             generateRunViewController.locRunDistance = self.distance*1000;
+            generateRunViewController.medalBronze = self.medalBronze;
+            generateRunViewController.medalSilver = self.medalSilver;
+            generateRunViewController.medalGold = self.medalGold;
         }
     }
 

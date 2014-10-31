@@ -23,7 +23,15 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     var countDownCounter: Int = 5;
     var countDownTimer: NSTimer? = nil;
     
-    var runId: Int = 0; //Is set from other controller
+    var runId: Int = 0;              //Is set from other controller
+    var runTypeId: Int = 0;          //Is set from other controller
+    var medalBronze: Int = 0;        //Is set from other controller
+    var medalSilver: Int = 0;        //Is set from other controller
+    var medalGold: Int = 0;          //Is set from other controller
+    var estimatedDistance: Int = 1;
+    
+    var totalNeededPoints: Int = 0;
+    var distancePerPoint: [Double] = [];
     
     // Location Run
     var locRunPointA: CLLocationCoordinate2D? = nil;
@@ -34,9 +42,14 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     var locRunGenPointAccumDist: Double = 0.0;
     var locRunShootOutDistance: Double = 0.0;
     
+    // Collector Run
+    var locRunPointHome: CLLocationCoordinate2D? = nil;
+    var locRunPoints: [CLLocationCoordinate2D] = [];
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         // Init location manager
         self.locationManager.distanceFilter = kCLDistanceFilterNone;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -113,6 +126,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         if (firstTime) {
             // Lock start point
             self.locRunPointA = self.mapView.userLocation.coordinate;
+            self.locRunPointHome = self.mapView.userLocation.coordinate;
         
             // Draw start point on map
             var pointAAnno: MKPointAnnotation = MKPointAnnotation();
@@ -124,27 +138,55 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                 self.locRunDistance * 1.5,
                 self.locRunDistance * 1.5);
             self.mapView.setRegion(region, animated:true);
+        
+            
+            switch self.runTypeId {
+            case 1:
+                println("LocRun");
+                self.totalNeededPoints = 1;
+                self.distancePerPoint.append(self.locRunDistance/2);
+                
+            case 2:
+                println("IntRun");
+            case 3:
+                println("ColRun");
+                self.totalNeededPoints = 5;
+                self.distancePerPoint.append(self.locRunDistance/2/5); //Very simple split, we could find something more interesting!
+                self.distancePerPoint.append(self.locRunDistance/2/5);
+                self.distancePerPoint.append(self.locRunDistance/2/5);
+                self.distancePerPoint.append(self.locRunDistance/2/5);
+                self.distancePerPoint.append(self.locRunDistance/2/5);
+                
+            default:
+                println("Unkown runTypeId in GenerateRunViewController");
+            }
         }
+        
         
         // Generate point B
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "generateRoute", userInfo: nil, repeats: false);
     }
     
     func generateRoute() {
-        println("Generating interesting goal point!!");
+        println("Generating interesting goal points!!");
         
-        //Wished distance
-        var wishedDistInMeters: Double = self.locRunDistance;
-        //Shoot out distance
-        var shootOutDistInMeters: Double = self.locRunShootOutDistance;
+        for dist in self.distancePerPoint {
+            println("Gen for point with dist: \(dist)");
+            generateRoute_worker(dist, shootOutDist: dist, accumDist: 0.0, totalTried: 1, totalFail: 0);
+        }
+    }
+    
+    func generateRoute_worker(wishedDist: Double, shootOutDist: Double, accumDist: Double, totalTried: Int, totalFail: Int) {
+        println("dist:\(wishedDist) - shootOutDist:\(shootOutDist) - accumDist:\(accumDist) - totalTried:\(totalTried)");
+        
         //Acceptable distance (200m + 5%)
-        var acceptableDeltaDistInMeters: Double = 200.0 + self.locRunDistance*0.05;
+        var acceptableDeltaDistInMeters: Double = 200.0 + wishedDist*0.05;
 
         
         // Generate random point, x distance away
         let bearing: Double = Double(arc4random_uniform(360000))/1000.0;
         var autopoint1Annotation: MKPointAnnotation = MKPointAnnotation();
-        autopoint1Annotation.coordinate = HelperFunctions().coordinateFromCoord(self.locRunPointA!, distanceKm: (shootOutDistInMeters-acceptableDeltaDistInMeters)/1000.0, bearingDegrees: bearing);
+        autopoint1Annotation.coordinate = HelperFunctions().coordinateFromCoord(self.locRunPointA!, distanceKm: shootOutDist/1000.0, bearingDegrees: bearing);
         
         
         // Get point on nearest road
@@ -161,15 +203,18 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         
         var walkingRouteDirections: MKDirections = MKDirections(request: walkingRouteRequest);
         walkingRouteDirections.calculateDirectionsWithCompletionHandler({(response:MKDirectionsResponse!, error: NSError!) in
-            self.locRunGenPointTotalTries++;
-            
+
             if (error) {
                 //Some error happened, try again :)
-                println("Error %@", error.description);
+                if (error.code == 5) {
+                    println("Directions not available");
+                } else {
+                    println("Error %@", error.description);
+                }
                 
                 //If too many tries, do not continue
-                if (self.locRunGenPointTotalTries <= 16) {
-                    self.generateRoute();
+                if (totalTried <= 16) {
+                    self.generateRoute_worker(wishedDist, shootOutDist: shootOutDist, accumDist: accumDist, totalTried: totalTried+1, totalFail: totalFail+1);
                 } else {
                     println("I GIVE UP11!!!!");
                     // Change btn state
@@ -190,19 +235,17 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                 // Get the last coordinate of the polyline
                 route.polyline.getCoordinates(&routeCoordinates, range: NSMakeRange(pointCount-1, 1));
                 
-                // Save data to adjust distance to "shoot out"
-                self.locRunGenPointTries++;
-                self.locRunGenPointAccumDist += route.distance;
-                
-                if (route.distance < wishedDistInMeters+acceptableDeltaDistInMeters && route.distance > wishedDistInMeters-acceptableDeltaDistInMeters) {
+                if (route.distance < wishedDist+acceptableDeltaDistInMeters && route.distance > wishedDist-acceptableDeltaDistInMeters) {
                     
                     // Acceptable distance
+                    self.estimatedDistance = Int(route.distance*2);
                     let routeDistanceFormat = NSString(format: "%.2f", route.distance);
                     let bearingFormat = NSString(format: "%.2f", bearing);
                     println("Acceptable distance - distance was: \(routeDistanceFormat), with bearing: \(bearingFormat)");
                     
                     // Update annotation  --THIS FAILS, or does it?
                     self.locRunPointB = routeCoordinates[0];
+                    self.locRunPoints.append(routeCoordinates[0]);
                     
                     // Draw point on map
                     var pointBAnno: MKPointAnnotation = MKPointAnnotation();
@@ -228,19 +271,18 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                     //Maybe, if possible, take part of route to the discarded point?
                     
                     //This shoot out distance doesn't seems to work, adjust it
-                    if (self.locRunGenPointTries == 5) {
+                    var newShootOutDist: Double = shootOutDist;
+                    if ((totalTried-totalFail) % 5 == 0) {
                         //See how much we differ in average
-                        let avgDistDiffer: Double = self.locRunGenPointAccumDist / Double(self.locRunGenPointTries) - self.locRunDistance;
-                        self.locRunShootOutDistance -= (avgDistDiffer/2);
+                        let avgDistDiffer: Double = accumDist / Double(totalTried) - wishedDist;
+                        newShootOutDist -= (avgDistDiffer/2);
                         
-                        self.locRunGenPointTries = 0;
-                        self.locRunGenPointAccumDist = 0;
                         println("Adjusting shoot out length with -\(avgDistDiffer)");
                     }
                     
                     //If too many tries, do not continue
-                    if (self.locRunGenPointTotalTries <= 16) {
-                        self.generateRoute();
+                    if (totalTried <= 16) {
+                        self.generateRoute_worker(wishedDist, shootOutDist: newShootOutDist, accumDist: accumDist+route.distance, totalTried: totalTried+1, totalFail: totalFail);
                     } else {
                         println("I GIVE UP22!!!!");
                         // Change btn state
@@ -272,11 +314,16 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segueLocationRun") {
-            let mapViewController: MapViewControllerSwift = segue.destinationViewController as MapViewControllerSwift;
-            mapViewController.locRunActive = true;
-            mapViewController.locRunPointA = self.locRunPointA;
-            mapViewController.locRunPointB = self.locRunPointB;
-            mapViewController.runId = self.runId;
+            let runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+            runScreenViewController.locRunActive = true;
+            runScreenViewController.locRunPointA = self.locRunPointA;
+            runScreenViewController.locRunPointB = self.locRunPointB;
+            runScreenViewController.runId = self.runId;
+            runScreenViewController.medalBronze = self.medalBronze;
+            runScreenViewController.medalSilver = self.medalSilver;
+            runScreenViewController.medalGold = self.medalGold;
+            runScreenViewController.estimatedDistanceInM = self.estimatedDistance;
+            runScreenViewController.runTypeId = self.runTypeId;
         }
     }
     

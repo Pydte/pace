@@ -120,7 +120,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                 view = MKAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotationIdentifier")
                 
                 // This will rescale the annotation view to fit the image
-                view!.image = UIImage(named: "player2_dot");
+                view!.image = UIImage(named: "green_pin");
             }
         }
         return view;

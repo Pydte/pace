@@ -98,12 +98,12 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         if(segue.identifier? == "SegueStartRun") {
-            var mapViewController: MapViewControllerSwift = segue.destinationViewController as MapViewControllerSwift;
-            mapViewController.autoroute1 = true;
-            mapViewController.onePointLocationRunDistance = (self.approxDistField.text as NSString).doubleValue * 1000.0;
+            var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+            runScreenViewController.autoroute1 = true;
+            runScreenViewController.onePointLocationRunDistance = (self.approxDistField.text as NSString).doubleValue * 1000.0;
             
             if (!self.endPosAuto) {
-                mapViewController.onePointLocationLocation = self.location;
+                runScreenViewController.onePointLocationLocation = self.location;
             }
             
             println("start run");

@@ -44,12 +44,12 @@ class DemoSelectorViewControllerSwift: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         //Always show navigationBar
         if(segue.identifier? == "SegueMultiplayer") {
-            var mapViewController: MapViewControllerSwift = segue.destinationViewController as MapViewControllerSwift;
-            mapViewController.multiplayer = true;
+            var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+            runScreenViewController.multiplayer = true;
         } else if (segue.identifier? == "Segue1AutoRoute") {
-            var mapViewController: MapViewControllerSwift = segue.destinationViewController as MapViewControllerSwift;
-            mapViewController.autoroute1 = true;
-            mapViewController.onePointLocationRunDistance = self.OnePointLocationRunDistance;
+            var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+            runScreenViewController.autoroute1 = true;
+            runScreenViewController.onePointLocationRunDistance = self.OnePointLocationRunDistance;
         }
         
   

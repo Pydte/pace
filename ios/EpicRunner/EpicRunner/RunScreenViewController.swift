@@ -1,5 +1,5 @@
 //
-//  MapViewControllerSwift.swift
+//  RunScreenViewController.swift
 //  EpicRunner
 //
 //  Created by Jeppe on 24/07/14.
@@ -10,11 +10,14 @@ import UIKit
 import MapKit
 import AVFoundation
 
-class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
+class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
     @IBOutlet var btnMenu: UIBarButtonItem
     @IBOutlet var runButton: UIButton
     @IBOutlet var container: UIView
     @IBOutlet var lblGps: UILabel
+    @IBOutlet var lblCurrentObj: UILabel
+    @IBOutlet var lblTotalPossibleProgress: UILabel
+    @IBOutlet var lblTotalMadeProgerss: UILabel
     
     let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
     var locationManager: CLLocationManager = CLLocationManager();
@@ -46,7 +49,12 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
     var onePointLocationRunShootOutDistance: Double = 0.0;
     
     // Stuff
-    var runId: Int = 0;
+    var runId: Int = 0;           //Is set from other controller
+    var runTypeId: Int = 0;       //Is set from other controller
+    var medalBronze: Int = 0;     //Is set from other controller
+    var medalSilver: Int = 0;     //Is set from other controller
+    var medalGold: Int = 0;       //Is set from other controller
+    var estimatedDistanceInM = 1; //Is set from other controller
     
     // Location Run
     var locRunActive: Bool = false;
@@ -63,7 +71,6 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
         let isInBackground: Bool = UIApplication.sharedApplication().applicationState == UIApplicationState.Background;
         
         if (!isInBackground) {
-            println(userLocation.horizontalAccuracy);
             switch userLocation.horizontalAccuracy {
             case let x where x <= 7:
                 lblGps.text = "GPS (V)";
@@ -125,6 +132,11 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
             
             if (self.locRunActive) {
                 let acceptableDeltaDistInMeters: Double = 25;
+                var progress: Float;
+                
+                // Update progressbar
+                let multiplier: Float = Float(self.lblTotalPossibleProgress.frame.width)/Float(self.estimatedDistanceInM);
+                progress = Float(self.totalDistance)*multiplier;
                 
                 // From point: A -> B -> A
                 if (locRunPointBReached) {
@@ -151,12 +163,23 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
                     if (distanceToGoal < acceptableDeltaDistInMeters) {
                         println("Point B reached!");
                         self.locRunPointBReached = true;
+                        
                         // Update map anno & Container
                         self.locRunNextPointAnno.setCoordinate(self.locRunPointA!);
                         self.runScreenContainerViewController!.locRunNextPointAnno = self.locRunNextPointAnno;
+                        
+                        // Update current objective
+                        lblCurrentObj.text = "Run to A..";
                     }
+                    
+                    // Limit progressbar
+                    if (Int(self.totalDistance) > self.estimatedDistanceInM/2) {
+                        progress = Float(self.estimatedDistanceInM/2)*multiplier;
+                    }
+                    
                 }
                 
+                self.lblTotalMadeProgerss.frame = CGRect(origin: self.lblTotalMadeProgerss.frame.origin, size: CGSize(width: progress, height: self.lblTotalMadeProgerss.frame.height));
             }
         }
     }
@@ -189,9 +212,8 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
         self.navigationController.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
         // Set title of navigationbar
-        if (self.currentRun) {
-            self.navigationItem.title = HelperFunctions().runHeadline[self.currentRun!.runTypeId];
-        }
+        self.navigationItem.title = HelperFunctions().runHeadline[self.runTypeId];
+        
         
         // Set coin sound
         //let soundURL: NSURL = NSBundle.URLForResource("213423__taira-komori__coin05", withExtension: "mp3", subdirectory: nil, inBundleWithURL: nil);
@@ -237,6 +259,9 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
             
             // Set run-specific values
             self.currentRun!.realRunId = self.runId;
+            
+            // Set current objective
+            lblCurrentObj.text = "Run to B..";
         }
         
         self.timerContainerUpdater = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tickContainer", userInfo: nil, repeats: true);
@@ -255,17 +280,31 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
             
             // Update time
             let runTimeInSeconds: NSNumber = NSDate().timeIntervalSinceDate(self.currentRun!.start);
-            let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
-            let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);
-            let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
-            let runRemainingTimeInSecondsFormat = NSString(format: "%02d", Int(runRemainingTimeInSeconds));
-            self.runScreenContainerViewController!.lblDuration.text = "\(runTimeInMinutesFormat):\(runRemainingTimeInSecondsFormat)";
+            self.runScreenContainerViewController!.lblDuration.text = HelperFunctions().formatSecToMinSec(runTimeInSeconds.integerValue);
             
             // Update Speed
             if (self.currentRun!.locations.count > 0) {
-                self.runScreenContainerViewController!.lblSpeed.text = NSString(format: "%.2f", (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed)));
+                var speed: Double = (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed));
+                // According to the emulator, it is very likely to be infinite sometimes.
+                if (speed.isInfinite) {
+                    speed = 0.0;
+                }
+                let speedInt: Int = Int(speed);
+                let speedDec = Int((speed-Double(speedInt))*60);
+                
+                self.runScreenContainerViewController!.lblSpeed.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
             }
             
+            // Update medal
+            if (self.locRunActive) {
+                if (Int(runTimeInSeconds) < self.medalGold) {
+                    self.runScreenContainerViewController!.lblMedal.text = "Gold";
+                } else if (Int(runTimeInSeconds) < self.medalSilver) {
+                    self.runScreenContainerViewController!.lblMedal.text = "Silver";
+                } else {
+                    self.runScreenContainerViewController!.lblMedal.text = "Bronze";
+                }
+            }
         }
     }
 
@@ -309,110 +348,6 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
         self.performSegueWithIdentifier("SegueRunFinished", sender: self);
     }
     
-//    func autoroute1_generate_route() {
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {_ in
-//            println("Generating interesting goal point!!");
-//            
-//            //Wished distance
-//            var wishedDistInMeters: Double = self.onePointLocationRunDistance;
-//            //Shoot out distance
-//            var shootOutDistInMeters: Double = self.onePointLocationRunShootOutDistance;
-//            //Acceptable distance (200m + 5%)
-//            var acceptableDeltaDistInMeters: Double = 200.0 + self.onePointLocationRunDistance*0.05;
-//            
-//            
-//            //Wait a little, so the map has a fix on the user's position
-//            //Very ugly, but works for now..
-//            NSThread.sleepForTimeInterval(1.0);
-//            
-//            
-//            // Generate random point x distance away
-//            let bearing: Double = Double(arc4random_uniform(360000))/1000.0;
-//            var autopoint1Annotation: MKPointAnnotation = MKPointAnnotation();
-//            autopoint1Annotation.coordinate = self.coordinateFromCoord(self.mapView.userLocation.coordinate, distanceKm: (shootOutDistInMeters-acceptableDeltaDistInMeters)/1000.0, bearingDegrees: bearing);
-//            
-//            
-//            // Get point on nearest road
-//            let placemarkSource: MKPlacemark = MKPlacemark(coordinate: self.mapView.userLocation.coordinate, addressDictionary: nil);
-//            let mapItemSource: MKMapItem = MKMapItem(placemark: placemarkSource);
-//            
-//            let placemarkDest: MKPlacemark = MKPlacemark(coordinate: autopoint1Annotation.coordinate, addressDictionary: nil);
-//            let mapItemDest: MKMapItem = MKMapItem(placemark:placemarkDest);
-//            
-//            var walkingRouteRequest: MKDirectionsRequest = MKDirectionsRequest();
-//            walkingRouteRequest.transportType = MKDirectionsTransportType.Walking;
-//            walkingRouteRequest.setSource(mapItemSource);
-//            walkingRouteRequest.setDestination(mapItemDest);
-//            
-//            var walkingRouteDirections: MKDirections = MKDirections(request: walkingRouteRequest);
-//            walkingRouteDirections.calculateDirectionsWithCompletionHandler({(response:MKDirectionsResponse!, error: NSError!) in
-//                self.onePointLocationRunGenPointTotalTries++;
-//                
-//                if (error) {
-//                    //Some error happened, try again :)
-//                    println("Error %@", error.description);
-//                    
-//                    //If too many tries, do not continue
-//                    if (self.onePointLocationRunGenPointTotalTries <= 16) {
-//                        self.autoroute1_generate_route();
-//                    }
-//                } else {
-//                    // Take the last MKRoute object
-//                    let route: MKRoute = response.routes[response.routes.count-1] as MKRoute;
-//                    let pointCount: Int = route.polyline.pointCount;
-//                    
-//                    // Allocate a array to hold 1 points/coordinates
-//                    // - Important to add 1 dummy item, which will be overwritten
-//                    var routeCoordinates: [CLLocationCoordinate2D] = [CLLocationCoordinate2D(latitude: 0, longitude: 0)];
-//                    
-//                    // Get the last coordinate of the polyline
-//                    route.polyline.getCoordinates(&routeCoordinates, range: NSMakeRange(pointCount-1, 1));
-//                    
-//                    // Save data to adjust distance to "shoot out"
-//                    self.onePointLocationRunGenPointTries++;
-//                    self.onePointLocationRunGenPointAccumDist += route.distance;
-//                    
-//                    if (route.distance < wishedDistInMeters+acceptableDeltaDistInMeters && route.distance > wishedDistInMeters-acceptableDeltaDistInMeters) {
-//                        //Acceptable distance
-//                        let routeDistanceFormat = NSString(format: "%.2f", route.distance);
-//                        let bearingFormat = NSString(format: "%.2f", bearing);
-//                        println("Acceptable distance - distance was: \(routeDistanceFormat), with bearing: \(bearingFormat)");
-//                        
-//                        //Update annotation -THIS FAILS
-//                        autopoint1Annotation.coordinate = routeCoordinates[0];
-//                        
-//                        // Draw point on map
-//                        self.autopoint1Annotation = autopoint1Annotation;
-//                        self.mapView.addAnnotation(self.autopoint1Annotation);
-//                        self.autopoint1Generated = true;
-//                    } else {
-//                        //Not acceptable distance
-//                        let routeDistanceFormat = NSString(format: "%.2f", route.distance);
-//                        let bearingFormat = NSString(format: "%.2f", bearing);
-//                        println("NOT acceptable distance, retrying! - distance was: \(routeDistanceFormat), with bearing: \(bearingFormat)");
-//                        //Generate new rand point, test distance again.
-//                        //Maybe, if possible, take part of route to the discarded point?
-//                        
-//                        //This shoot out distance doesn't seems to work, adjust it
-//                        if (self.onePointLocationRunGenPointTries == 5) {
-//                            //See how much we differ in average
-//                            let avgDistDiffer: Double = self.onePointLocationRunGenPointAccumDist / Double(self.onePointLocationRunGenPointTries) - self.onePointLocationRunDistance;
-//                            self.onePointLocationRunShootOutDistance -= (avgDistDiffer/2);
-//                            
-//                            self.onePointLocationRunGenPointTries = 0;
-//                            self.onePointLocationRunGenPointAccumDist = 0;
-//                            println("Adjusting shoot out length with -\(avgDistDiffer)");
-//                        }
-//                        
-//                        //If too many tries, do not continue
-//                        if (self.onePointLocationRunGenPointTotalTries <= 16) {
-//                            self.autoroute1_generate_route();
-//                        }
-//                    }
-//                }
-//            })
-//        });
-//    }
 
     @IBAction func runClicked(sender: AnyObject) {
         if (self.capturing) {
@@ -442,9 +377,7 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
 
     func updateContainer() {
         // General
-        if (self.currentRun) {
-            self.runScreenContainerViewController!.runTypeId = self.currentRun!.runTypeId;
-        }
+        self.runScreenContainerViewController!.runTypeId = self.runTypeId;
         
         // Multiplayer
         if (self.multiplayer) {
@@ -457,36 +390,10 @@ class MapViewControllerSwift: UIViewController, CLLocationManagerDelegate, UIGes
             self.runScreenContainerViewController!.locRunPointA = self.locRunPointA;
             self.runScreenContainerViewController!.locRunPointB = self.locRunPointB;
             self.runScreenContainerViewController!.locRunNextPointAnno = self.locRunNextPointAnno;
+            self.runScreenContainerViewController!.medalGold = self.medalGold;
+            self.runScreenContainerViewController!.medalSilver = self.medalSilver;
+            self.runScreenContainerViewController!.medalBronze = self.medalBronze;
         }
-    }
-    
-    func radiansFromDegrees(degrees: Double) -> Double {
-        return degrees * (M_PI/180.0);
-    }
-    
-    func degreesFromRadians(radians: Double) -> Double {
-        return radians * (180.0/M_PI);
-    }
-    
-    func coordinateFromCoord(fromCoord: CLLocationCoordinate2D, distanceKm: Double, bearingDegrees: Double) -> CLLocationCoordinate2D {
-        let distanceRadians: Double = distanceKm / 6371.0;
-        //6,371 = Earth's radius in km
-        let bearingRadians: Double = radiansFromDegrees(bearingDegrees);
-        let fromLatRadians: Double = radiansFromDegrees(fromCoord.latitude);
-        let fromLonRadians: Double = radiansFromDegrees(fromCoord.longitude);
-        
-        let toLatRadians: Double = asin( sin(fromLatRadians) * cos(distanceRadians)
-        + cos(fromLatRadians) * sin(distanceRadians) * cos(bearingRadians) );
-        
-        var toLonRadians: Double = fromLonRadians + atan2(sin(bearingRadians)
-        * sin(distanceRadians) * cos(fromLatRadians), cos(distanceRadians)
-        - sin(fromLatRadians) * sin(toLatRadians));
-        
-        // adjust toLonRadians to be in the range -180 to +180...
-        toLonRadians = fmod((toLonRadians + 3*M_PI), (2*M_PI)) - M_PI;
-        
-        let result: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude:  degreesFromRadians(toLatRadians), longitude: degreesFromRadians(toLonRadians));
-        return result;
     }
     
     override func viewWillDisappear(animated:Bool) {

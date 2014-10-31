@@ -19,6 +19,9 @@ import UIKit
 class RunSelectorViewControllerSwift: UIViewController {
     @IBOutlet var btnMenu: UIBarButtonItem
     @IBOutlet var btnLockedRunPlaceholder: UIButton
+    @IBOutlet var lblLoadingText: UILabel
+    @IBOutlet var idcLoading: UIActivityIndicatorView
+    
     let db = SQLiteDB.sharedInstance();
     var userId: Int = 0;
     let runTypeName = ["Location Run","Interval Run","Collector Run"];
@@ -35,7 +38,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         
         // Bind menu button
         self.btnMenu.target = self.revealViewController();
-        self.btnMenu.action = "revealToggle:";  // This is dangerous - if wrong it's first going to crash at runtime
+        self.btnMenu.action = "revealToggle:";
         self.navigationController.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
         let queryId = db.query("SELECT loggedInUserId FROM settings");
@@ -82,6 +85,10 @@ class RunSelectorViewControllerSwift: UIViewController {
         
         // If necessary, request active runs from webservice
         if (runTimedOut || (numberOfRuns-numberOfLockedRuns) != 5 || numberOfLockedRuns > 1) {
+            // Show loading info, this request can take a little while
+            lblLoadingText.hidden = false;
+            idcLoading.startAnimating();
+            
             HelperFunctions().callWebService("selectable-runs", params: "id=\(self.userId)", callbackSuccess: showRuns, callbackFail: HelperFunctions().webServiceDefaultFail);
         } else {
             // Just show local runs
@@ -90,6 +97,10 @@ class RunSelectorViewControllerSwift: UIViewController {
     }
     
     func showRuns(data: AnyObject?) {
+        // Hide loading info
+        lblLoadingText.hidden = true;
+        idcLoading.stopAnimating();
+        
         if let dic: NSDictionary = data as? NSDictionary {
             // Extract runs from webservice into database
             let runs: NSArray = dic.objectForKey("runs") as NSArray;

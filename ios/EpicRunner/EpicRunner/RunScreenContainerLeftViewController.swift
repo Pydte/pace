@@ -10,6 +10,9 @@ import UIKit
 
 class RunScreenContainerLeftViewController: UIViewController {
     @IBOutlet var lblDescription: UILabel
+    @IBOutlet var lblMedalBronze: UILabel
+    @IBOutlet var lblMedalSilver: UILabel
+    @IBOutlet var lblMedalGold: UILabel
     
     var container: RunScreenContainerViewController?;
     
@@ -17,8 +20,11 @@ class RunScreenContainerLeftViewController: UIViewController {
         super.viewDidLoad();
         
         self.container = self.parentViewController as? RunScreenContainerViewController;
-
         lblDescription.text = HelperFunctions().runDescription[container!.runTypeId];
+        
+        lblMedalBronze.text = String(self.container!.medalBronze);
+        lblMedalSilver.text = String(self.container!.medalSilver);
+        lblMedalGold.text = String(self.container!.medalGold);
     }
 
     override func didReceiveMemoryWarning() {
