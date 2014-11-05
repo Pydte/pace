@@ -55,6 +55,8 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     var medalSilver: Int = 0;     //Is set from other controller
     var medalGold: Int = 0;       //Is set from other controller
     var estimatedDistanceInM = 1; //Is set from other controller
+    var runPointHome: CLLocationCoordinate2D? = nil; //Is set from other controller
+    var runPoints: [CLLocationCoordinate2D] = [];    //Is set from other controller
     
     // Location Run
     var locRunActive: Bool = false;
@@ -130,7 +132,10 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 }
             }
             
-            if (self.locRunActive) {
+            
+            // Specific for each run type
+            if (self.runTypeId == 1) {
+                // Location Run
                 let acceptableDeltaDistInMeters: Double = 25;
                 var progress: Float;
                 
@@ -142,13 +147,13 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 if (locRunPointBReached) {
                     // Point B reached, checking for Point A (GOAL)
                     let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
-                    let endLocation: CLLocation = CLLocation(latitude: self.locRunPointA!.latitude, longitude: self.locRunPointA!.longitude);
+                    let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
                     let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
                     
                     //Calc distance between current and goal point
                     if (distanceToGoal < acceptableDeltaDistInMeters) {
                         // Final point reached, end game
-                        println("Point A reached!");
+                        println("Point Home reached!");
                         self.active = false;
                         self.currentRun!.aborted = false;
                         endCapturing();
@@ -156,7 +161,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 } else {
                     // Point B NOT reached, checking for Point B (checkpoint)
                     let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
-                    let endLocation: CLLocation = CLLocation(latitude: self.locRunPointB!.latitude, longitude: self.locRunPointB!.longitude);
+                    let endLocation: CLLocation = CLLocation(latitude: self.runPoints[0].latitude, longitude: self.runPoints[0].longitude);
                     let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
                     
                     //Calc distance between current and point B
@@ -180,6 +185,11 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 }
                 
                 self.lblTotalMadeProgerss.frame = CGRect(origin: self.lblTotalMadeProgerss.frame.origin, size: CGSize(width: progress, height: self.lblTotalMadeProgerss.frame.height));
+            } else if (self.runTypeId == 3) {
+                // Collector Run
+                //Show all points to collect
+                //-or
+                //Show home point
             }
         }
     }
@@ -248,7 +258,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
 //        }
         
         // Location run
-        if (self.locRunActive) {
+        if (self.runTypeId == 1) {
             println("location run START");
             
             // Draw point B on map
@@ -262,6 +272,21 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             
             // Set current objective
             lblCurrentObj.text = "Run to B..";
+        } else if (self.runTypeId == 2) {
+            // Interval run
+            
+        } else if (self.runTypeId == 3) {
+            // Collector run
+            
+            // Start run
+            startCapturing();
+            
+            // Set run-specific values
+            self.currentRun!.realRunId = self.runId;
+            
+            // Set current objective
+            lblCurrentObj.text = "Run to a point..";
+            
         }
         
         self.timerContainerUpdater = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tickContainer", userInfo: nil, repeats: true);
@@ -318,10 +343,10 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         self.coinedDistance = 0.0;
         
         //Change visual
-        if (self.locRunActive) {
-            self.runButton.setTitle("Abort run", forState: .Normal);
-        } else {
+        if (self.runTypeId == 0) {
             self.runButton.setTitle("Done", forState: .Normal);
+        } else {
+            self.runButton.setTitle("Abort run", forState: .Normal);
         }
         self.runButton.backgroundColor = UIColor(red: 1.0, green:0.0, blue:0.0, alpha:0.60);
         self.capturing = true;
@@ -384,12 +409,29 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             self.runScreenContainerViewController!.multiplayer = self.multiplayer;
         }
         
-        // Location run
-        if (self.locRunActive) {
+        // Specific for each run type
+        if (self.runTypeId == 1) {
+            // Location run
             self.runScreenContainerViewController!.locRunActive = self.locRunActive;
             self.runScreenContainerViewController!.locRunPointA = self.locRunPointA;
             self.runScreenContainerViewController!.locRunPointB = self.locRunPointB;
             self.runScreenContainerViewController!.locRunNextPointAnno = self.locRunNextPointAnno;
+            
+            self.runScreenContainerViewController!.runPointHome = self.runPointHome;
+            self.runScreenContainerViewController!.runPoints = self.runPoints;
+            self.runScreenContainerViewController!.medalGold = self.medalGold;
+            self.runScreenContainerViewController!.medalSilver = self.medalSilver;
+            self.runScreenContainerViewController!.medalBronze = self.medalBronze;
+            
+            
+        } else if (self.runTypeId == 2) {
+            // Interval run
+            
+        } else if (self.runTypeId == 3) {
+            // Collector run
+            
+            self.runScreenContainerViewController!.runPointHome = self.runPointHome;
+            self.runScreenContainerViewController!.runPoints = self.runPoints;
             self.runScreenContainerViewController!.medalGold = self.medalGold;
             self.runScreenContainerViewController!.medalSilver = self.medalSilver;
             self.runScreenContainerViewController!.medalBronze = self.medalBronze;

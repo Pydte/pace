@@ -43,8 +43,8 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     var locRunShootOutDistance: Double = 0.0;
     
     // Collector Run
-    var locRunPointHome: CLLocationCoordinate2D? = nil;
-    var locRunPoints: [CLLocationCoordinate2D] = [];
+    var runPointHome: CLLocationCoordinate2D? = nil;
+    var runPoints: [CLLocationCoordinate2D] = [];
     
     
     override func viewDidLoad() {
@@ -126,7 +126,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         if (firstTime) {
             // Lock start point
             self.locRunPointA = self.mapView.userLocation.coordinate;
-            self.locRunPointHome = self.mapView.userLocation.coordinate;
+            self.runPointHome = self.mapView.userLocation.coordinate;
         
             // Draw start point on map
             var pointAAnno: MKPointAnnotation = MKPointAnnotation();
@@ -245,7 +245,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                     
                     // Update annotation  --THIS FAILS, or does it?
                     self.locRunPointB = routeCoordinates[0];
-                    self.locRunPoints.append(routeCoordinates[0]);
+                    self.runPoints.append(routeCoordinates[0]);
                     
                     // Draw point on map
                     var pointBAnno: MKPointAnnotation = MKPointAnnotation();
@@ -311,19 +311,25 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        // General
+        let runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+        runScreenViewController.runId = self.runId;
+        runScreenViewController.runTypeId = self.runTypeId;
+        runScreenViewController.medalBronze = self.medalBronze;
+        runScreenViewController.medalSilver = self.medalSilver;
+        runScreenViewController.medalGold = self.medalGold;
+        runScreenViewController.runPointHome = self.runPointHome;
+        runScreenViewController.runPoints = self.runPoints;
+        
         if (segue.identifier == "segueLocationRun") {
-            let runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+            // Do something specific
             runScreenViewController.locRunActive = true;
             runScreenViewController.locRunPointA = self.locRunPointA;
             runScreenViewController.locRunPointB = self.locRunPointB;
-            runScreenViewController.runId = self.runId;
-            runScreenViewController.medalBronze = self.medalBronze;
-            runScreenViewController.medalSilver = self.medalSilver;
-            runScreenViewController.medalGold = self.medalGold;
             runScreenViewController.estimatedDistanceInM = self.estimatedDistance;
-            runScreenViewController.runTypeId = self.runTypeId;
+        } else if (segue.identifier == "segueCollectorRun") {
+            // Do something specific
+            runScreenViewController.estimatedDistanceInM = self.estimatedDistance;
         }
     }
     

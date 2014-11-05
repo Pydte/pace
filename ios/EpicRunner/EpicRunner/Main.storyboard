@@ -785,6 +785,7 @@
                         <outlet property="loadingIndicator" destination="P4Q-DJ-Ef6" id="A7q-jg-1Id"/>
                         <outlet property="mapView" destination="NOv-rX-FLj" id="Zrs-G7-VMc"/>
                         <segue destination="Tsx-2i-5rC" kind="push" identifier="segueLocationRun" id="jsE-4B-XOp"/>
+                        <segue destination="Tsx-2i-5rC" kind="push" identifier="segueCollectorRun" id="cOM-F2-O3X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DNR-mR-I86" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1655,7 +1656,7 @@ P</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="260"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKq-3m-ABK">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKq-3m-ABK">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="260"/>
                             </mapView>
                             <button contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pan-ht-lP4">
@@ -1721,7 +1722,7 @@ P</string>
         <segue reference="LU8-OD-Lhj"/>
         <segue reference="Zro-Gy-3Zr"/>
         <segue reference="TCo-xG-qvc"/>
-        <segue reference="cGr-4D-Jrw"/>
+        <segue reference="cOM-F2-O3X"/>
         <segue reference="d0x-cK-PT8"/>
     </inferredMetricsTieBreakers>
 </document>

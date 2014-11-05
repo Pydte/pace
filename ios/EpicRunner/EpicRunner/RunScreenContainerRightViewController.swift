@@ -44,11 +44,33 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             self.mapView.addAnnotation(container!.player2Annotation);
         }
         
-        // Location run
-        if (container!.locRunActive) {
+        
+        // Specific per run type
+        if (container!.runTypeId == 1) {
+            println("map: location run");
+            // Location run
             // Draw point B on map
-            container!.locRunNextPointAnno.coordinate = container!.locRunPointB!;
+            container!.locRunNextPointAnno.coordinate = container!.runPoints[0];
             self.mapView.addAnnotation(container!.locRunNextPointAnno);
+        } else if (container!.runTypeId == 2) {
+            // Interval run
+            
+        } else if (container!.runTypeId == 3) {
+            println("map: collector run");
+            // Collector run
+            // Draw home point
+            var mkPointAnno: MKPointAnnotation = MKPointAnnotation();
+            mkPointAnno.coordinate = container!.runPointHome!;
+            self.mapView.addAnnotation(mkPointAnno);
+            
+            // Draw all points to collect
+            for pointCoord in container!.runPoints {
+                var mkPointAnno2: MKPointAnnotation = MKPointAnnotation();
+                println("a point..");
+                mkPointAnno2.coordinate = pointCoord;
+                container!.runPointsAnno.append(mkPointAnno2);
+                self.mapView.addAnnotation(mkPointAnno2);
+            }
         }
        
     }
@@ -120,7 +142,19 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                 view = MKAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotationIdentifier")
                 
                 // This will rescale the annotation view to fit the image
-                view!.image = UIImage(named: "green_pin");
+                if (annotation.coordinate.latitude == container!.runPointHome!.latitude &&
+                    annotation.coordinate.longitude == container!.runPointHome!.longitude) {
+                    // Home point
+                    view!.image = UIImage(named: "home_pin");
+                } else {
+                    if (container!.runTypeId == 1) {
+                        // Location run
+                        view!.image = UIImage(named: "green_pin");
+                    } else if (container!.runTypeId == 3) {
+                        // Collector run
+                        view!.image = UIImage(named: "orange_pin");
+                    }
+                }
             }
         }
         return view;

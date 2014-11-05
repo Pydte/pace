@@ -27,6 +27,10 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     var medalBronze: Int = 0;
     var medalSilver: Int = 0;
     var medalGold: Int = 0;
+    var runPointHome: CLLocationCoordinate2D? = nil; //Is set from other controller
+    var runPoints: [CLLocationCoordinate2D] = [];    //Is set from other controller
+    var runPointHomeAnno: MKPointAnnotation? = nil;
+    var runPointsAnno: [MKPointAnnotation] = [];
     
     /// Location Run
     var locRunActive: Bool = false;
@@ -112,6 +116,22 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
                 self.showing += 1;
             }
         }
+    }
+    
+    func showHomeAnno() {
+        
+    }
+    
+    func hideHomeAnno() {
+        
+    }
+    
+    func showPointsAnno() {
+        
+    }
+    
+    func hidePointsAnno() {
+        
     }
     
     /*
