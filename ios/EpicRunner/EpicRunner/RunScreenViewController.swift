@@ -65,8 +65,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     var locRunPointBReached: Bool = false;
     var locRunNextPointAnno: MKPointAnnotation = MKPointAnnotation();
     
+    // Collector Run
+    var carryingPoint: Bool = false;
+    
     var runScreenContainerViewController: RunScreenContainerViewController?;
     var timerContainerUpdater: NSTimer? = nil;
+    
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!)  {
         let userLocation: CLLocation = locations[0] as CLLocation;
@@ -185,11 +189,51 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 }
                 
                 self.lblTotalMadeProgerss.frame = CGRect(origin: self.lblTotalMadeProgerss.frame.origin, size: CGSize(width: progress, height: self.lblTotalMadeProgerss.frame.height));
+                
+                
+                
             } else if (self.runTypeId == 3) {
                 // Collector Run
-                //Show all points to collect
-                //-or
-                //Show home point
+                let acceptableDeltaDistInMeters: Double = 175;
+                let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
+                
+                
+                if (self.carryingPoint) {
+                    let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
+                    let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+                    
+                    if (distanceToGoal < acceptableDeltaDistInMeters) {
+                        if (self.runPoints.count == 0) {
+                            // Final point delivered, end game
+                            println("All points delivered!");
+                            self.active = false;
+                            self.currentRun!.aborted = false;
+                            endCapturing();
+                        } else {
+                            // More points to collect
+                            self.carryingPoint = false;
+                            self.runScreenContainerViewController!.hideHomeAnno();
+                            self.runScreenContainerViewController!.showPointsAnno();
+                            self.lblCurrentObj.text = "Collect a new point..";
+                        }
+                    }
+                } else {
+                    var i: Int = 0;
+                    for point in self.runPoints {
+                        let endLocation: CLLocation = CLLocation(latitude: point.latitude, longitude: point.longitude);
+                        let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+                        if (distanceToGoal < acceptableDeltaDistInMeters) {
+                            // Point collected, return to home
+                            self.carryingPoint = true;
+                            self.runScreenContainerViewController!.removePoint(point);
+                            self.runPoints.removeAtIndex(i);
+                            self.runScreenContainerViewController!.showHomeAnno();
+                            self.runScreenContainerViewController!.hidePointsAnno();
+                            self.lblCurrentObj.text = "Deliver the point at base..";
+                        }
+                        i++;
+                    }
+                }
             }
         }
     }
@@ -208,7 +252,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         self.locationManager.pausesLocationUpdatesAutomatically = false;
 
         if (self.iosVersion >= 8) {
-            self.locationManager.requestWhenInUseAuthorization(); // Necessary for iOS 8 and crashes iOS 7...
+            self.locationManager.requestWhenInUseAuthorization(); // Necessary for iOS 8 and crashes iOS 7... -.-
         }
         self.locationManager.startUpdatingLocation();
         
@@ -285,7 +329,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             self.currentRun!.realRunId = self.runId;
             
             // Set current objective
-            lblCurrentObj.text = "Run to a point..";
+            lblCurrentObj.text = "Collect a point..";
             
         }
         

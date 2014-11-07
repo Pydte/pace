@@ -12,7 +12,7 @@ import MapKit
 class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var leftController: UIViewController?;
-    var rightController: UIViewController?;
+    var rightController: RunScreenContainerRightViewController?;
     var showing: Int = 0;
     
     @IBOutlet var lblDuration: UILabel
@@ -119,19 +119,36 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     }
     
     func showHomeAnno() {
-        
+        self.rightController!.mapView.addAnnotation(self.runPointHomeAnno);
     }
     
     func hideHomeAnno() {
-        
+        self.rightController!.mapView.removeAnnotation(self.runPointHomeAnno);
     }
     
     func showPointsAnno() {
-        
+        for anno in self.runPointsAnno {
+            self.rightController!.mapView.addAnnotation(anno);
+        }
     }
     
     func hidePointsAnno() {
-        
+        for anno in self.runPointsAnno {
+            self.rightController!.mapView.removeAnnotation(anno);
+        }
+    }
+    
+    func removePoint(pos: CLLocationCoordinate2D) {
+        var i: Int = 0;
+        for point in self.runPoints {
+            if (pos.latitude == point.latitude && pos.longitude == point.longitude) {
+                break;
+            }
+            i++;
+        }
+        self.rightController!.mapView.removeAnnotation(self.runPointsAnno[i]);
+        self.runPoints.removeAtIndex(i);
+        self.runPointsAnno.removeAtIndex(i);
     }
     
     /*

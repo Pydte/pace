@@ -19,6 +19,7 @@ class MissionDVViewController: UIViewController {
     
     var distance: Double = 0.0;
     var difficulty: Int = 0;
+    var duration: Int = 0;
     var medalBronze: Int = 0;
     var medalSilver: Int = 0;
     var medalGold: Int = 0;
@@ -27,15 +28,11 @@ class MissionDVViewController: UIViewController {
     var selectedRunTypeId = 0;
     let db = SQLiteDB.sharedInstance();
     
-    var intervalsBronze: Int = 0;
-    var intervalsSilver: Int = 0;
-    var intervalsGold: Int = 0;
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         //Not working?
         //ifnull(medalBronze,0) AS
-        let selectedRunQuery = db.query("SELECT runTypeId, startDate, endDate, difficulty, distance, locked, medalBronze, medalSilver, medalGold FROM active_runs WHERE runId=\(self.selectedRunId)");
+        let selectedRunQuery = db.query("SELECT runTypeId, startDate, endDate, difficulty, distance, duration, locked, medalBronze, medalSilver, medalGold FROM active_runs WHERE runId=\(self.selectedRunId)");
         
         let runTypeName = ["Location Run","Interval Run","Collector Run"];
         
@@ -47,6 +44,7 @@ class MissionDVViewController: UIViewController {
         self.medalGold = selectedRunQuery[0]["medalGold"]!.integer;
         self.difficulty = selectedRunQuery[0]["difficulty"]!.integer;
         self.distance = selectedRunQuery[0]["distance"]!.double;
+        self.duration = selectedRunQuery[0]["duration"]!.integer;
         self.title = runTypeName[self.selectedRunTypeId-1];
         
         // Set time remaining
@@ -91,43 +89,30 @@ class MissionDVViewController: UIViewController {
     }
     
     func populateIntervalRun() {
-        switch self.difficulty {
-        case 1:
-            self.intervalsBronze = 3;
-            self.intervalsSilver = 4;
-            self.intervalsGold = 5;
-        case 2:
-            self.intervalsBronze = 3;
-            self.intervalsSilver = 5;
-            self.intervalsGold = 7;
-        case 3:
-            self.intervalsBronze = 4;
-            self.intervalsSilver = 7;
-            self.intervalsGold = 10;
-        default:
-            println("Unknown difficulty");
-        }
-        
         // Override "Distance" label with intervals
-        lblDistance.text = "Intervals: \(self.intervalsGold) (\(self.intervalsGold*2) min)";
+        lblDistance.text = "Intervals: \(self.duration) (\(self.duration*2) min)";
         
         // Set medals
-        lblBronze.text = "\(self.intervalsBronze) intervals";
-        lblSilver.text = "\(self.intervalsSilver) intervals";
-        lblGold.text = "\(self.intervalsGold) intervals";
+        if (self.medalBronze == 1) {
+            lblBronze.text = "\(self.medalBronze) interval";
+        } else {
+            lblBronze.text = "\(self.medalBronze) intervals";
+        }
+        lblSilver.text = "\(self.medalSilver) intervals";
+        lblGold.text = "\(self.medalGold) intervals";
     }
     
     func populateCollectorRun() {
         // Set medals
-        if (medalBronze == 0) {
+        if (self.medalBronze == 0) {
             lblBronze.text = "If finish";
-        } else if (medalBronze == 1) {
-            lblBronze.text = "\(medalBronze) object";
+        } else if (self.medalBronze == 1) {
+            lblBronze.text = "\(self.medalBronze) object";
         } else {
-            lblBronze.text = "\(medalBronze) objects";
+            lblBronze.text = "\(self.medalBronze) objects";
         }
-        lblSilver.text = "\(medalSilver) objects";
-        lblGold.text = "\(medalGold) objects";
+        lblSilver.text = "\(self.medalSilver) objects";
+        lblGold.text = "\(self.medalGold) objects";
     }
     
     override func didReceiveMemoryWarning() {

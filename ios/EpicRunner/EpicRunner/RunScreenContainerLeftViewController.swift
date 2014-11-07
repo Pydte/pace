@@ -22,9 +22,53 @@ class RunScreenContainerLeftViewController: UIViewController {
         self.container = self.parentViewController as? RunScreenContainerViewController;
         lblDescription.text = HelperFunctions().runDescription[container!.runTypeId];
         
-        lblMedalBronze.text = String(self.container!.medalBronze);
-        lblMedalSilver.text = String(self.container!.medalSilver);
-        lblMedalGold.text = String(self.container!.medalGold);
+        
+        switch self.container!.runTypeId {
+        case 1:
+            populateLocationRun();
+        case 2:
+            populateIntervalRun();
+        case 3:
+            populateCollectorRun();
+        default:
+            println("Unknown run type");
+        }
+    }
+    
+    
+    func populateLocationRun() {
+        // Set medals
+        if (self.container!.medalBronze == 0) {
+            lblMedalBronze.text = "If finish";
+        } else {
+            lblMedalBronze.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalBronze))";
+        }
+        lblMedalSilver.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalSilver))";
+        lblMedalGold.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalGold))";
+    }
+    
+    func populateIntervalRun() {
+        // Set medals
+        if (self.container!.medalBronze == 1) {
+            lblMedalBronze.text = "\(self.container!.medalBronze) interval";
+        } else {
+            lblMedalBronze.text = "\(self.container!.medalBronze) intervals";
+        }
+        lblMedalSilver.text = "\(self.container!.medalSilver) intervals";
+        lblMedalGold.text = "\(self.container!.medalGold) intervals";
+    }
+    
+    func populateCollectorRun() {
+        // Set medals
+        if (self.container!.medalBronze == 0) {
+            lblMedalBronze.text = "If finish";
+        } else if (self.container!.medalBronze == 1) {
+            lblMedalBronze.text = "\(self.container!.medalBronze) object";
+        } else {
+            lblMedalBronze.text = "\(self.container!.medalBronze) objects";
+        }
+        lblMedalSilver.text = "\(self.container!.medalSilver) objects";
+        lblMedalGold.text = "\(self.container!.medalGold) objects";
     }
 
     override func didReceiveMemoryWarning() {

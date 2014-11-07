@@ -52,21 +52,27 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             // Draw point B on map
             container!.locRunNextPointAnno.coordinate = container!.runPoints[0];
             self.mapView.addAnnotation(container!.locRunNextPointAnno);
+        
+        
+        
         } else if (container!.runTypeId == 2) {
             // Interval run
+           
+            
+            
+            
             
         } else if (container!.runTypeId == 3) {
             println("map: collector run");
             // Collector run
             // Draw home point
-            var mkPointAnno: MKPointAnnotation = MKPointAnnotation();
-            mkPointAnno.coordinate = container!.runPointHome!;
-            self.mapView.addAnnotation(mkPointAnno);
+            self.container!.runPointHomeAnno = MKPointAnnotation();
+            self.container!.runPointHomeAnno!.coordinate = container!.runPointHome!;
+            self.mapView.addAnnotation(self.container!.runPointHomeAnno);
             
             // Draw all points to collect
             for pointCoord in container!.runPoints {
                 var mkPointAnno2: MKPointAnnotation = MKPointAnnotation();
-                println("a point..");
                 mkPointAnno2.coordinate = pointCoord;
                 container!.runPointsAnno.append(mkPointAnno2);
                 self.mapView.addAnnotation(mkPointAnno2);
@@ -135,25 +141,25 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
         if (!annotation.isEqual(mapView.userLocation)) {
             // This is not the users location indicator (the blue dot)
             view = mapView.dequeueReusableAnnotationViewWithIdentifier("myAnnotationIdentifier");
+
             if (!view) {
                 // Could not reuse a view ...
-                
                 // Creating a new annotation view
                 view = MKAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotationIdentifier")
-                
-                // This will rescale the annotation view to fit the image
-                if (annotation.coordinate.latitude == container!.runPointHome!.latitude &&
-                    annotation.coordinate.longitude == container!.runPointHome!.longitude) {
+            }
+            
+            // Set image of annotation
+            if (annotation.coordinate.latitude == container!.runPointHome!.latitude &&
+                annotation.coordinate.longitude == container!.runPointHome!.longitude) {
                     // Home point
                     view!.image = UIImage(named: "home_pin");
-                } else {
-                    if (container!.runTypeId == 1) {
-                        // Location run
-                        view!.image = UIImage(named: "green_pin");
-                    } else if (container!.runTypeId == 3) {
-                        // Collector run
-                        view!.image = UIImage(named: "orange_pin");
-                    }
+            } else {
+                if (container!.runTypeId == 1) {
+                    // Location run
+                    view!.image = UIImage(named: "green_pin");
+                } else if (container!.runTypeId == 3) {
+                    // Collector run
+                    view!.image = UIImage(named: "orange_pin");
                 }
             }
         }
@@ -162,7 +168,9 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
 
     
     @IBAction func plusZoom(sender: AnyObject) {
-        self.mapZoomlevel += 500;
+        if (self.mapZoomlevel > 500) {
+            self.mapZoomlevel -= 500;
+        }
         let region: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.location.coordinate,
             self.mapZoomlevel,
             self.mapZoomlevel);
@@ -170,9 +178,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
     }
     
     @IBAction func minusZoom(sender: AnyObject) {
-        if (self.mapZoomlevel > 500) {
-            self.mapZoomlevel -= 500;
-        }
+        self.mapZoomlevel += 500;
         let region: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(self.mapView.userLocation.location.coordinate,
             self.mapZoomlevel,
             self.mapZoomlevel);
