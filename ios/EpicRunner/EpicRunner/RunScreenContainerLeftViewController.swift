@@ -9,10 +9,10 @@
 import UIKit
 
 class RunScreenContainerLeftViewController: UIViewController {
-    @IBOutlet var lblDescription: UILabel
-    @IBOutlet var lblMedalBronze: UILabel
-    @IBOutlet var lblMedalSilver: UILabel
-    @IBOutlet var lblMedalGold: UILabel
+    @IBOutlet var lblDescription: UILabel!;
+    @IBOutlet var lblMedalBronze: UILabel!;
+    @IBOutlet var lblMedalSilver: UILabel!;
+    @IBOutlet var lblMedalGold: UILabel!;
     
     var container: RunScreenContainerViewController?;
     
@@ -62,13 +62,11 @@ class RunScreenContainerLeftViewController: UIViewController {
         // Set medals
         if (self.container!.medalBronze == 0) {
             lblMedalBronze.text = "If finish";
-        } else if (self.container!.medalBronze == 1) {
-            lblMedalBronze.text = "\(self.container!.medalBronze) object";
         } else {
-            lblMedalBronze.text = "\(self.container!.medalBronze) objects";
+            lblMedalBronze.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalBronze))";
         }
-        lblMedalSilver.text = "\(self.container!.medalSilver) objects";
-        lblMedalGold.text = "\(self.container!.medalGold) objects";
+        lblMedalSilver.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalSilver))";
+        lblMedalGold.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalGold))";
     }
 
     override func didReceiveMemoryWarning() {

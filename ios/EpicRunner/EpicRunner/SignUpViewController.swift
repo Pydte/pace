@@ -9,23 +9,23 @@
 import UIKit
 
 class SignUpViewController: UIViewController {
-    @IBOutlet var txtEmail: UITextField
-    @IBOutlet var txtFullname: UITextField
-    @IBOutlet var txtPassword: UITextField
-    @IBOutlet var txtPasswordRepeat: UITextField
-    @IBOutlet var segGender: UISegmentedControl
-    @IBOutlet var txtDateDay: UITextField
-    @IBOutlet var txtDateMonth: UITextField
-    @IBOutlet var txtDateYear: UITextField
+    @IBOutlet var txtEmail: UITextField!;
+    @IBOutlet var txtFullname: UITextField!;
+    @IBOutlet var txtPassword: UITextField!;
+    @IBOutlet var txtPasswordRepeat: UITextField!;
+    @IBOutlet var segGender: UISegmentedControl!;
+    @IBOutlet var txtDateDay: UITextField!;
+    @IBOutlet var txtDateMonth: UITextField!;
+    @IBOutlet var txtDateYear: UITextField!;
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
 
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        super.didReceiveMemoryWarning();
         // Dispose of any resources that can be recreated.
     }
     
@@ -34,7 +34,7 @@ class SignUpViewController: UIViewController {
             println("Sign up successful");
             
             let dic: NSDictionary = data as NSDictionary;
-            let id: Int = dic.objectForKey("id").integerValue;
+            let id: Int = dic.objectForKey("id")!.integerValue;
             println("id: \(id)");
             
             //Log in this user aka. save userID in db
@@ -71,7 +71,7 @@ class SignUpViewController: UIViewController {
         }
         
         //Send data to server
-        let params: String = "email=\(txtEmail.text)&password=\(txtPassword.text)&name=\(txtFullname.text)&gender=\(gender)&birth_date=\(birthDate.timeIntervalSince1970)";
+        let params: String = "email=\(txtEmail.text)&password=\(txtPassword.text)&name=\(txtFullname.text)&gender=\(gender)&birth_date=\(birthDate!.timeIntervalSince1970)";
         HelperFunctions().callWebService("user-create", params: params, callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
     }
 

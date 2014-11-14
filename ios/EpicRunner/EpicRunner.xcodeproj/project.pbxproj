@@ -59,8 +59,8 @@
 		72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */; };
 		72DF246B197BC7C400F9A96B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF246A197BC7C400F9A96B /* AppDelegate.swift */; };
 		72DF246E197BCAE600F9A96B /* README_SQLiteDB.txt in Resources */ = {isa = PBXBuildFile; fileRef = 72DF246D197BCAE600F9A96B /* README_SQLiteDB.txt */; };
-		72DF2470197BCB4B00F9A96B /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF246F197BCB4B00F9A96B /* SQLiteDB.swift */; };
-		72DF2477197BCC1000F9A96B /* Bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DF2476197BCC1000F9A96B /* Bridge.m */; };
+		72DF2470197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old in Sources */ = {isa = PBXBuildFile; fileRef = 72DF246F197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old */; };
+		72E328661A161C5E0075E2DC /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E328651A161C5E0075E2DC /* SQLiteDB.swift */; };
 		72F1EBF419BE0CC800DB0DE1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F1EBF319BE0CC800DB0DE1 /* LoginViewController.swift */; };
 		72F1EBF619BE1D1600DB0DE1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F1EBF519BE1D1600DB0DE1 /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
@@ -153,9 +153,8 @@
 		72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		72DF246A197BC7C400F9A96B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72DF246D197BCAE600F9A96B /* README_SQLiteDB.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SQLiteDB.txt; sourceTree = "<group>"; };
-		72DF246F197BCB4B00F9A96B /* SQLiteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
-		72DF2475197BCC1000F9A96B /* Bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
-		72DF2476197BCC1000F9A96B /* Bridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bridge.m; sourceTree = "<group>"; };
+		72DF246F197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SQLiteDB.old.swift.h.old; sourceTree = "<group>"; };
+		72E328651A161C5E0075E2DC /* SQLiteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
 		72F1EBF319BE0CC800DB0DE1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		72F1EBF519BE1D1600DB0DE1 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -318,8 +317,8 @@
 				72CD37B919C7676C0049AD4E /* MenuViewController.m */,
 				72DF2437197AED7800F9A96B /* MenuViewController.swift */,
 				7244D510197BF74C0034D91F /* HistoryTableViewControllerSwift.swift */,
-				7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */,
 				7244D508197BF6390034D91F /* DetailViewViewControllerSwift.swift */,
+				7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */,
 				72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */,
 				7244D50A197BF6700034D91F /* DemoSelectorViewControllerSwift.swift */,
 				720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h.old */,
@@ -341,10 +340,9 @@
 		72DF246C197BCAB900F9A96B /* SQLiteDB */ = {
 			isa = PBXGroup;
 			children = (
-				72DF246F197BCB4B00F9A96B /* SQLiteDB.swift */,
-				72DF2475197BCC1000F9A96B /* Bridge.h */,
-				72DF2476197BCC1000F9A96B /* Bridge.m */,
+				72DF246F197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old */,
 				72DF246D197BCAE600F9A96B /* README_SQLiteDB.txt */,
+				72E328651A161C5E0075E2DC /* SQLiteDB.swift */,
 			);
 			name = SQLiteDB;
 			sourceTree = "<group>";
@@ -469,10 +467,9 @@
 				720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */,
 				72F1EBF419BE0CC800DB0DE1 /* LoginViewController.swift in Sources */,
 				7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */,
-				72DF2477197BCC1000F9A96B /* Bridge.m in Sources */,
 				72AA3A3419D9C9E300179DA8 /* HelperFunctions.swift in Sources */,
 				72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */,
-				72DF2470197BCB4B00F9A96B /* SQLiteDB.swift in Sources */,
+				72DF2470197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old in Sources */,
 				72CD37BA19C7676C0049AD4E /* MenuViewController.m in Sources */,
 				72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */,
 				7215A81F19FAB69C0041751B /* RunScreenContainerLeftViewController.swift in Sources */,
@@ -484,6 +481,7 @@
 				720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */,
 				720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */,
 				7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */,
+				72E328661A161C5E0075E2DC /* SQLiteDB.swift in Sources */,
 				7244D509197BF6390034D91F /* DetailViewViewControllerSwift.swift in Sources */,
 				72F1EBF619BE1D1600DB0DE1 /* SignUpViewController.swift in Sources */,
 				721AF6C9197569600084E0D1 /* RunSelectorViewControllerSwift.swift in Sources */,

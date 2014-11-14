@@ -12,9 +12,9 @@ import MapKit
 class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
 
     
-    @IBOutlet var approxDistField: UITextField;
-    @IBOutlet var mapView: MKMapView;
-    @IBOutlet var LoadingIcon_endPos: UIActivityIndicatorView;
+    @IBOutlet var approxDistField: UITextField!;
+    @IBOutlet var mapView: MKMapView!;
+    @IBOutlet var LoadingIcon_endPos: UIActivityIndicatorView!;
     var location: CLLocation? = nil;
     var endPosAuto: Bool = true;
     
@@ -22,7 +22,7 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         // Hide NavigationBar
-        self.navigationController.setNavigationBarHidden(true, animated:true);
+        self.navigationController!.setNavigationBarHidden(true, animated:true);
         super.viewWillAppear(true);
         
         // Create a gesture recognizer for long presses (for example in viewDidLoad)
@@ -96,7 +96,7 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if(segue.identifier? == "SegueStartRun") {
             var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
             runScreenViewController.autoroute1 = true;
@@ -141,7 +141,7 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
         
         let walkingRouteDirections: MKDirections = MKDirections(request: walkingRouteRequest)
         walkingRouteDirections.calculateDirectionsWithCompletionHandler({(response:MKDirectionsResponse!, error: NSError!) in
-            if (error) {
+            if (error != nil) {
                 //Some error happened
                 println("Error \(error.description)");
             } else {
@@ -203,7 +203,5 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
             self.approxDistField.enabled = false;
             self.LoadingIcon_endPos.stopAnimating();
         }
-
     }
-
 }

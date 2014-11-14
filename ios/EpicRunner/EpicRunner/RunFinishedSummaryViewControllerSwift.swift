@@ -12,22 +12,22 @@ import CoreLocation
 
 class RunFinishedSummaryViewControllerSwift: UIViewController {
     
-    @IBOutlet var lblTitle: UILabel
-    @IBOutlet var lblDate: UILabel
-    @IBOutlet var lblDistance: UILabel
-    @IBOutlet var lblDuration: UILabel
-    @IBOutlet var lblAvgSpeed: UILabel
-    @IBOutlet var lblMaxSpeed: UILabel
-    @IBOutlet var lblMinAltitude: UILabel
-    @IBOutlet var lblMaxAltitude: UILabel
-    @IBOutlet var mapView: MKMapView;
+    @IBOutlet var lblTitle: UILabel!;
+    @IBOutlet var lblDate: UILabel!;
+    @IBOutlet var lblDistance: UILabel!;
+    @IBOutlet var lblDuration: UILabel!;
+    @IBOutlet var lblAvgSpeed: UILabel!;
+    @IBOutlet var lblMaxSpeed: UILabel!;
+    @IBOutlet var lblMinAltitude: UILabel!;
+    @IBOutlet var lblMaxAltitude: UILabel!;
+    @IBOutlet var mapView: MKMapView!;
     let db = SQLiteDB.sharedInstance();
     var finishedRun: Run? = nil;
     var runId: Int = 0;
     var run_locations: String = "";
     
-    @IBOutlet var lblSynchronizeStatus: UILabel
-    @IBOutlet var idcSynchronizeStatus: UIActivityIndicatorView
+    @IBOutlet var lblSynchronizeStatus: UILabel!;
+    @IBOutlet var idcSynchronizeStatus: UIActivityIndicatorView!;
     var synchronized: Bool = false;
     
     override func viewDidLoad() {
@@ -35,17 +35,17 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         
         // realRunId = nil if "Free run", format to db null/int
         var realRunIdDbFormat:String = "null";
-        if (finishedRun?.realRunId) {
+        if (finishedRun?.realRunId != nil) {
             realRunIdDbFormat = String(self.finishedRun!.realRunId!);
             // Get and set runTypeId from db
             let realRunIdQuery = db.query("SELECT runTypeId FROM active_runs WHERE runId = \(finishedRun!.realRunId!)");
-            self.finishedRun!.runTypeId = realRunIdQuery[0]["runTypeId"]!.integer;
+            self.finishedRun!.runTypeId = realRunIdQuery[0]["runTypeId"]!.asInt();
         }
         
         // Save run to database
         db.execute("INSERT INTO runs (userId, realRunId, startDate, endDate, distance, runTypeId, aborted) VALUES((SELECT loggedInUserId FROM Settings),\(realRunIdDbFormat),\(Int(finishedRun!.start!.timeIntervalSince1970)),\(Int(finishedRun!.end!.timeIntervalSince1970)),\(finishedRun!.distance),\(finishedRun!.runTypeId),\(Int(finishedRun!.aborted)))");
         self.runId = Int(self.db.lastInsertedRowID());
-        
+
         // Save all logged locations
         for loc in finishedRun!.locations {
             self.db.execute("INSERT INTO runs_location (latitude, runId, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp) VALUES(\(loc.coordinate.latitude),\(runId),\(loc.coordinate.longitude),\(loc.horizontalAccuracy),\(loc.altitude),\(loc.verticalAccuracy),\(loc.speed),\(Int(loc.timestamp.timeIntervalSince1970)))");
@@ -76,11 +76,11 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         
         var dateFormatter: NSDateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "MMM. dd, yyyy, HH:mm";
-        self.lblDate.text = dateFormatter.stringFromDate(self.finishedRun!.start);
+        self.lblDate.text = dateFormatter.stringFromDate(self.finishedRun!.start!);
         
         self.lblDistance.text = NSString(format: "%.2f", self.finishedRun!.distance/1000);
         
-        let runTimeInSeconds: NSNumber = self.finishedRun!.end!.timeIntervalSinceDate(self.finishedRun!.start);
+        let runTimeInSeconds: NSNumber = self.finishedRun!.end!.timeIntervalSinceDate(self.finishedRun!.start!);
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
         let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);
         let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
@@ -172,11 +172,11 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
             
             // Update realRunId, synced
             let dic: NSDictionary = data as NSDictionary;
-            let realRunId: Int = dic.objectForKey("posted_id").integerValue;
+            let realRunId: Int = dic.objectForKey("posted_id")!.integerValue;
             self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.runId)");
             
             // Remove from active_runs (run selector) IF NOT free run AND Locked
-            if (self.finishedRun!.realRunId?) {
+            if (self.finishedRun!.realRunId != nil) {
                 self.db.execute("DELETE FROM active_runs WHERE locked=1 AND runId=\(self.finishedRun!.realRunId!)");
             }
             
@@ -193,14 +193,14 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         }
         
         let runDataQuery = self.db.query("SELECT s.loggedInUserId, r.realRunId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude FROM Settings s, Runs r WHERE r.id=\(self.runId)");
-        let userId: Int = runDataQuery[0]["loggedInUserId"]!.integer;
-        let realRunId: Int = runDataQuery[0]["realRunId"]!.integer;
-        let distance: Double = runDataQuery[0]["distance"]!.double;
-        let duration: Double = runDataQuery[0]["duration"]!.double;
-        let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.double;
-        let maxSpeed: Double = runDataQuery[0]["maxSpeed"]!.double;
-        let minAltitude: Double = runDataQuery[0]["minAltitude"]!.double;
-        let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.double;
+        let userId: Int = runDataQuery[0]["loggedInUserId"]!.asInt();
+        let realRunId: Int = runDataQuery[0]["realRunId"]!.asInt();
+        let distance: Double = runDataQuery[0]["distance"]!.asDouble();
+        let duration: Double = runDataQuery[0]["duration"]!.asDouble();
+        let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.asDouble();
+        let maxSpeed: Double = runDataQuery[0]["maxSpeed"]!.asDouble();
+        let minAltitude: Double = runDataQuery[0]["minAltitude"]!.asDouble();
+        let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.asDouble();
         
         
         var params: String = "user_id=\(userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";

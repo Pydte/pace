@@ -10,29 +10,29 @@
 	<string>EpicRunner</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F5AC29DA-4415-413B-955A-4CA53CEA9825</key>
+		<key>FD0A40FDE7A8903938B6765937BF6C874E7F699E</key>
 		<string>https://github.com/pandisign/epicrunner.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ios/EpicRunner/EpicRunner.xcodeproj/project.xcworkspace</string>
+	<string>ios/EpicRunner/EpicRunner.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F5AC29DA-4415-413B-955A-4CA53CEA9825</key>
+		<key>FD0A40FDE7A8903938B6765937BF6C874E7F699E</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/pandisign/epicrunner.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F5AC29DA-4415-413B-955A-4CA53CEA9825</string>
+	<string>FD0A40FDE7A8903938B6765937BF6C874E7F699E</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F5AC29DA-4415-413B-955A-4CA53CEA9825</string>
+			<string>FD0A40FDE7A8903938B6765937BF6C874E7F699E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>epicrunner</string>
 		</dict>

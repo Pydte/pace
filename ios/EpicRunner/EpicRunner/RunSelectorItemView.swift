@@ -98,6 +98,10 @@ class RunSelectorItemView: UIView {
         self.tickTimer = NSTimer.scheduledTimerWithTimeInterval(self.secBetweenTicks, target: self, selector: "tick", userInfo: nil, repeats: true);
     }
 
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func handleTap(recognizer: UITapGestureRecognizer) {
         if (self.disabled) {
             // On touch, inform this run has been run
@@ -108,7 +112,7 @@ class RunSelectorItemView: UIView {
             alert.show();
         } else {
             // On touch open detail view
-            let h = superview.nextResponder() as RunSelectorViewControllerSwift;
+            let h = superview!.nextResponder() as RunSelectorViewControllerSwift;
             h.selectedRunId = self.runId;
             h.performSegueWithIdentifier("segueDetailView", sender: self);
         }
@@ -204,7 +208,7 @@ class RunSelectorItemView: UIView {
     
     func tick() -> Bool {
         // In % how close to end date
-        let curDate = NSDate.date().timeIntervalSince1970;
+        let curDate = NSDate().timeIntervalSince1970;
         let t = (curDate - self.startDate.timeIntervalSince1970) / self.totalTime * 100;
         
         if (t > 100) {
@@ -228,13 +232,12 @@ class RunSelectorItemView: UIView {
         
         if (curDate > self.startDate.timeIntervalSince1970) {
             // That % in pixels of the timebars size
-            let h = CGFloat.bridgeFromObjectiveC(t)
+            let h = CGFloat(t)
             var p = self.frame.size.width / 100 * h;
             
             if (p > self.frame.size.width) {
                 p = self.frame.size.width;
             }
-            
             
             UIView.animateWithDuration(self.secBetweenTicks,
                 delay: 0.0,
@@ -270,7 +273,7 @@ class RunSelectorItemView: UIView {
             );
             
             // Let the controller know that i'm out
-            let h = superview.nextResponder() as RunSelectorViewControllerSwift;
+            let h = superview!.nextResponder() as RunSelectorViewControllerSwift;
             h.lockRun(self.runId);
         }
     }
@@ -288,7 +291,7 @@ class RunSelectorItemView: UIView {
             self.tickTimer = nil;
             
             // Let the controller know that i'm out
-            let h = superview.nextResponder() as RunSelectorViewControllerSwift;
+            let h = superview!.nextResponder() as RunSelectorViewControllerSwift;
             h.itemKilled(timedOut);
             
             // Commit suicide

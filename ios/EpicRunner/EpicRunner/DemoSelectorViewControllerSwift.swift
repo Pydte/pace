@@ -9,9 +9,8 @@
 import UIKit
 
 class DemoSelectorViewControllerSwift: UIViewController {
-    @IBOutlet var btnMenu: UIBarButtonItem
-    
-    
+    @IBOutlet var btnMenu: UIBarButtonItem!;
+
     var OnePointLocationRunDistance: Double = 0.0;
     
     override func viewDidLoad() {
@@ -28,7 +27,7 @@ class DemoSelectorViewControllerSwift: UIViewController {
         // Bind menu button
         self.btnMenu.target = self.revealViewController();
         self.btnMenu.action = "revealToggle:";  // This is dangerous - if wrong it's first going to crash at runtime
-        self.navigationController.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
+        self.navigationController!.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
     }
 
@@ -41,7 +40,7 @@ class DemoSelectorViewControllerSwift: UIViewController {
     
     // #pragma mark - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         //Always show navigationBar
         if(segue.identifier? == "SegueMultiplayer") {
             var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
@@ -57,7 +56,7 @@ class DemoSelectorViewControllerSwift: UIViewController {
     
     
     @IBAction func unwindToDemoSelector(segue: UIStoryboardSegue) {
-        self.navigationController.setNavigationBarHidden(false, animated:true);
+        self.navigationController!.setNavigationBarHidden(false, animated:true);
         super.viewWillAppear(true);
         
         if(segue.identifier? == "SegueStartRun") {

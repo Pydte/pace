@@ -10,8 +10,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
-    @IBOutlet var txtEmail: UITextField
-    @IBOutlet var txtPassword: UITextField
+    @IBOutlet var txtEmail: UITextField!;
+    @IBOutlet var txtPassword: UITextField!;
     
     override func viewDidLoad() {
         super.viewDidLoad();
@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
         //Check if the user already is logged in.
         let db = SQLiteDB.sharedInstance();
         let query = db.query("SELECT loggedInUserId FROM settings");
-        let userID = query[0]["loggedInUserId"]!.integer;
+        let userID = query[0]["loggedInUserId"]!.asInt();
         
         //if userID == null in db => userID = 0
         if (userID != 0) {
@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
         func callbackSuccess(data: AnyObject) {
             println("Sign in successful");
             let dic: NSDictionary = data as NSDictionary;
-            let id: Int = dic.objectForKey("id").integerValue;
+            let id: Int = dic.objectForKey("id")!.integerValue;
             
             //Save userID in database
             let db = SQLiteDB.sharedInstance();

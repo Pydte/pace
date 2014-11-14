@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.7" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2BX-Pb-UOX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2BX-Pb-UOX">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6181.2"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Run Finished Summary View Controller Swift-->
@@ -31,7 +31,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="B8X-ck-Nn1" kind="unwind" unwindAction="unwindToMain:" id="Yhi-AA-fjd"/>
+                                    <segue destination="B8X-ck-Nn1" kind="unwind" unwindAction="unwindToMain:" id="odZ-gQ-N2b"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Apr. 11, 2014, xx:xx" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JIQ-50-SOk" userLabel="lblDate - Apr. 11, 2014, xx:xx">
@@ -347,12 +347,12 @@
         <scene sceneID="B0G-UP-YsD">
             <objects>
                 <tableViewController id="slv-S4-aJ2" customClass="HistoryTableViewControllerSwift" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="XHX-qY-MVD">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="XHX-qY-MVD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryPrototypeCell" textLabel="k8q-pr-7bt" style="IBUITableViewCellStyleDefault" id="lsc-WG-7lA">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryPrototypeCell" textLabel="k8q-pr-7bt" style="IBUITableViewCellStyleDefault" id="lsc-WG-7lA">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lsc-WG-7lA" id="83x-3G-H0R">
@@ -768,7 +768,7 @@
                                     <action selector="btnReadyTouchUp:" destination="7qI-yi-SKc" eventType="touchUpInside" id="3Qw-MF-sop"/>
                                 </connections>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NOv-rX-FLj">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" rotateEnabled="NO" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NOv-rX-FLj">
                                 <rect key="frame" x="20" y="127" width="280" height="288"/>
                             </mapView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Go to the location where you wish to start and press &quot;Ready&quot;. Be aware, you can't change the start location afterwards." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="LWE-rG-JFh">
@@ -788,7 +788,7 @@
                     <connections>
                         <outlet property="btnReady" destination="Tqz-dK-7yg" id="ixv-Og-YsC"/>
                         <outlet property="loadingIndicator" destination="P4Q-DJ-Ef6" id="A7q-jg-1Id"/>
-                        <outlet property="mapView" destination="NOv-rX-FLj" id="Zrs-G7-VMc"/>
+                        <outlet property="mapView" destination="NOv-rX-FLj" id="sPR-XN-saa"/>
                         <segue destination="Tsx-2i-5rC" kind="push" identifier="segueLocationRun" id="jsE-4B-XOp"/>
                         <segue destination="Tsx-2i-5rC" kind="push" identifier="segueCollectorRun" id="cOM-F2-O3X"/>
                     </connections>
@@ -890,7 +890,7 @@
                             <mapView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ert-la-3nq">
                                 <rect key="frame" x="0.0" y="227" width="320" height="179"/>
                             </mapView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7jP-kC-JET" userLabel="LoadingIcon_endPos">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7jP-kC-JET" userLabel="LoadingIcon_endPos">
                                 <rect key="frame" x="280" y="193" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
@@ -1002,12 +1002,12 @@
         <scene sceneID="88e-7y-CfX">
             <objects>
                 <tableViewController storyboardIdentifier="MenuViewController" id="9R5-rp-iev" customClass="MenuViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="x3B-VM-dl2">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="x3B-VM-dl2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Profile" textLabel="sdq-B3-oR7" style="IBUITableViewCellStyleDefault" id="Kmk-ze-h9w" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Profile" textLabel="sdq-B3-oR7" style="IBUITableViewCellStyleDefault" id="Kmk-ze-h9w" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kmk-ze-h9w" id="XrU-0Y-FdH">
@@ -1028,7 +1028,7 @@
                                     <segue destination="PS6-S7-6yK" kind="custom" identifier="DemoSelector" customClass="SWRevealViewControllerSeguePushController" id="73I-gB-P97"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Run" textLabel="nYb-Xy-5A6" style="IBUITableViewCellStyleDefault" id="thA-wX-jUz" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Run" textLabel="nYb-Xy-5A6" style="IBUITableViewCellStyleDefault" id="thA-wX-jUz" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="thA-wX-jUz" id="9Mz-pi-rQR">
@@ -1048,7 +1048,7 @@
                                     <segue destination="xiq-B9-izy" kind="custom" identifier="RunSelector" customClass="SWRevealViewControllerSeguePushController" id="sqv-J8-Zh2"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="History" textLabel="loa-jn-2t1" style="IBUITableViewCellStyleDefault" id="gr1-uD-vdH" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="History" textLabel="loa-jn-2t1" style="IBUITableViewCellStyleDefault" id="gr1-uD-vdH" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="110" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gr1-uD-vdH" id="08G-J0-CVq">
@@ -1069,7 +1069,7 @@
                                     <segue destination="Ugi-Wg-shH" kind="custom" identifier="History" customClass="SWRevealViewControllerSeguePushController" id="w2r-eN-XkL"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Community" textLabel="ZzV-PY-U9q" style="IBUITableViewCellStyleDefault" id="d6K-ve-DFj" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Community" textLabel="ZzV-PY-U9q" style="IBUITableViewCellStyleDefault" id="d6K-ve-DFj" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="154" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d6K-ve-DFj" id="DMG-GF-Dyt">
@@ -1089,7 +1089,7 @@
                                     <outlet property="label" destination="ZzV-PY-U9q" id="r6w-ba-u8i"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Shop" textLabel="Ocg-Rb-1Cw" style="IBUITableViewCellStyleDefault" id="vMV-ZK-Ieh" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Shop" textLabel="Ocg-Rb-1Cw" style="IBUITableViewCellStyleDefault" id="vMV-ZK-Ieh" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="198" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vMV-ZK-Ieh" id="gDG-Db-5It">
@@ -1109,7 +1109,7 @@
                                     <outlet property="label" destination="Ocg-Rb-1Cw" id="Wlq-ge-mEi"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Settings" textLabel="kE0-FM-fGK" style="IBUITableViewCellStyleDefault" id="6r9-0s-ehg" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Settings" textLabel="kE0-FM-fGK" style="IBUITableViewCellStyleDefault" id="6r9-0s-ehg" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6r9-0s-ehg" id="v8X-fY-NcR">
@@ -1129,7 +1129,7 @@
                                     <outlet property="label" destination="kE0-FM-fGK" id="iLD-KY-X3d"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Logout" textLabel="NXZ-l3-dn9" style="IBUITableViewCellStyleDefault" id="PJT-45-7me" userLabel="Logout" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Logout" textLabel="NXZ-l3-dn9" style="IBUITableViewCellStyleDefault" id="PJT-45-7me" userLabel="Logout" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PJT-45-7me" id="P3e-Ci-gP7">
@@ -1718,16 +1718,13 @@ P</string>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination">
-            <size key="portraitSize" width="320" height="480"/>
-            <size key="landscapeSize" width="480" height="320"/>
-        </simulatedScreenMetrics>
+        <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="cGr-4D-Jrw"/>
-        <segue reference="TCo-xG-qvc"/>
         <segue reference="LU8-OD-Lhj"/>
         <segue reference="Zro-Gy-3Zr"/>
+        <segue reference="TCo-xG-qvc"/>
+        <segue reference="jsE-4B-XOp"/>
         <segue reference="d0x-cK-PT8"/>
     </inferredMetricsTieBreakers>
 </document>

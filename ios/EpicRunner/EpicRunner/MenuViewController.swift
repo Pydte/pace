@@ -12,7 +12,7 @@ class SWUITableViewCell: UITableViewCell {
 }
 
 class MenuViewController: UITableViewController {
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // configure the destination view controller:
         //    if ( [segue.destinationViewController isKindOfClass: [ColorViewController class]] &&
         //        [sender isKindOfClass:[UITableViewCell class]] )
@@ -38,18 +38,18 @@ class MenuViewController: UITableViewController {
     
     // #pragma mark - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
         return 1
     }
     
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         return 7;
     }
     
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell? {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var CellIdentifier: String = "Cell";
         
         switch (indexPath.row)

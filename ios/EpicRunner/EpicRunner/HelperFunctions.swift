@@ -27,7 +27,7 @@ class HelperFunctions {
         let defaultConfigObject: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
         let defaultSession: NSURLSession = NSURLSession(configuration: defaultConfigObject, delegate: nil, delegateQueue: NSOperationQueue.mainQueue());
         
-        let url: NSURL = NSURL.URLWithString("http://epicrunner.com.pandiweb.dk/webservice/\(serviceName)");
+        let url: NSURL = NSURL(string: "http://epicrunner.com.pandiweb.dk/webservice/\(serviceName)")!;
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url);
         urlRequest.HTTPMethod = "POST";
         urlRequest.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false);
@@ -35,13 +35,13 @@ class HelperFunctions {
         let dataTask: NSURLSessionDataTask = defaultSession.dataTaskWithRequest(urlRequest, completionHandler: {(data: NSData!, response: NSURLResponse!, error: NSError!) in
             
             if (error == nil) {
-                let text: NSString = NSString(data: data, encoding: NSUTF8StringEncoding)
+                let text: NSString = NSString(data: data, encoding: NSUTF8StringEncoding)!;
                 //println(text);
                 
                 var error: NSError?
                 let dic: NSDictionary? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as? NSDictionary;
                 if (dic != nil) {
-                    let status: Bool = dic!.objectForKey("success").boolValue;
+                    let status: Bool = dic!.objectForKey("success")!.boolValue;
                     
                     if (status) {
                         println("Server contact successful");

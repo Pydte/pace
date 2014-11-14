@@ -10,8 +10,9 @@ import UIKit
 import CoreLocation
 
 class HistoryTableViewControllerSwift: UITableViewController {
-    @IBOutlet strong var myTableView: UITableView?;
-    @IBOutlet var btnMenu: UIBarButtonItem;
+    //@IBOutlet strong var myTableView: UITableView!;
+    @IBOutlet var myTableView: UITableView!;
+    @IBOutlet var btnMenu: UIBarButtonItem!;
     
     let db = SQLiteDB.sharedInstance();
     var runs: [Run] = [];
@@ -23,7 +24,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         // Bind menu button
         self.btnMenu.target = self.revealViewController();
         self.btnMenu.action = "revealToggle:";  // This is dangerous - if wrong it's first going to crash at runtime
-        self.navigationController.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
+        self.navigationController!.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
         
         // Load data
@@ -44,18 +45,18 @@ class HistoryTableViewControllerSwift: UITableViewController {
 
     // #pragma mark - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         return self.runs.count;
     }
 
     
-    override func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell? {
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Configure the cell...
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("HistoryPrototypeCell", forIndexPath: indexPath) as UITableViewCell;
 
@@ -63,7 +64,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         dateFormatter.dateFormat = "dd-MM HH:mm";
         
         let run: Run = self.runs[indexPath.row];
-        let runTimeInSeconds: NSNumber = run.end!.timeIntervalSinceDate(run.start);
+        let runTimeInSeconds: NSNumber = run.end!.timeIntervalSinceDate(run.start!);
     
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
         let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);
@@ -71,7 +72,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
         let runRemainingTimeInSecondsFormat = NSString(format: "%02d", Int(runRemainingTimeInSeconds));
 
-        cell.textLabel.text = "\(dateFormatter.stringFromDate(run.start)) - " + NSString(format: "%.2f", run.distance/1000) +
+        cell.textLabel.text = "\(dateFormatter.stringFromDate(run.start!)) - " + NSString(format: "%.2f", run.distance/1000) +
             " km in \(runTimeInMinutesFormat):\(runRemainingTimeInSecondsFormat) min";
 
         return cell
@@ -82,7 +83,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         
         // Remove from database
         let db = SQLiteDB.sharedInstance();
-        let query = db.execute("DELETE FROM runs WHERE id = \(run.dbId)");
+        let query = db.execute("DELETE FROM runs WHERE id = \(run.dbId!)");
         
         // Remove from data source (in memory)
         // Order Important! - Update source before table view, otherwise tableView gets confused. Silly table view.
@@ -132,7 +133,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         if (segue.identifier == "SegueRunDetails") {
@@ -171,10 +172,10 @@ class HistoryTableViewControllerSwift: UITableViewController {
         for runInDb in queryRuns {
             // Retrieve run data
             var run: Run = Run();
-            run.dbId = runInDb["id"]!.integer;
-            run.start = NSDate(timeIntervalSince1970: Double(runInDb["startDate"]!.integer));
-            run.end = NSDate(timeIntervalSince1970: Double(runInDb["endDate"]!.integer));
-            run.distance = runInDb["distance"]!.double;
+            run.dbId = runInDb["id"]!.asInt();
+            run.start = NSDate(timeIntervalSince1970: Double(runInDb["startDate"]!.asInt()));
+            run.end = NSDate(timeIntervalSince1970: Double(runInDb["endDate"]!.asInt()));
+            run.distance = runInDb["distance"]!.asDouble();
             
             // Read all locations for runs
             // - Probably use parameters........

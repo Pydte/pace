@@ -15,10 +15,10 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     var rightController: RunScreenContainerRightViewController?;
     var showing: Int = 0;
     
-    @IBOutlet var lblDuration: UILabel
-    @IBOutlet var lblDistance: UILabel
-    @IBOutlet var lblSpeed: UILabel
-    @IBOutlet var lblMedal: UILabel
+    @IBOutlet var lblDuration: UILabel!;
+    @IBOutlet var lblDistance: UILabel!;
+    @IBOutlet var lblSpeed: UILabel!;
+    @IBOutlet var lblMedal: UILabel!;
     
     
     // Shared
@@ -44,10 +44,10 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        leftController = self.storyboard.instantiateViewControllerWithIdentifier("left") as? UIViewController;
-        rightController = self.storyboard.instantiateViewControllerWithIdentifier("right") as? RunScreenContainerRightViewController;
-        self.addChildViewController(leftController);
-        self.addChildViewController(rightController);
+        leftController = self.storyboard?.instantiateViewControllerWithIdentifier("left") as? UIViewController;
+        rightController = self.storyboard?.instantiateViewControllerWithIdentifier("right") as? RunScreenContainerRightViewController;
+        self.addChildViewController(leftController!);
+        self.addChildViewController(rightController!);
         
         // Set position outside of view
         leftController!.view.frame.origin.x = -leftController!.view.frame.width;

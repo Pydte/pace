@@ -11,15 +11,15 @@ import MapKit
 import AVFoundation
 
 class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
-    @IBOutlet var btnMenu: UIBarButtonItem
-    @IBOutlet var runButton: UIButton
-    @IBOutlet var container: UIView
-    @IBOutlet var lblCurrentObj: UILabel
-    @IBOutlet var lblTotalPossibleProgress: UILabel
-    @IBOutlet var lblTotalMadeProgerss: UILabel
-    @IBOutlet var btnGps: UIButton
+    @IBOutlet var btnMenu: UIBarButtonItem!;
+    @IBOutlet var runButton: UIButton!;
+    @IBOutlet var container: UIView!;
+    @IBOutlet var lblCurrentObj: UILabel!;
+    @IBOutlet var lblTotalPossibleProgress: UILabel!;
+    @IBOutlet var lblTotalMadeProgerss: UILabel!;
+    @IBOutlet var btnGps: UIButton!;
     
-    let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
+    let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue;
     var locationManager: CLLocationManager = CLLocationManager();
     var active: Bool = true;
     
@@ -194,13 +194,13 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     
                 }
                 
-                self.lblTotalMadeProgerss.frame = CGRect(origin: self.lblTotalMadeProgerss.frame.origin, size: CGSize(width: progress, height: self.lblTotalMadeProgerss.frame.height));
+                self.lblTotalMadeProgerss.frame = CGRect(origin: self.lblTotalMadeProgerss.frame.origin, size: CGSize(width: CGFloat(progress), height: self.lblTotalMadeProgerss.frame.height));
                 
                 
                 
             } else if (self.runTypeId == 3) {
                 // Collector Run
-                let acceptableDeltaDistInMeters: Double = 175;
+                let acceptableDeltaDistInMeters: Double = 25;
                 let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
                 
                 
@@ -263,13 +263,13 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         self.locationManager.startUpdatingLocation();
         
         // Always show navigationBar
-        self.navigationController.setNavigationBarHidden(false, animated: false);
+        self.navigationController!.setNavigationBarHidden(false, animated: false);
         super.viewWillAppear(false);
         
         // Bind menu button
         self.btnMenu.target = self.revealViewController();
         self.btnMenu.action = "revealToggle:";  // This is dangerous - if wrong it's first going to crash at runtime
-        self.navigationController.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
+        self.navigationController!.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
         // Set title of navigationbar
         self.navigationItem.title = HelperFunctions().runHeadline[self.runTypeId];
@@ -349,12 +349,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     
     func tickContainer() {
         // Updates the container view periodically
-        if (self.currentRun) {
+        if (self.currentRun != nil) {
             // Update distance
             self.runScreenContainerViewController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000);
             
             // Update time
-            let runTimeInSeconds: NSNumber = NSDate().timeIntervalSinceDate(self.currentRun!.start);
+            let runTimeInSeconds: NSNumber = NSDate().timeIntervalSinceDate(self.currentRun!.start!);
             self.runScreenContainerViewController!.lblDuration.text = HelperFunctions().formatSecToMinSec(runTimeInSeconds.integerValue);
             
             // Update Speed
@@ -426,10 +426,10 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     
     // #pragma mark - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if (segue.identifier) {
+        if (segue.identifier != nil) {
             if (segue.identifier == "SegueRunFinished") {
                 var runFinishedSummaryViewController: RunFinishedSummaryViewControllerSwift = segue.destinationViewController as RunFinishedSummaryViewControllerSwift;
                 runFinishedSummaryViewController.finishedRun = self.currentRun;
@@ -483,6 +483,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         // Clean up
         self.timerContainerUpdater?.invalidate();
         self.timerContainerUpdater = nil;
+        self.locationManager.stopUpdatingLocation();
     }
     
     
@@ -496,9 +497,9 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     
     @IBAction func btnGpsTouch(sender: AnyObject) {
         // Show pop up containing relevant info
-        var alert: UIAlertView = UIAlertView()
-        alert.title = "GPS indicator"
-        switch btnGps.titleLabel.textColor {
+        var alert: UIAlertView = UIAlertView();
+        alert.title = "GPS indicator";
+        switch btnGps.titleLabel!.textColor {
         case UIColor(red: 0, green: 1, blue: 0, alpha: 1):
             alert.message = "GPS Signal is strong and you will recieve the full experience. (x-ym)"
         case UIColor(red: 1, green: 1, blue: 0, alpha: 1):

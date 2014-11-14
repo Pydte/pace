@@ -15,15 +15,15 @@ class DetailViewViewControllerSwift: UIViewController {
     var selectedRun: Run?;
     let db = SQLiteDB.sharedInstance();
     
-    @IBOutlet var mapView: MKMapView
-    @IBOutlet var lblDate: UILabel
-    @IBOutlet var lblDistance: UILabel
-    @IBOutlet var lblDuration: UILabel
-    @IBOutlet var lblAvgSpeed: UILabel
-    @IBOutlet var lblMaxSpeed: UILabel
-    @IBOutlet var lblMinAltitude: UILabel
-    @IBOutlet var lblMaxAltitude: UILabel
-    @IBOutlet var btnDelete: UIBarButtonItem
+    @IBOutlet var mapView: MKMapView!;
+    @IBOutlet var lblDate: UILabel!;
+    @IBOutlet var lblDistance: UILabel!;
+    @IBOutlet var lblDuration: UILabel!;
+    @IBOutlet var lblAvgSpeed: UILabel!;
+    @IBOutlet var lblMaxSpeed: UILabel!;
+    @IBOutlet var lblMinAltitude: UILabel!;
+    @IBOutlet var lblMaxAltitude: UILabel!;
+    @IBOutlet var btnDelete: UIBarButtonItem!;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,15 +57,15 @@ class DetailViewViewControllerSwift: UIViewController {
     func loadRouteData() {
         // Check if the data points already is in memory, otherwise load them from db.
         if (self.selectedRun!.locations.count == 0) {
-            let queryLocs = db.query("SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = \(self.selectedRun!.dbId) ORDER BY id");
+            let queryLocs = db.query("SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = \(self.selectedRun!.dbId!) ORDER BY id");
             for locInDb in queryLocs {
                 // Retrieve loc data
-                let lat = locInDb["latitude"]!.double;
-                let lon = locInDb["longitude"]!.double;
-                let horizontalAcc = locInDb["horizontalAccuracy"]!.double;
-                let altitude = locInDb["altitude"]!.double;
-                let verticalAcc = locInDb["verticalAccuracy"]!.double;
-                let speed = locInDb["speed"]!.double;
+                let lat = locInDb["latitude"]!.asDouble();
+                let lon = locInDb["longitude"]!.asDouble();
+                let horizontalAcc = locInDb["horizontalAccuracy"]!.asDouble();
+                let altitude = locInDb["altitude"]!.asDouble();
+                let verticalAcc = locInDb["verticalAccuracy"]!.asDouble();
+                let speed = locInDb["speed"]!.asDouble();
                 let loc = CLLocation(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon),
                     altitude: altitude,
                     horizontalAccuracy: horizontalAcc,
@@ -82,11 +82,11 @@ class DetailViewViewControllerSwift: UIViewController {
     func presentInfo() {
         var dateFormatter: NSDateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "MMM. dd, yyyy, HH:mm";
-        self.lblDate.text = dateFormatter.stringFromDate(self.selectedRun!.start);
+        self.lblDate.text = dateFormatter.stringFromDate(self.selectedRun!.start!);
         
         self.lblDistance.text = NSString(format: "%.2f", self.selectedRun!.distance/1000);
         
-        let runTimeInSeconds: NSNumber = self.selectedRun!.end!.timeIntervalSinceDate(self.selectedRun!.start);
+        let runTimeInSeconds: NSNumber = self.selectedRun!.end!.timeIntervalSinceDate(self.selectedRun!.start!);
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
         let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);
         let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
@@ -209,11 +209,11 @@ class DetailViewViewControllerSwift: UIViewController {
             
             // Update realRunId, synced
             let dic: NSDictionary = data as NSDictionary;
-            let realRunId: Int = dic.objectForKey("posted_id").integerValue;
+            let realRunId: Int = dic.objectForKey("posted_id")!.integerValue;
             self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.selectedRun!.dbId)");
             
             // Remove from active_runs (run selector) IF NOT free run AND Locked
-            if (self.selectedRun!.realRunId?) {
+            if (self.selectedRun!.realRunId? != nil) {
                 self.db.execute("DELETE FROM active_runs WHERE locked=1 AND runId=\(self.selectedRun!.realRunId!)");
             }
             
@@ -227,15 +227,15 @@ class DetailViewViewControllerSwift: UIViewController {
         
         // If not already synced
         let runDataQuery = self.db.query("SELECT s.loggedInUserId, r.realRunId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude, r.synced FROM Settings s, Runs r WHERE r.id=\(self.selectedRun!.dbId)");
-        let userId: Int = runDataQuery[0]["loggedInUserId"]!.integer;
-        let realRunId: Int = runDataQuery[0]["realRunId"]!.integer;
-        let distance: Double = runDataQuery[0]["distance"]!.double;
-        let duration: Double = runDataQuery[0]["duration"]!.double;
-        let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.double;
-        let maxSpeed: Double = runDataQuery[0]["maxSpeed"]!.double;
-        let minAltitude: Double = runDataQuery[0]["minAltitude"]!.double;
-        let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.double;
-        let synced: Bool = Bool(runDataQuery[0]["synced"]!.integer);
+        let userId: Int = runDataQuery[0]["loggedInUserId"]!.asInt();
+        let realRunId: Int = runDataQuery[0]["realRunId"]!.asInt();
+        let distance: Double = runDataQuery[0]["distance"]!.asDouble();
+        let duration: Double = runDataQuery[0]["duration"]!.asDouble();
+        let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.asDouble();
+        let maxSpeed: Double = runDataQuery[0]["maxSpeed"]!.asDouble();
+        let minAltitude: Double = runDataQuery[0]["minAltitude"]!.asDouble();
+        let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.asDouble();
+        let synced: Bool = Bool(runDataQuery[0]["synced"]!.asInt());
         
         if (synced) {
             println("Already synced!!");
@@ -258,7 +258,7 @@ class DetailViewViewControllerSwift: UIViewController {
     
     // #pragma mark - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         

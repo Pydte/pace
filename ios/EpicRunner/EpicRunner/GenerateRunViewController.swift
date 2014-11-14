@@ -10,15 +10,14 @@ import UIKit
 import MapKit
 
 class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIAlertViewDelegate {
-
-    @IBOutlet var btnReady: UIButton
-    @IBOutlet var mapView: MKMapView
-    @IBOutlet var loadingIndicator: UIActivityIndicatorView
+  
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var btnReady: UIButton!;
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!;
     
-    let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
+    let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue;
     var locationManager: CLLocationManager = CLLocationManager();
     let db = SQLiteDB.sharedInstance();
-    
     var btnReadyWorking: Bool = false;
     var countDownCounter: Int = 5;
     var countDownTimer: NSTimer? = nil;
@@ -46,7 +45,6 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     var runPointHome: CLLocationCoordinate2D? = nil;
     var runPoints: [CLLocationCoordinate2D] = [];
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +59,8 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         }
         self.locationManager.startUpdatingLocation();
         
+        self.mapView.showsUserLocation = true;
+        //Center to rough location
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,7 +70,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     
     @IBAction func btnReadyTouchUp(sender: AnyObject) {
         if (self.btnReadyWorking == false) {
-            if (self.btnReady.titleLabel.text == "Run now") {
+            if (self.btnReady.titleLabel!.text == "Run now") {
                 // RUN NOW
                 let pU = CLLocation(latitude: self.mapView.userLocation.coordinate.latitude, longitude: self.mapView.userLocation.coordinate.longitude);
                 let pA = CLLocation(latitude: self.locRunPointA!.latitude, longitude: self.locRunPointA!.longitude);
@@ -86,7 +86,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                     self.btnReadyWorking = true;
                     self.countDownTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "countDown", userInfo: nil, repeats: true);
                 }
-            } else if (self.btnReady.titleLabel.text == "Ready"){
+            } else if (self.btnReady.titleLabel!.text == "Ready"){
                 // READY
                 var alert: UIAlertView = UIAlertView();
                 alert.title = "Be aware!";
@@ -161,7 +161,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                 println("Unkown runTypeId in GenerateRunViewController");
             }
         }
-        
+    
         
         // Generate point B
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "generateRoute", userInfo: nil, repeats: false);
@@ -204,7 +204,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         var walkingRouteDirections: MKDirections = MKDirections(request: walkingRouteRequest);
         walkingRouteDirections.calculateDirectionsWithCompletionHandler({(response:MKDirectionsResponse!, error: NSError!) in
 
-            if (error) {
+            if (error != nil) {
                 //Some error happened, try again :)
                 if (error.code == 5) {
                     println("Directions not available");
@@ -310,7 +310,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // General
         let runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
         runScreenViewController.runId = self.runId;

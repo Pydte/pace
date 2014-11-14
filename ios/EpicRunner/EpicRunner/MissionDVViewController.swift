@@ -10,12 +10,12 @@ import UIKit
 
 class MissionDVViewController: UIViewController {
 
-    @IBOutlet var lblTimeRemaning: UILabel
-    @IBOutlet var lblBronze: UILabel
-    @IBOutlet var lblSilver: UILabel
-    @IBOutlet var lblGold: UILabel
-    @IBOutlet var lblDescription: UILabel
-    @IBOutlet var lblDistance: UILabel
+    @IBOutlet var lblTimeRemaning: UILabel!;
+    @IBOutlet var lblBronze: UILabel!;
+    @IBOutlet var lblSilver: UILabel!;
+    @IBOutlet var lblGold: UILabel!;
+    @IBOutlet var lblDescription: UILabel!;
+    @IBOutlet var lblDistance: UILabel!;
     
     var distance: Double = 0.0;
     var difficulty: Int = 0;
@@ -29,22 +29,22 @@ class MissionDVViewController: UIViewController {
     let db = SQLiteDB.sharedInstance();
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
         //Not working?
         //ifnull(medalBronze,0) AS
         let selectedRunQuery = db.query("SELECT runTypeId, startDate, endDate, difficulty, distance, duration, locked, medalBronze, medalSilver, medalGold FROM active_runs WHERE runId=\(self.selectedRunId)");
         
         let runTypeName = ["Location Run","Interval Run","Collector Run"];
         
-        self.selectedRunTypeId = selectedRunQuery[0]["runTypeId"]!.integer;
-        let endDateUnix: Int = selectedRunQuery[0]["endDate"]!.integer;
-        let locked: Bool = Bool(selectedRunQuery[0]["locked"]!.integer);
-        self.medalBronze = selectedRunQuery[0]["medalBronze"]!.integer;
-        self.medalSilver = selectedRunQuery[0]["medalSilver"]!.integer;
-        self.medalGold = selectedRunQuery[0]["medalGold"]!.integer;
-        self.difficulty = selectedRunQuery[0]["difficulty"]!.integer;
-        self.distance = selectedRunQuery[0]["distance"]!.double;
-        self.duration = selectedRunQuery[0]["duration"]!.integer;
+        self.selectedRunTypeId = selectedRunQuery[0]["runTypeId"]!.asInt();
+        let endDateUnix: Int = selectedRunQuery[0]["endDate"]!.asInt();
+        let locked: Bool = Bool(selectedRunQuery[0]["locked"]!.asInt());
+        self.medalBronze = selectedRunQuery[0]["medalBronze"]!.asInt();
+        self.medalSilver = selectedRunQuery[0]["medalSilver"]!.asInt();
+        self.medalGold = selectedRunQuery[0]["medalGold"]!.asInt();
+        self.difficulty = selectedRunQuery[0]["difficulty"]!.asInt();
+        self.distance = selectedRunQuery[0]["distance"]!.asDouble();
+        self.duration = selectedRunQuery[0]["duration"]!.asInt();
         self.title = runTypeName[self.selectedRunTypeId-1];
         
         // Set time remaining
@@ -106,13 +106,11 @@ class MissionDVViewController: UIViewController {
         // Set medals
         if (self.medalBronze == 0) {
             lblBronze.text = "If finish";
-        } else if (self.medalBronze == 1) {
-            lblBronze.text = "\(self.medalBronze) object";
         } else {
-            lblBronze.text = "\(self.medalBronze) objects";
+            lblBronze.text = "in \(HelperFunctions().formatSecToMinSec(medalBronze))";
         }
-        lblSilver.text = "\(self.medalSilver) objects";
-        lblGold.text = "\(self.medalGold) objects";
+        lblSilver.text = "in \(HelperFunctions().formatSecToMinSec(medalSilver))";
+        lblGold.text = "in \(HelperFunctions().formatSecToMinSec(medalGold))";
     }
     
     override func didReceiveMemoryWarning() {
@@ -125,7 +123,7 @@ class MissionDVViewController: UIViewController {
     // #pragma mark - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "SegueGenerateRun") {

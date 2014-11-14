@@ -11,7 +11,7 @@ import MapKit
 
 class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate {
 
-    @IBOutlet var mapView: MKMapView
+    @IBOutlet var mapView: MKMapView!
     
     var container: RunScreenContainerViewController?;
     
@@ -68,7 +68,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             // Draw home point
             self.container!.runPointHomeAnno = MKPointAnnotation();
             self.container!.runPointHomeAnno!.coordinate = container!.runPointHome!;
-            self.mapView.addAnnotation(self.container!.runPointHomeAnno);
+            //self.mapView.addAnnotation(self.container!.runPointHomeAnno);
             
             // Draw all points to collect
             for pointCoord in container!.runPoints {
@@ -108,7 +108,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                 let defaultConfigObject: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
                 let defaultSession: NSURLSession = NSURLSession(configuration: defaultConfigObject, delegate: nil, delegateQueue: NSOperationQueue.mainQueue());
                 
-                let url: NSURL = NSURL.URLWithString("http://marci.dk/epicrunner/locping.php");
+                let url: NSURL = NSURL(string: "http://marci.dk/epicrunner/locping.php")!;
                 let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url);
                 let coord = userLocation.location.coordinate;
                 let params: String = NSString(format: "lat=%f&lon=%f", coord.latitude, coord.longitude);
@@ -124,8 +124,8 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                         var error: NSError?
                         let dic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as NSDictionary;
                         
-                        let player2lat: Double = dic.objectForKey("lat").doubleValue;
-                        let player2lon: Double = dic.objectForKey("lon").doubleValue;
+                        let player2lat: Double = dic.objectForKey("lat")!.doubleValue;
+                        let player2lon: Double = dic.objectForKey("lon")!.doubleValue;
                         let p2: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: player2lat, longitude: player2lon);
                         self.container!.player2Annotation!.coordinate = p2;
                     }
@@ -142,7 +142,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             // This is not the users location indicator (the blue dot)
             view = mapView.dequeueReusableAnnotationViewWithIdentifier("myAnnotationIdentifier");
 
-            if (!view) {
+            if (view == nil) {
                 // Could not reuse a view ...
                 // Creating a new annotation view
                 view = MKAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotationIdentifier")
