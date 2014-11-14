@@ -32,6 +32,8 @@ class RunSelectorViewControllerSwift: UIViewController {
     var item4: RunSelectorItemView?;
     var item5: RunSelectorItemView?;
     var itemLocked: RunSelectorItemView?;
+    
+    var runId: Int = 0;
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +88,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         // If necessary, request active runs from webservice
         if (runTimedOut || (numberOfRuns-numberOfLockedRuns) != 5 || numberOfLockedRuns > 1) {
             // Show loading info, this request can take a little while
+            lblLoadingText.text = "Fetching available runs..";
             lblLoadingText.hidden = false;
             idcLoading.startAnimating();
             
@@ -369,6 +372,65 @@ class RunSelectorViewControllerSwift: UIViewController {
         self.view.addSubview(item1);
     }
     
+    func syncAllRuns() {
+        func syncAllRunsSuccess(data: AnyObject) {
+            // Update realRunId, synced
+            let dic: NSDictionary = data as NSDictionary;
+            let realRunId: Int = dic.objectForKey("posted_id").integerValue;
+            self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.runId)");
+            
+            // Remove from active_runs (run selector) IF NOT free run AND Locked
+            //if (self.finishedRun!.realRunId?) {
+            //    self.db.execute("DELETE FROM active_runs WHERE locked=1 AND runId=\(self.finishedRun!.realRunId!)");
+            //}
+            
+            // Continue until all runs are synced
+            syncAllRuns();
+        }
+        
+        let runDataQuery = self.db.query("SELECT id, realRunId, distance, duration, avgSpeed, maxSpeed, minAltitude, maxAltitude, runTypeId FROM Runs WHERE synced=0 AND userId=(SELECT loggedInUserId FROM settings) LIMIT 1");
+        
+        if (runDataQuery.count > 0) {
+            let runId_l: Int = runDataQuery[0]["id"]!.integer;
+            println("synchronizing: \(runId_l)");
+            self.runId = runId_l;
+            let realRunId: Int = runDataQuery[0]["realRunId"]!.integer;
+            let distance: Double = runDataQuery[0]["distance"]!.double;
+            let duration: Double = runDataQuery[0]["duration"]!.double;
+            let avgSpeed: Double = runDataQuery[0]["avgSpeed"]!.double;
+            let maxSpeed: Double = runDataQuery[0]["maxSpeed"]!.double;
+            let minAltitude: Double = runDataQuery[0]["minAltitude"]!.double;
+            let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.double;
+            let runTypeId: Int = runDataQuery[0]["runTypeId"]!.integer;
+            
+            // Run locations
+            var run_locations: String = "";
+            let runLocationDataQuery = self.db.query("SELECT latitude, runId, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp FROM runs_location WHERE runId=\(runId)");
+            for var i=0; i<runLocationDataQuery.count; i++ {
+                let latitude: Double = runLocationDataQuery[0]["latitude"]!.double;
+                let longitude: Double = runLocationDataQuery[0]["longitude"]!.double;
+                let horizontalAccuracy: Double = runLocationDataQuery[0]["horizontalAccuracy"]!.double;
+                let altitude: Double = runLocationDataQuery[0]["altitude"]!.double;
+                let verticalAccuracy: Double = runLocationDataQuery[0]["verticalAccuracy"]!.double;
+                let speed: Double = runLocationDataQuery[0]["speed"]!.double;
+                let timestamp: Int = runLocationDataQuery[0]["timestamp"]!.integer;
+                
+                run_locations += "&la[]=\(latitude)&lo[]=\(longitude)&ho[]=\(horizontalAccuracy)&ve[]=\(verticalAccuracy)&al[]=\(altitude)&sp[]=\(speed)&ti[]=\(timestamp))";
+            }
+            
+            var params: String = "user_id=\(self.userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
+            var webService: String = "post-free-run";
+            if (runTypeId != 0) {
+                webService = "post-run";
+                params = "run_id=\(realRunId)&" + params;
+            }
+            HelperFunctions().callWebService(webService, params: params, callbackSuccess: syncAllRunsSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
+        } else {
+            println("Done all sync");
+            loadRunSelector();
+        }
+    }
+    
     // #pragma mark - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
@@ -382,7 +444,22 @@ class RunSelectorViewControllerSwift: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        loadRunSelector();
+        let needsSyncQuery = db.query("SELECT id FROM runs WHERE synced=0 AND userId=(SELECT loggedInUserId FROM settings) LIMIT 1");
+        if (needsSyncQuery.count > 0) {
+        //if (false) {
+            println("Not synced");
+
+            // Sync
+            lblLoadingText.text = "Synchronizing local runs..";
+            lblLoadingText.hidden = false;
+            idcLoading.startAnimating();
+            
+            syncAllRuns();
+        } else {
+            println("Already synced");
+            // Already synced, load runs
+            loadRunSelector();
+        }
     }
     
     override func viewWillDisappear(animated:Bool) {

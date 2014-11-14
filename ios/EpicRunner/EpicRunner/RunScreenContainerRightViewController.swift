@@ -149,8 +149,8 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             }
             
             // Set image of annotation
-            if (annotation.coordinate.latitude == container!.runPointHome!.latitude &&
-                annotation.coordinate.longitude == container!.runPointHome!.longitude) {
+            if (annotation.coordinate.latitude == container!.runPointHome?.latitude &&
+                annotation.coordinate.longitude == container!.runPointHome?.longitude) {
                     // Home point
                     view!.image = UIImage(named: "home_pin");
             } else {

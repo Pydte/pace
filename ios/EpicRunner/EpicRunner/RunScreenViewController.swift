@@ -14,10 +14,10 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     @IBOutlet var btnMenu: UIBarButtonItem
     @IBOutlet var runButton: UIButton
     @IBOutlet var container: UIView
-    @IBOutlet var lblGps: UILabel
     @IBOutlet var lblCurrentObj: UILabel
     @IBOutlet var lblTotalPossibleProgress: UILabel
     @IBOutlet var lblTotalMadeProgerss: UILabel
+    @IBOutlet var btnGps: UIButton
     
     let iosVersion = NSString(string: UIDevice.currentDevice().systemVersion).doubleValue
     var locationManager: CLLocationManager = CLLocationManager();
@@ -79,14 +79,20 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         if (!isInBackground) {
             switch userLocation.horizontalAccuracy {
             case let x where x <= 7:
-                lblGps.text = "GPS (V)";
-                lblGps.textColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1);
+                btnGps.setTitle("GPS (V)", forState: UIControlState.Normal);
+                btnGps.setTitleColor(UIColor(red: 0, green: 1, blue: 0, alpha: 1), forState: UIControlState.Normal);
+                //lblGps.text = "GPS (V)";
+                //lblGps.textColor = UIColor(red: 0, green: 1, blue: 0, alpha: 1);
             case let x where x > 7 && x <= 20:
-                lblGps.text = "GPS (-)";
-                lblGps.textColor = UIColor(red: 1, green: 1, blue: 0, alpha: 1);
+                btnGps.setTitle("GPS (-)", forState: UIControlState.Normal);
+                btnGps.setTitleColor(UIColor(red: 1, green: 1, blue: 0, alpha: 1), forState: UIControlState.Normal);
+                //lblGps.text = "GPS (-)";
+                //lblGps.textColor = UIColor(red: 1, green: 1, blue: 0, alpha: 1);
             default:
-                lblGps.text = "GPS (X)";
-                lblGps.textColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1);
+                btnGps.setTitle("GPS (X)", forState: UIControlState.Normal);
+                btnGps.setTitleColor(UIColor(red: 1, green: 0, blue: 0, alpha: 1), forState: UIControlState.Normal);
+                //lblGps.text = "GPS (X)";
+                //lblGps.textColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1);
             }
         }
         
@@ -416,15 +422,6 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         //Change view
         self.performSegueWithIdentifier("SegueRunFinished", sender: self);
     }
-    
-
-    @IBAction func runClicked(sender: AnyObject) {
-        if (self.capturing) {
-            endCapturing();
-        } else {
-            startCapturing();
-        }
-    }
 
     
     // #pragma mark - Navigation
@@ -488,7 +485,32 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         self.timerContainerUpdater = nil;
     }
     
+    
+    @IBAction func runClicked(sender: AnyObject) {
+        if (self.capturing) {
+            endCapturing();
+        } else {
+            startCapturing();
+        }
+    }
+    
+    @IBAction func btnGpsTouch(sender: AnyObject) {
+        // Show pop up containing relevant info
+        var alert: UIAlertView = UIAlertView()
+        alert.title = "GPS indicator"
+        switch btnGps.titleLabel.textColor {
+        case UIColor(red: 0, green: 1, blue: 0, alpha: 1):
+            alert.message = "GPS Signal is strong and you will recieve the full experience. (x-ym)"
+        case UIColor(red: 1, green: 1, blue: 0, alpha: 1):
+            alert.message = "GPS Signal is mediocre. The app will work but may be imprecise, which may affect the experience. You could try to move away from tall buildings. (x-ym)"
+        default:
+            alert.message = "No GPS Signal. You will have to get better reception for the app to work. You could try to move away from tall buildings. (x-ym)"
+        }
+        
+        alert.addButtonWithTitle("Ok")
+        alert.show()
+    }
+    
     @IBAction func unwindToMap(segue: UIStoryboardSegue) {
     }
-
 }

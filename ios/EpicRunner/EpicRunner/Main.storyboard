@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.7" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2BX-Pb-UOX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6185.7" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2BX-Pb-UOX">
     <dependencies>
         <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6181.2"/>
@@ -220,12 +220,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GPS (V)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DU1-rh-vVZ">
-                                <rect key="frame" x="248" y="72" width="57" height="21"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="B" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Dj-nB-A1g">
                                 <rect key="frame" x="153" y="101" width="15" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -251,6 +245,17 @@
                                 <color key="textColor" red="0.0014040767384159623" green="0.67887037627551017" blue="0.0021784525807319742" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YKt-pS-5ba">
+                                <rect key="frame" x="248" y="68" width="57" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="GPS (X)">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnGpsTouch:" destination="Tsx-2i-5rC" eventType="touchUpInside" id="UHy-N0-okF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -258,10 +263,10 @@
                         <barButtonItem key="leftBarButtonItem" image="reveal-icon.png" id="gLB-V3-33A"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="btnGps" destination="YKt-pS-5ba" id="Vrg-iC-T7P"/>
                         <outlet property="btnMenu" destination="gLB-V3-33A" id="UuV-nv-2hX"/>
                         <outlet property="container" destination="sfe-eF-vC2" id="JJ2-I5-JeD"/>
                         <outlet property="lblCurrentObj" destination="XUy-wk-EjQ" id="pjw-1b-mLh"/>
-                        <outlet property="lblGps" destination="DU1-rh-vVZ" id="nKj-EF-43k"/>
                         <outlet property="lblTotalMadeProgerss" destination="MWd-1q-w2O" id="Tdn-vf-3ky"/>
                         <outlet property="lblTotalPossibleProgress" destination="F1P-YX-DMC" id="8XC-pf-DMP"/>
                         <outlet property="runButton" destination="2vn-Ne-1wp" id="bhf-JO-4RW"/>
@@ -1719,10 +1724,10 @@ P</string>
         </simulatedScreenMetrics>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="cGr-4D-Jrw"/>
+        <segue reference="TCo-xG-qvc"/>
         <segue reference="LU8-OD-Lhj"/>
         <segue reference="Zro-Gy-3Zr"/>
-        <segue reference="TCo-xG-qvc"/>
-        <segue reference="cOM-F2-O3X"/>
         <segue reference="d0x-cK-PT8"/>
     </inferredMetricsTieBreakers>
 </document>
