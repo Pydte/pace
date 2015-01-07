@@ -509,11 +509,11 @@ let SQLITE_DATE = SQLITE_NULL + 1
 			var tmp = String.fromCString(buf)!.uppercaseString
             
 			// Remove brackets
-            if let charIdx = find(tmp, "(") {
-                if distance(tmp.startIndex, charIdx) > 0 {
-                    tmp = tmp.substringToIndex(charIdx)
-                }
+            let pos = tmp.positionOf("(")
+            if pos > 0 {
+                tmp = tmp.subStringTo(pos)
             }
+            
 			// Remove unsigned?
 			// Remove spaces
 			// Is the data type in any of the pre-set values?

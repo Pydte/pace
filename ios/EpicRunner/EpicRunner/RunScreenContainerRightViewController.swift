@@ -14,9 +14,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
     @IBOutlet var mapView: MKMapView!
     
     var container: RunScreenContainerViewController?;
-    
     var mapZoomlevel: Double = 1000;
-    
     var player2timestamp: Double = 0.0;
     
 
@@ -80,10 +78,60 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
         }
        
     }
+    
+    func drawRoute() {
+        //Hide user location
+        self.mapView.showsUserLocation = false;
+        
+        //Draw route
+        var pointsCoordinate: [CLLocationCoordinate2D] = [];
+        
+        for (var i=0; i<self.container!.finishedRun!.locations.count; i++) {
+            let location: CLLocation = self.container!.finishedRun!.locations[i];
+            pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+        }
+        
+        let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.container!.finishedRun!.locations.count);
+        self.mapView.addOverlay(polyline);
+        
+        
+        // Set region view of map
+        /// Find longest distance horizontal and vertical
+        let locTopLeft: CLLocation    = CLLocation(latitude: self.container!.latTop, longitude: self.container!.lonLeft);
+        let locBottomLeft: CLLocation = CLLocation(latitude: self.container!.latTop, longitude: self.container!.lonLeft);
+        let locTopRight: CLLocation   = CLLocation(latitude: self.container!.latTop, longitude: self.container!.lonRight);
+        let distanceLat: Double       = locTopLeft.distanceFromLocation(locBottomLeft);
+        let distanceLon: Double       = locTopLeft.distanceFromLocation(locTopRight);
+        
+        /// Works terrible
+        var distanceMargin: Double;
+        if (distanceLat > distanceLon) {
+            distanceMargin = distanceLat*1;
+        }
+        else {
+            distanceMargin = distanceLon*1;
+        }
+        
+        /// Center map
+        let startCoord: CLLocationCoordinate2D = CLLocationCoordinate2DMake((self.container!.latTop+self.container!.latBottom)/2, (self.container!.lonRight+self.container!.lonLeft)/2);
+        let adjustedRegion = MKCoordinateRegionMakeWithDistance(startCoord, Double(distanceLat+distanceMargin), Double(distanceLon+distanceMargin));
+        self.mapView.setRegion(adjustedRegion, animated: true);
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if (overlay.isKindOfClass(MKPolyline)){
+            let route: MKPolyline = overlay as MKPolyline;
+            var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
+            routeRenderer.strokeColor = UIColor.blueColor();
+            return routeRenderer;
+        } else {
+            return nil;
+        }
     }
     
     func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {

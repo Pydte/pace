@@ -35,6 +35,13 @@
 		7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE501902DDFB00D81950 /* reveal-icon.png */; };
 		7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE511902DDFB00D81950 /* reveal-icon@2x.png */; };
 		72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A4008E18F4512600D739B3 /* libsqlite3.dylib */; };
+		72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5816D1A1D0CA700FC6926 /* String-Extras.swift */; };
+		72A67F431A288E80009DCA77 /* modalMedalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A67F421A288E80009DCA77 /* modalMedalViewController.swift */; };
+		72A67F4B1A28A590009DCA77 /* modalLeagueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A67F4A1A28A590009DCA77 /* modalLeagueViewController.swift */; };
+		72A67F521A28C8CD009DCA77 /* medal_bronze.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A67F4E1A28C8CD009DCA77 /* medal_bronze.png */; };
+		72A67F531A28C8CD009DCA77 /* medal_silver.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A67F4F1A28C8CD009DCA77 /* medal_silver.png */; };
+		72A67F541A28C8CD009DCA77 /* lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A67F501A28C8CD009DCA77 /* lock.png */; };
+		72A67F551A28C8CD009DCA77 /* medal_gold.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A67F511A28C8CD009DCA77 /* medal_gold.png */; };
 		72A79B7D19813BD80054ADC0 /* RunScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A79B7C19813BD80054ADC0 /* RunScreenViewController.swift */; };
 		72A7C6A818D87AF4007FF58B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A718D87AF4007FF58B /* Foundation.framework */; };
 		72A7C6AA18D87AF4007FF58B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A7C6A918D87AF4007FF58B /* CoreGraphics.framework */; };
@@ -124,6 +131,13 @@
 		7275AE501902DDFB00D81950 /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
 		7275AE511902DDFB00D81950 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
 		72A4008E18F4512600D739B3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		72A5816D1A1D0CA700FC6926 /* String-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extras.swift"; sourceTree = "<group>"; };
+		72A67F421A288E80009DCA77 /* modalMedalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = modalMedalViewController.swift; sourceTree = "<group>"; };
+		72A67F4A1A28A590009DCA77 /* modalLeagueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = modalLeagueViewController.swift; sourceTree = "<group>"; };
+		72A67F4E1A28C8CD009DCA77 /* medal_bronze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medal_bronze.png; sourceTree = "<group>"; };
+		72A67F4F1A28C8CD009DCA77 /* medal_silver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medal_silver.png; sourceTree = "<group>"; };
+		72A67F501A28C8CD009DCA77 /* lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lock.png; sourceTree = "<group>"; };
+		72A67F511A28C8CD009DCA77 /* medal_gold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medal_gold.png; sourceTree = "<group>"; };
 		72A79B7C19813BD80054ADC0 /* RunScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenViewController.swift; sourceTree = "<group>"; };
 		72A7C6A418D87AF4007FF58B /* EpicRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpicRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		72A7C6A718D87AF4007FF58B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -272,6 +286,10 @@
 		72A7C6AE18D87AF4007FF58B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				72A67F4E1A28C8CD009DCA77 /* medal_bronze.png */,
+				72A67F4F1A28C8CD009DCA77 /* medal_silver.png */,
+				72A67F501A28C8CD009DCA77 /* lock.png */,
+				72A67F511A28C8CD009DCA77 /* medal_gold.png */,
 				7242528C1A0D035100E99033 /* green_pin.png */,
 				7242528D1A0D035100E99033 /* green_pin@2x.png */,
 				7242528E1A0D035100E99033 /* home_pin.png */,
@@ -333,6 +351,8 @@
 				7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */,
 				7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */,
 				7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */,
+				72A67F421A288E80009DCA77 /* modalMedalViewController.swift */,
+				72A67F4A1A28A590009DCA77 /* modalLeagueViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -343,6 +363,7 @@
 				72DF246F197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old */,
 				72DF246D197BCAE600F9A96B /* README_SQLiteDB.txt */,
 				72E328651A161C5E0075E2DC /* SQLiteDB.swift */,
+				72A5816D1A1D0CA700FC6926 /* String-Extras.swift */,
 			);
 			name = SQLiteDB;
 			sourceTree = "<group>";
@@ -428,11 +449,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7242528A1A0CFECE00E99033 /* orange_pin@2x.png in Resources */,
+				72A67F531A28C8CD009DCA77 /* medal_silver.png in Resources */,
 				72A7C6D718D87EE8007FF58B /* Main.storyboard in Resources */,
 				720CE24519110C0A00D1FA43 /* README.txt in Resources */,
+				72A67F521A28C8CD009DCA77 /* medal_bronze.png in Resources */,
 				72DF246E197BCAE600F9A96B /* README_SQLiteDB.txt in Resources */,
 				724252931A0D035100E99033 /* home_pin@2x.png in Resources */,
 				72A7C6B218D87AF4007FF58B /* InfoPlist.strings in Resources */,
+				72A67F551A28C8CD009DCA77 /* medal_gold.png in Resources */,
 				724252901A0D035100E99033 /* green_pin.png in Resources */,
 				7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */,
 				72B4FCE51906F4D2002AE72C /* sample-3d-model.jpg in Resources */,
@@ -442,6 +466,7 @@
 				7242528B1A0CFECE00E99033 /* orange_pin.png in Resources */,
 				720CE24919112BA900D1FA43 /* player2_dot.png in Resources */,
 				72A7C6BA18D87AF4007FF58B /* Images.xcassets in Resources */,
+				72A67F541A28C8CD009DCA77 /* lock.png in Resources */,
 				724252921A0D035100E99033 /* home_pin.png in Resources */,
 				7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */,
 			);
@@ -469,6 +494,7 @@
 				7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */,
 				72AA3A3419D9C9E300179DA8 /* HelperFunctions.swift in Sources */,
 				72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */,
+				72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */,
 				72DF2470197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old in Sources */,
 				72CD37BA19C7676C0049AD4E /* MenuViewController.m in Sources */,
 				72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */,
@@ -477,12 +503,14 @@
 				721AF6CB19757A750084E0D1 /* RunSelectorItemView.swift in Sources */,
 				72BD3D3C19E7FECC00AEAC11 /* GenerateRunViewController.swift in Sources */,
 				723A50F919CC6B5F00B443BF /* MissionDVViewController.swift in Sources */,
+				72A67F431A288E80009DCA77 /* modalMedalViewController.swift in Sources */,
 				7244D50B197BF6700034D91F /* DemoSelectorViewControllerSwift.swift in Sources */,
 				720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */,
 				720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */,
 				7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */,
 				72E328661A161C5E0075E2DC /* SQLiteDB.swift in Sources */,
 				7244D509197BF6390034D91F /* DetailViewViewControllerSwift.swift in Sources */,
+				72A67F4B1A28A590009DCA77 /* modalLeagueViewController.swift in Sources */,
 				72F1EBF619BE1D1600DB0DE1 /* SignUpViewController.swift in Sources */,
 				721AF6C9197569600084E0D1 /* RunSelectorViewControllerSwift.swift in Sources */,
 				72DF2438197AED7800F9A96B /* MenuViewController.swift in Sources */,

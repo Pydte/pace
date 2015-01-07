@@ -12,7 +12,7 @@ class RunSelectorItemView: UIView {
     var originalLoc: CGPoint = CGPoint();
     var currentLoc: CGPoint = CGPoint();
     var toBeLocked: Bool = false;
-    var lblTimeBar: UILabel = UILabel(frame: CGRectMake(0, 38, 0, 3));
+    var btnTimeBar: UIButton = UIButton(frame: CGRectMake(0, 38, 0, 3));
     let secBetweenTicks = 1.0;
     var tickTimer: NSTimer?;
     let startDate: NSDate;
@@ -45,8 +45,8 @@ class RunSelectorItemView: UIView {
         }
         
         // Add timebar
-        self.lblTimeBar.contentMode = UIViewContentMode.ScaleToFill;
-        self.addSubview(self.lblTimeBar);
+        self.btnTimeBar.contentMode = UIViewContentMode.ScaleToFill;
+        self.addSubview(self.btnTimeBar);
         
         // Add type
         let lblType = UILabel(frame: CGRectMake(10, 0, 150, self.frame.size.height));
@@ -96,6 +96,7 @@ class RunSelectorItemView: UIView {
         
         // Tick
         self.tickTimer = NSTimer.scheduledTimerWithTimeInterval(self.secBetweenTicks, target: self, selector: "tick", userInfo: nil, repeats: true);
+
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -207,6 +208,8 @@ class RunSelectorItemView: UIView {
     }
     
     func tick() -> Bool {
+    
+        
         // In % how close to end date
         let curDate = NSDate().timeIntervalSince1970;
         let t = (curDate - self.startDate.timeIntervalSince1970) / self.totalTime * 100;
@@ -220,13 +223,13 @@ class RunSelectorItemView: UIView {
             
         } else if (t > 90) {
             // Above 90 %, make red, add progress
-            self.lblTimeBar.backgroundColor = UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1.0);
+            self.btnTimeBar.backgroundColor = UIColor(red: 1.0, green: 0.2, blue: 0.2, alpha: 1.0);
         } else if (t > 75) {
             // Above 75 %, make yellow, add progress
-            self.lblTimeBar.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.2, alpha: 1.0);
+            self.btnTimeBar.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 0.2, alpha: 1.0);
         } else {
             // All fine, add progress
-            self.lblTimeBar.backgroundColor = UIColor(red: 0.2, green: 1.0, blue: 0.2, alpha: 1.0);
+            self.btnTimeBar.backgroundColor = UIColor(red: 0.2, green: 1.0, blue: 0.2, alpha: 1.0);
         }
         
         
@@ -238,15 +241,18 @@ class RunSelectorItemView: UIView {
             if (p > self.frame.size.width) {
                 p = self.frame.size.width;
             }
+            if (p < 0) {
+                p = 0;
+            }
             
             UIView.animateWithDuration(self.secBetweenTicks,
                 delay: 0.0,
                 options: .CurveLinear,
                 animations: { _ in
-                    self.lblTimeBar.frame.size.width = p;
+                    self.btnTimeBar.frame.size.width = p;
                 },
                 completion: { _ in ()}
-                );
+            );
         }
         
         return false;
@@ -267,7 +273,7 @@ class RunSelectorItemView: UIView {
                 delay: 0.0,
                 options: .CurveLinear,
                 animations: { _ in
-                    self.lblTimeBar.frame.size.width = 0;
+                    self.btnTimeBar.frame.size.width = 0;
                 },
                 completion: { _ in ()}
             );

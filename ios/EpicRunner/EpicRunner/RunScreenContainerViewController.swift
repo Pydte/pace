@@ -14,11 +14,13 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     var leftController: UIViewController?;
     var rightController: RunScreenContainerRightViewController?;
     var showing: Int = 0;
+    var finishedRun: Run? = nil;
     
-    @IBOutlet var lblDuration: UILabel!;
-    @IBOutlet var lblDistance: UILabel!;
-    @IBOutlet var lblSpeed: UILabel!;
-    @IBOutlet var lblMedal: UILabel!;
+    @IBOutlet weak var lblDuration: UILabel!;
+    @IBOutlet weak var lblDistance: UILabel!;
+    @IBOutlet weak var lblSpeed: UILabel!;
+    @IBOutlet weak var lblSpeedDesc: UILabel!
+    @IBOutlet weak var lblMedal: UILabel!;
     
     
     // Shared
@@ -39,6 +41,15 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     var locRunNextPointAnno: MKPointAnnotation = MKPointAnnotation();
     /// Multiplayer
     var player2Annotation: MKPointAnnotation?;
+    
+    // Stats
+    var latTop: Double    = -999999;  // Extreme coordinates
+    var lonRight: Double  = -999999;  // Extreme coordinates
+    var latBottom: Double = 999999;   // Extreme coordinates
+    var lonLeft: Double   = 999999;   // Extreme coordinates
+    var avgSpeed: Double    = 0.0;    // In min/km
+    var minAltitude: Double = 999999;
+    var maxAltitude: Double = -999999;
     
     
     override func viewDidLoad() {
@@ -150,6 +161,19 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
         self.runPoints.removeAtIndex(i);
         self.runPointsAnno.removeAtIndex(i);
     }
+    
+    func runFinished(run: Run) {
+        self.finishedRun = run;
+        
+        // * Change speed to avg speed
+        lblSpeedDesc.text = "Avg speed:";
+        lblSpeed.text = NSString(format: "%.2f", self.avgSpeed);
+        
+        // * Draw route on map
+        self.rightController!.drawRoute();
+    }
+    
+    
     
     /*
     // #pragma mark - Navigation
