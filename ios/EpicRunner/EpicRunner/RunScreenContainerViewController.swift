@@ -11,6 +11,8 @@ import MapKit
 
 class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    var intController: RunScreenContainerIntervalViewController?;
+    
     var leftController: UIViewController?;
     var rightController: RunScreenContainerRightViewController?;
     var showing: Int = 0;
@@ -41,6 +43,9 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     var locRunNextPointAnno: MKPointAnnotation = MKPointAnnotation();
     /// Multiplayer
     var player2Annotation: MKPointAnnotation?;
+    //Interval Run
+    var intPassed: [Bool] = [];
+    var intLocNumAtIntEnd: [Int] = [];            // Used to draw each interval on the map
     
     // Stats
     var latTop: Double    = -999999;  // Extreme coordinates
@@ -54,6 +59,13 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        if (true) {
+            intController = self.storyboard?.instantiateViewControllerWithIdentifier("RSCInterval") as? RunScreenContainerIntervalViewController;
+            intController!.view.frame.origin.x += 25;
+            intController!.view.frame.size.width -= 50;
+            self.view.addSubview(intController!.view);
+        }
         
         leftController = self.storyboard?.instantiateViewControllerWithIdentifier("left") as? UIViewController;
         rightController = self.storyboard?.instantiateViewControllerWithIdentifier("right") as? RunScreenContainerRightViewController;
@@ -160,6 +172,12 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
         self.rightController!.mapView.removeAnnotation(self.runPointsAnno[i]);
         self.runPoints.removeAtIndex(i);
         self.runPointsAnno.removeAtIndex(i);
+    }
+    
+    func runFinishedInterval(run: Run, intPassed: [Bool], intLocNumAtIntEnd: [Int]) {
+        self.intPassed = intPassed;
+        self.intLocNumAtIntEnd = intLocNumAtIntEnd;
+        runFinished(run);
     }
     
     func runFinished(run: Run) {

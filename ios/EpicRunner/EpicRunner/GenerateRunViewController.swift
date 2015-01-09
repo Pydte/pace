@@ -58,11 +58,22 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
             self.locationManager.requestWhenInUseAuthorization(); // Necessary for iOS 8 and crashes iOS 7...
         }
         self.locationManager.startUpdatingLocation();
-        
         self.mapView.showsUserLocation = true;
-        //Center to rough location
+        
+        //Center to location when available
+        showLocWhenAvailable();
     }
 
+    func showLocWhenAvailable() {
+        if (self.locationManager.location != nil) {
+            let region: MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(self.locationManager.location.coordinate,
+                2500, 2500);
+            self.mapView.setRegion(region, animated:true);
+        } else {
+            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "showLocWhenAvailable", userInfo: nil, repeats: false);
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -103,8 +114,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         }
     }
     
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex:NSInteger)
-    {
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex:NSInteger) {
         if (buttonIndex == 0)
         {
             // Ok
@@ -170,9 +180,22 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     func generateRoute() {
         println("Generating interesting goal points!!");
         
-        for dist in self.distancePerPoint {
-            println("Gen for point with dist: \(dist)");
-            generateRoute_worker(dist, shootOutDist: dist, accumDist: 0.0, totalTried: 1, totalFail: 0);
+        if (self.distancePerPoint.count == 0) {
+            // Finish up!
+            
+            // Save data in database
+            self.db.execute("UPDATE active_runs SET disabled=1 WHERE runId=\(self.runId)");
+            
+            // Change btn state
+            self.btnReady.setTitle("Run now", forState: UIControlState.Normal);
+            self.btnReady.backgroundColor = UIColor(red: 0, green: 1.0, blue: 0, alpha: 1.0);
+            self.loadingIndicator.stopAnimating();
+            self.btnReadyWorking = false;
+        } else {
+            for dist in self.distancePerPoint {
+                println("Gen for point with dist: \(dist)");
+                generateRoute_worker(dist, shootOutDist: dist, accumDist: 0.0, totalTried: 1, totalFail: 0);
+            }
         }
     }
     

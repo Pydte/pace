@@ -34,6 +34,7 @@
 		7275AE491902BD8C00D81950 /* README_SWRVC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE481902BD8C00D81950 /* README_SWRVC.txt */; };
 		7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE501902DDFB00D81950 /* reveal-icon.png */; };
 		7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE511902DDFB00D81950 /* reveal-icon@2x.png */; };
+		729FE79F1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */; };
 		72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A4008E18F4512600D739B3 /* libsqlite3.dylib */; };
 		72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5816D1A1D0CA700FC6926 /* String-Extras.swift */; };
 		72A67F431A288E80009DCA77 /* modalMedalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A67F421A288E80009DCA77 /* modalMedalViewController.swift */; };
@@ -130,6 +131,7 @@
 		7275AE481902BD8C00D81950 /* README_SWRVC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SWRVC.txt; sourceTree = "<group>"; };
 		7275AE501902DDFB00D81950 /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
 		7275AE511902DDFB00D81950 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
+		729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerIntervalViewController.swift; sourceTree = "<group>"; };
 		72A4008E18F4512600D739B3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		72A5816D1A1D0CA700FC6926 /* String-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extras.swift"; sourceTree = "<group>"; };
 		72A67F421A288E80009DCA77 /* modalMedalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = modalMedalViewController.swift; sourceTree = "<group>"; };
@@ -232,6 +234,17 @@
 				7275AE481902BD8C00D81950 /* README_SWRVC.txt */,
 			);
 			path = SWRevealViewController;
+			sourceTree = "<group>";
+		};
+		729FE79D1A60053A00833747 /* RunScreenControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */,
+				7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */,
+				7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */,
+				729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */,
+			);
+			name = RunScreenControllers;
 			sourceTree = "<group>";
 		};
 		72A7C69B18D87AF3007FF58B = {
@@ -348,9 +361,7 @@
 				723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */,
 				72BD3D3B19E7FECC00AEAC11 /* GenerateRunViewController.swift */,
 				72A79B7C19813BD80054ADC0 /* RunScreenViewController.swift */,
-				7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */,
-				7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */,
-				7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */,
+				729FE79D1A60053A00833747 /* RunScreenControllers */,
 				72A67F421A288E80009DCA77 /* modalMedalViewController.swift */,
 				72A67F4A1A28A590009DCA77 /* modalLeagueViewController.swift */,
 			);
@@ -492,6 +503,7 @@
 				720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */,
 				72F1EBF419BE0CC800DB0DE1 /* LoginViewController.swift in Sources */,
 				7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */,
+				729FE79F1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift in Sources */,
 				72AA3A3419D9C9E300179DA8 /* HelperFunctions.swift in Sources */,
 				72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */,
 				72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */,
