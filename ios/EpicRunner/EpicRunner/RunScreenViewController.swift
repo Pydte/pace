@@ -66,6 +66,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     var runPoints: [CLLocationCoordinate2D] = [];    //Is set from other controller
     var modals: [UIViewController] = [];
     var handlePanBlock: UIPanGestureRecognizer? = nil;
+    var currentMedalInt: Int = 0; //0=None,1=Gold,2=Silver=3=Bronze
     
     // Lock
     var locked: Bool = false;
@@ -86,19 +87,19 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     var totalNumOfPoints: Int = 1;
 
     // Interval Run
-    var intTotalNumOfInts: Int = 0;       //Is set from other controller
-    var intTimePerInterval: NSTimeInterval = 5;    // Setting
+    var intTotalNumOfInts: Int = 0;              //Is set from other controller
+    var intTimePerInterval: NSTimeInterval = 2; //5; // Setting
     var intPassed: [Bool] = [];
-    var intLocNumAtIntEnd: [Int] = [];            // Used to draw each interval on the map
+    var intLocNumAtIntEnd: [Int] = [];           // Used to draw each interval on the map
     var intNumPassed: Int = 0;
     var intNumFailed: Int = 0;
     var intCurrentIntPassed: Int = 0;
     var intCurrentIntFailed: Int = 0;
-    var intPassProcentage: Double = 0.8;           // % of stored speeds which should be within the correct bounds
+    var intPassProcentage: Double = 0.51; //0.8;        // % of stored speeds which should be within the correct bounds
     var intSprintMode: Bool = false;
     var intSwitchIn: NSDate = NSDate();
-    var intTargetRunPace: Double = 4.0;            //km/min
-    var intTargetWalkPace: Double = 6.0;           //km/min
+    var intTargetRunPace: Double = 4.0;          // km/min
+    var intTargetWalkPace: Double = 6.0;         // km/min
     
     
     var runScreenContainerViewController: RunScreenContainerViewController?;
@@ -170,112 +171,165 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             }
             
             
-            // Specific for each run type
+            // Do work specific for each run type
             if (self.runTypeId == 1) {
-                // Location Run
-                let acceptableDeltaDistInMeters: Double = 25;
-                var progress: Float;
-                
-                // Update progressbar
-                let multiplier: Float = Float(self.lblTotalPossibleProgress.frame.width)/Float(self.estimatedDistanceInM);
-                progress = Float(self.totalDistance)*multiplier;
-                
-                // From point: A -> B -> A
-                if (locRunPointBReached) {
-                    // Point B reached, checking for Point A (GOAL)
-                    let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
-                    let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
-                    let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
-                    
-                    //Calc distance between current and goal point
-                    if (distanceToGoal < acceptableDeltaDistInMeters) {
-                        // Final point reached, end game
-                        println("Point Home reached!");
-                        self.active = false;
-                        self.currentRun!.aborted = false;
-                        endCapturing();
-                    }
-                } else {
-                    // Point B NOT reached, checking for Point B (checkpoint)
-                    let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
-                    let endLocation: CLLocation = CLLocation(latitude: self.runPoints[0].latitude, longitude: self.runPoints[0].longitude);
-                    let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
-                    
-                    //Calc distance between current and point B
-                    if (distanceToGoal < acceptableDeltaDistInMeters) {
-                        println("Point B reached!");
-                        self.locRunPointBReached = true;
-                        
-                        // Update map anno & Container
-                        self.locRunNextPointAnno.setCoordinate(self.locRunPointA!);
-                        self.runScreenContainerViewController!.locRunNextPointAnno = self.locRunNextPointAnno;
-                        
-                        // Update current objective
-                        lblCurrentObj.text = "Run to A..";
-                    }
-                    
-                    // Limit progressbar
-                    if (Int(self.totalDistance) > self.estimatedDistanceInM/2) {
-                        progress = Float(self.estimatedDistanceInM/2)*multiplier;
-                    }
-                    
-                }
-                
-                UIView.animateWithDuration(0.5,
-                    delay: 0.0,
-                    options: .CurveLinear,
-                    animations: { _ in
-                        self.btnTotalMadeProgress.frame = CGRect(origin: self.btnTotalMadeProgress.frame.origin, size: CGSize(width: CGFloat(progress), height: self.btnTotalMadeProgress.frame.height));
-                    },
-                    completion: { _ in ()}
-                );
-                
-                
-                
+                doWorkLocationRun(userLocation);  // Location Run
+            } else if (self.runTypeId == 2) {
+                doWorkIntervalRun(userLocation);  // Interval Run
             } else if (self.runTypeId == 3) {
-                // Collector Run
-                let acceptableDeltaDistInMeters: Double = 25;
-                let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
+                doWorkCollectorRun(userLocation); // Collector Run
+            }
+        }
+    }
+    
+    func doWorkLocationRun(userLocation: CLLocation!)  {
+        let acceptableDeltaDistInMeters: Double = 25;
+        var progress: Float;
+        
+        // Update progressbar
+        let multiplier: Float = Float(self.lblTotalPossibleProgress.frame.width)/Float(self.estimatedDistanceInM);
+        progress = Float(self.totalDistance)*multiplier;
+        
+        // From point: A -> B -> A
+        if (locRunPointBReached) {
+            // Point B reached, checking for Point A (GOAL)
+            let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
+            let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
+            let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+            
+            //Calc distance between current and goal point
+            if (distanceToGoal < acceptableDeltaDistInMeters) {
+                // Final point reached, end game
+                println("Point Home reached!");
+                self.active = false;
+                self.currentRun!.aborted = false;
+                endCapturing();
+            }
+        } else {
+            // Point B NOT reached, checking for Point B (checkpoint)
+            let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
+            let endLocation: CLLocation = CLLocation(latitude: self.runPoints[0].latitude, longitude: self.runPoints[0].longitude);
+            let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+            
+            //Calc distance between current and point B
+            if (distanceToGoal < acceptableDeltaDistInMeters) {
+                println("Point B reached!");
+                self.locRunPointBReached = true;
                 
-                if (self.carryingPoint) {
-                    let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
-                    let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
-                    
-                    if (distanceToGoal < acceptableDeltaDistInMeters) {
-                        if (self.runPoints.count == 0) {
-                            // Final point delivered, end game
-                            println("All points delivered!");
-                            self.active = false;
-                            self.currentRun!.aborted = false;
-                            endCapturing();
-                            addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
-                        } else {
-                            // More points to collect
-                            self.carryingPoint = false;
-                            self.runScreenContainerViewController!.hideHomeAnno();
-                            self.runScreenContainerViewController!.showPointsAnno();
-                            self.lblCurrentObj.text = "Collect a new point..";
-                            addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
-                        }
-                    }
+                // Update map anno & Container
+                self.locRunNextPointAnno.setCoordinate(self.locRunPointA!);
+                self.runScreenContainerViewController!.locRunNextPointAnno = self.locRunNextPointAnno;
+                
+                // Update current objective
+                lblCurrentObj.text = "Run to A..";
+            }
+            
+            // Limit progressbar
+            if (Int(self.totalDistance) > self.estimatedDistanceInM/2) {
+                progress = Float(self.estimatedDistanceInM/2)*multiplier;
+            }
+        }
+        
+        UIView.animateWithDuration(0.5,
+            delay: 0.0,
+            options: .CurveLinear,
+            animations: { _ in
+                self.btnTotalMadeProgress.frame = CGRect(origin: self.btnTotalMadeProgress.frame.origin, size: CGSize(width: CGFloat(progress), height: self.btnTotalMadeProgress.frame.height));
+            },
+            completion: { _ in ()}
+        );
+    }
+    
+    func doWorkIntervalRun(userLocation: CLLocation!)  {
+        var timeRemaining: Int = Int(self.intSwitchIn.timeIntervalSinceDate(NSDate()));
+        if (timeRemaining < 1) {
+            timeRemaining = 0;
+            if (self.intSprintMode) {
+                // Interval done
+                // Determine pass/fail
+                let passProcent: Double = Double(self.intCurrentIntPassed)/Double(self.intCurrentIntPassed+self.intCurrentIntFailed);
+                println(passProcent);
+                if (passProcent >= self.intPassProcentage) {
+                    self.intNumPassed++;
+                    intPassed.append(true);
                 } else {
-                    var i: Int = 0;
-                    for point in self.runPoints {
-                        let endLocation: CLLocation = CLLocation(latitude: point.latitude, longitude: point.longitude);
-                        let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
-                        if (distanceToGoal < acceptableDeltaDistInMeters) {
-                            // Point collected, return to home
-                            self.carryingPoint = true;
-                            self.runScreenContainerViewController!.removePoint(point);
-                            self.runPoints.removeAtIndex(i);
-                            self.runScreenContainerViewController!.showHomeAnno();
-                            self.runScreenContainerViewController!.hidePointsAnno();
-                            self.lblCurrentObj.text = "Deliver the point at base..";
-                            addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
-                        }
-                        i++;
-                    }
+                    self.intNumFailed++;
+                    intPassed.append(false);
                 }
+                
+                // Reset
+                self.intSprintMode = false;
+                self.intSwitchIn = self.intSwitchIn.dateByAddingTimeInterval(self.intTimePerInterval);
+                self.intCurrentIntPassed = 0;
+                self.intCurrentIntFailed = 0;
+                
+                // Update progress bar
+                addProgressToProgressBar(1.0/CGFloat(self.intTotalNumOfInts));
+                
+                // Number of tracked locations, when the interval ends
+                intLocNumAtIntEnd.append(self.currentRun!.locations.count);
+                
+                // Are we all done?
+                if (self.intTotalNumOfInts == self.intNumPassed + self.intNumFailed) {
+                    self.active = false;
+                    self.currentRun!.aborted = false;
+                    endCapturing();
+                    println("-------------")
+                    println(self.intPassed);
+                    println(self.intLocNumAtIntEnd);
+                    println("-------------")
+                    self.runScreenContainerViewController!.intPassed = self.intPassed;
+                    self.runScreenContainerViewController!.intLocNumAtIntEnd = self.intLocNumAtIntEnd;
+                }
+            } else {
+                // Time to run, boy
+                self.intSprintMode = true;
+                self.intSwitchIn = self.intSwitchIn.dateByAddingTimeInterval(self.intTimePerInterval);
+            }
+        }
+    }
+    
+    func doWorkCollectorRun(userLocation: CLLocation!)  {
+        let acceptableDeltaDistInMeters: Double = 25;
+        let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
+        
+        if (self.carryingPoint) {
+            let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
+            let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+            
+            if (distanceToGoal < acceptableDeltaDistInMeters) {
+                if (self.runPoints.count == 0) {
+                    // Final point delivered, end game
+                    println("All points delivered!");
+                    self.active = false;
+                    self.currentRun!.aborted = false;
+                    endCapturing();
+                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                } else {
+                    // More points to collect
+                    self.carryingPoint = false;
+                    self.runScreenContainerViewController!.hideHomeAnno();
+                    self.runScreenContainerViewController!.showPointsAnno();
+                    self.lblCurrentObj.text = "Collect a new point..";
+                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                }
+            }
+        } else {
+            var i: Int = 0;
+            for point in self.runPoints {
+                let endLocation: CLLocation = CLLocation(latitude: point.latitude, longitude: point.longitude);
+                let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+                if (distanceToGoal < acceptableDeltaDistInMeters) {
+                    // Point collected, return to home
+                    self.carryingPoint = true;
+                    self.runScreenContainerViewController!.removePoint(point);
+                    self.runPoints.removeAtIndex(i);
+                    self.runScreenContainerViewController!.showHomeAnno();
+                    self.runScreenContainerViewController!.hidePointsAnno();
+                    self.lblCurrentObj.text = "Deliver the point at base..";
+                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                }
+                i++;
             }
         }
     }
@@ -462,42 +516,6 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         if (self.currentRun != nil) {
             if (self.runTypeId == 2) {
                 var timeRemaining: Int = Int(self.intSwitchIn.timeIntervalSinceDate(NSDate()));
-                if (timeRemaining < 1) {
-                    timeRemaining = 0;
-                    if (self.intSprintMode) {
-                        // Interval done
-                        // Reset
-                        self.intSprintMode = false;
-                        self.intSwitchIn = self.intSwitchIn.dateByAddingTimeInterval(self.intTimePerInterval);
-                        self.intCurrentIntPassed = 0;
-                        self.intCurrentIntFailed = 0;
-                        
-                        // Determine pass/fail
-                        if (Double(self.intCurrentIntPassed)/Double(self.intCurrentIntPassed+self.intCurrentIntFailed) >= self.intPassProcentage) {
-                            self.intNumPassed++;
-                            intPassed.append(true);
-                        } else {
-                            self.intNumFailed++;
-                            intPassed.append(false);
-                        }
-                        
-                        // Update progress bar
-                        addProgressToProgressBar(1.0/CGFloat(self.intTotalNumOfInts));
-                        
-                        // Number of tracked locations, when the interval ends
-                        intLocNumAtIntEnd.append(self.currentRun!.locations.count);
-                        
-                        // Are we all done?
-                        if (self.intTotalNumOfInts == self.intNumPassed + self.intNumFailed) {
-                            endCapturing();
-                        }
-                    } else {
-                        // Time to run, boy
-                        self.intSprintMode = true;
-                        self.intSwitchIn = self.intSwitchIn.dateByAddingTimeInterval(self.intTimePerInterval);
-                    }
-                }
-                
                 
                 // Update passed/failed
                 self.runScreenContainerViewController!.intController!.lblPassed.text = "\(self.intNumPassed)";
@@ -518,7 +536,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 
                 self.runScreenContainerViewController!.intController!.lblTargetPace.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
                 
-                // Update Current pace
+                // Update Current pace & obj
                 if (self.currentRun!.locations.count > 0) {
                     //From m/s -> km/min
                     var speed: Double = (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed));
@@ -565,12 +583,16 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 
                 // Update medal
                 if (self.intNumPassed == self.medalGold) {
+                    self.currentMedalInt = 1;
                     self.runScreenContainerViewController!.intController!.lblMedal.text = "Gold";
                 } else if (self.intNumPassed >= self.medalSilver) {
+                    self.currentMedalInt = 2;
                     self.runScreenContainerViewController!.intController!.lblMedal.text = "Silver";
                 } else if (self.intNumPassed >= self.medalBronze) {
+                    self.currentMedalInt = 3;
                     self.runScreenContainerViewController!.intController!.lblMedal.text = "Bronze";
                 } else {
+                    self.currentMedalInt = 0;
                     self.runScreenContainerViewController!.intController!.lblMedal.text = "-";
                 }
                 
@@ -598,10 +620,13 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 // Update medal
                 if (self.locRunActive) {
                     if (Int(runTimeInSeconds) < self.medalGold) {
+                        self.currentMedalInt = 1;
                         self.runScreenContainerViewController!.lblMedal.text = "Gold";
                     } else if (Int(runTimeInSeconds) < self.medalSilver) {
+                        self.currentMedalInt = 2;
                         self.runScreenContainerViewController!.lblMedal.text = "Silver";
                     } else {
+                        self.currentMedalInt = 3;
                         self.runScreenContainerViewController!.lblMedal.text = "Bronze";
                     }
                 }
@@ -681,17 +706,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         
         // * Show relevant modals
         if (!self.currentRun!.aborted) {
-            let modalMedal = self.storyboard?.instantiateViewControllerWithIdentifier("modalMedal") as modalMedalViewController;
-            modalMedal.runTimeInSeconds = self.currentRun!.end!.timeIntervalSinceDate(self.currentRun!.start!);
-            if (Int(modalMedal.runTimeInSeconds) < self.medalGold) {
-                modalMedal.wonMedal = 1;
-            } else if (Int(modalMedal.runTimeInSeconds) < self.medalSilver) {
-                modalMedal.wonMedal = 2;
-            } else if (Int(modalMedal.runTimeInSeconds) < self.medalBronze || self.medalBronze == 0) {
-                modalMedal.wonMedal = 3;
+            if (self.currentMedalInt > 0) {
+                let modalMedal = self.storyboard?.instantiateViewControllerWithIdentifier("modalMedal") as modalMedalViewController;
+                modalMedal.runTimeInSeconds = self.currentRun!.end!.timeIntervalSinceDate(self.currentRun!.start!);
+                modalMedal.wonMedal = self.currentMedalInt;
+                self.modals.append(modalMedal);
             }
-            modalMedal.runTimeInSeconds = self.currentRun!.end!.timeIntervalSinceDate(self.currentRun!.start!);
-            self.modals.append(modalMedal);
         }
         
         // Add more modals to queue

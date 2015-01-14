@@ -84,16 +84,60 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
         self.mapView.showsUserLocation = false;
         
         //Draw route
-        var pointsCoordinate: [CLLocationCoordinate2D] = [];
-        
-        for (var i=0; i<self.container!.finishedRun!.locations.count; i++) {
-            let location: CLLocation = self.container!.finishedRun!.locations[i];
-            pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+        println("herp derp");
+        println("herp derp");
+        println(container!.intLocNumAtIntEnd.count);
+        for (var i=0; i<container!.intLocNumAtIntEnd.count; i++){
+//            var pointsCoordinate: [CLLocationCoordinate2D] = [];
+//            
+//            var startIndex: Int = 0;
+//            var endIndex: Int = container!.intLocNumAtIntEnd[i];
+//            if (i>0) {
+//                startIndex = container!.intLocNumAtIntEnd[i-1];
+//            }
+//            
+//            for (var j=startIndex; j<endIndex; i++) {
+//                let location: CLLocation = self.container!.finishedRun!.locations[j];
+//                pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+//            }
+//            
+//            let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: endIndex-startIndex);
+//            polyline.title = "\(self.container!.intPassed[i])";
+//            self.mapView.addOverlay(polyline);
+            
+            var pointsCoordinate: [CLLocationCoordinate2D] = [];
+            
+
+            for (var i=0; i<self.container!.finishedRun!.locations.count; i++) {
+                let location: CLLocation = self.container!.finishedRun!.locations[i];
+                pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+            }
+          
+            let polyline1: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.container!.finishedRun!.locations.count);
+            polyline1.title = "true";
+            self.mapView.addOverlay(polyline1);
         }
         
-        let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.container!.finishedRun!.locations.count);
-        self.mapView.addOverlay(polyline);
         
+//        var pointsCoordinate1: [CLLocationCoordinate2D] = [];
+//        var pointsCoordinate2: [CLLocationCoordinate2D] = [];
+//        
+//        for (var i=0; i<(self.container!.finishedRun!.locations.count/2); i++) {
+//            let location: CLLocation = self.container!.finishedRun!.locations[i];
+//            pointsCoordinate1.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+//        }
+//        for (var i=(self.container!.finishedRun!.locations.count/2); i<self.container!.finishedRun!.locations.count; i++) {
+//            let location: CLLocation = self.container!.finishedRun!.locations[i];
+//            pointsCoordinate2.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+//        }
+//        
+//        let polyline1: MKPolyline = MKPolyline(coordinates: &pointsCoordinate1, count: self.container!.finishedRun!.locations.count);
+//        polyline1.title = "1";
+//        self.mapView.addOverlay(polyline1);
+//        
+//        let polyline2: MKPolyline = MKPolyline(coordinates: &pointsCoordinate2, count: self.container!.finishedRun!.locations.count);
+//        polyline2.title = "2";
+//        self.mapView.addOverlay(polyline2);
         
         // Set region view of map
         /// Find longest distance horizontal and vertical
@@ -127,7 +171,13 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
         if (overlay.isKindOfClass(MKPolyline)){
             let route: MKPolyline = overlay as MKPolyline;
             var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
-            routeRenderer.strokeColor = UIColor.blueColor();
+            
+            println(route.title);
+            if (route.title == "false") {
+                routeRenderer.strokeColor = UIColor.redColor();
+            } else {
+                routeRenderer.strokeColor = UIColor.blueColor();
+            }
             return routeRenderer;
         } else {
             return nil;
