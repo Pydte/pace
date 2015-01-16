@@ -34,6 +34,8 @@
 		7275AE491902BD8C00D81950 /* README_SWRVC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE481902BD8C00D81950 /* README_SWRVC.txt */; };
 		7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE501902DDFB00D81950 /* reveal-icon.png */; };
 		7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE511902DDFB00D81950 /* reveal-icon@2x.png */; };
+		727B155B1A693BF200701A22 /* separatorLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 727B15591A693BF200701A22 /* separatorLine.png */; };
+		727B155C1A693BF200701A22 /* separatorLine@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 727B155A1A693BF200701A22 /* separatorLine@2.png */; };
 		729FE79F1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */; };
 		72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A4008E18F4512600D739B3 /* libsqlite3.dylib */; };
 		72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5816D1A1D0CA700FC6926 /* String-Extras.swift */; };
@@ -131,6 +133,8 @@
 		7275AE481902BD8C00D81950 /* README_SWRVC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SWRVC.txt; sourceTree = "<group>"; };
 		7275AE501902DDFB00D81950 /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
 		7275AE511902DDFB00D81950 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
+		727B15591A693BF200701A22 /* separatorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separatorLine.png; sourceTree = "<group>"; };
+		727B155A1A693BF200701A22 /* separatorLine@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "separatorLine@2.png"; sourceTree = "<group>"; };
 		729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerIntervalViewController.swift; sourceTree = "<group>"; };
 		72A4008E18F4512600D739B3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		72A5816D1A1D0CA700FC6926 /* String-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extras.swift"; sourceTree = "<group>"; };
@@ -299,6 +303,8 @@
 		72A7C6AE18D87AF4007FF58B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				727B15591A693BF200701A22 /* separatorLine.png */,
+				727B155A1A693BF200701A22 /* separatorLine@2.png */,
 				72A67F4E1A28C8CD009DCA77 /* medal_bronze.png */,
 				72A67F4F1A28C8CD009DCA77 /* medal_silver.png */,
 				72A67F501A28C8CD009DCA77 /* lock.png */,
@@ -461,6 +467,7 @@
 			files = (
 				7242528A1A0CFECE00E99033 /* orange_pin@2x.png in Resources */,
 				72A67F531A28C8CD009DCA77 /* medal_silver.png in Resources */,
+				727B155C1A693BF200701A22 /* separatorLine@2.png in Resources */,
 				72A7C6D718D87EE8007FF58B /* Main.storyboard in Resources */,
 				720CE24519110C0A00D1FA43 /* README.txt in Resources */,
 				72A67F521A28C8CD009DCA77 /* medal_bronze.png in Resources */,
@@ -468,6 +475,7 @@
 				724252931A0D035100E99033 /* home_pin@2x.png in Resources */,
 				72A7C6B218D87AF4007FF58B /* InfoPlist.strings in Resources */,
 				72A67F551A28C8CD009DCA77 /* medal_gold.png in Resources */,
+				727B155B1A693BF200701A22 /* separatorLine.png in Resources */,
 				724252901A0D035100E99033 /* green_pin.png in Resources */,
 				7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */,
 				72B4FCE51906F4D2002AE72C /* sample-3d-model.jpg in Resources */,

@@ -60,13 +60,15 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        if (true) {
+        // If Interval run, show custom "default container"
+        if (self.runTypeId == 2) {
             intController = self.storyboard?.instantiateViewControllerWithIdentifier("RSCInterval") as? RunScreenContainerIntervalViewController;
             intController!.view.frame.origin.x += 25;
             intController!.view.frame.size.width -= 50;
             self.view.addSubview(intController!.view);
         }
         
+        // Init obj & map screen
         leftController = self.storyboard?.instantiateViewControllerWithIdentifier("left") as? UIViewController;
         rightController = self.storyboard?.instantiateViewControllerWithIdentifier("right") as? RunScreenContainerRightViewController;
         self.addChildViewController(leftController!);

@@ -39,6 +39,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
         if(container!.multiplayer) {
             self.player2timestamp = 0;
             container!.player2Annotation = MKPointAnnotation();
+            container!.player2Annotation!.subtitle = "p2";
             self.mapView.addAnnotation(container!.player2Annotation);
         }
         
@@ -49,6 +50,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             // Location run
             // Draw point B on map
             container!.locRunNextPointAnno.coordinate = container!.runPoints[0];
+            container!.locRunNextPointAnno.subtitle = "point";
             self.mapView.addAnnotation(container!.locRunNextPointAnno);
         
         
@@ -66,12 +68,14 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             // Draw home point
             self.container!.runPointHomeAnno = MKPointAnnotation();
             self.container!.runPointHomeAnno!.coordinate = container!.runPointHome!;
+            self.container!.runPointHomeAnno!.subtitle = "collectorPoint";
             //self.mapView.addAnnotation(self.container!.runPointHomeAnno);
             
             // Draw all points to collect
             for pointCoord in container!.runPoints {
                 var mkPointAnno2: MKPointAnnotation = MKPointAnnotation();
                 mkPointAnno2.coordinate = pointCoord;
+                mkPointAnno2.subtitle = "point";
                 container!.runPointsAnno.append(mkPointAnno2);
                 self.mapView.addAnnotation(mkPointAnno2);
             }
@@ -80,64 +84,65 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
     }
     
     func drawRoute() {
-        //Hide user location
+        //Hide user location & enable user interaction
         self.mapView.showsUserLocation = false;
+        self.mapView.userInteractionEnabled = true;
+        self.mapView.scrollEnabled = true;
+        self.mapView.zoomEnabled = true;
         
-        //Draw route
-        println("herp derp");
-        println("herp derp");
-        println(container!.intLocNumAtIntEnd.count);
+        //Spawn invisible "border" at the left, to allow swipe left to right (ortherwise one would scroll the map)
+        println("view");
+        var borderView: UIView = UIView();
+        borderView.alpha = 0.1;
+        borderView.backgroundColor = UIColor.grayColor();
+        borderView.frame.size.width = 20;
+        borderView.frame.size.height = self.view.frame.height;
+        borderView.frame.origin.x = 0;
+        borderView.frame.origin.y = 0;
+        self.view.addSubview(borderView);
+        self.view.bringSubviewToFront(borderView);
+        println("spawned");
+        
+        //Draw route, if interval run
         for (var i=0; i<container!.intLocNumAtIntEnd.count; i++){
-//            var pointsCoordinate: [CLLocationCoordinate2D] = [];
-//            
-//            var startIndex: Int = 0;
-//            var endIndex: Int = container!.intLocNumAtIntEnd[i];
-//            if (i>0) {
-//                startIndex = container!.intLocNumAtIntEnd[i-1];
-//            }
-//            
-//            for (var j=startIndex; j<endIndex; i++) {
-//                let location: CLLocation = self.container!.finishedRun!.locations[j];
-//                pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-//            }
-//            
-//            let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: endIndex-startIndex);
-//            polyline.title = "\(self.container!.intPassed[i])";
-//            self.mapView.addOverlay(polyline);
-            
             var pointsCoordinate: [CLLocationCoordinate2D] = [];
             
-
-            for (var i=0; i<self.container!.finishedRun!.locations.count; i++) {
-                let location: CLLocation = self.container!.finishedRun!.locations[i];
+            var startIndex: Int = 0;
+            var endIndex: Int = self.container!.intLocNumAtIntEnd[i];
+            if (i>0) {
+                startIndex = self.container!.intLocNumAtIntEnd[i-1]-1;
+                
+                // Place annotations (separators) between each interval
+                var mkPointAnno: MKPointAnnotation = MKPointAnnotation();
+                let location: CLLocation = self.container!.finishedRun!.locations[self.container!.intLocNumAtIntEnd[i-1]-1];
+                mkPointAnno.coordinate = location.coordinate;
+                mkPointAnno.subtitle = "intSeparator";
+                //container!.runPointsAnno.append(mkPointAnno);
+                self.mapView.addAnnotation(mkPointAnno);
+            }
+            
+            for (var j=startIndex; j<endIndex; j++) {
+                let location: CLLocation = self.container!.finishedRun!.locations[j];
                 pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
             }
-          
-            let polyline1: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.container!.finishedRun!.locations.count);
-            polyline1.title = "true";
-            self.mapView.addOverlay(polyline1);
+            
+            let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: endIndex-startIndex);
+            polyline.title = "\(self.container!.intPassed[i])";
+            self.mapView.addOverlay(polyline);
+        }
+        // Draw route, if not interval run
+        if (container!.intLocNumAtIntEnd.count == 0) {
+            var pointsCoordinate: [CLLocationCoordinate2D] = [];
+            for (var j=0; j<self.container!.finishedRun!.locations.count; j++) {
+                let location: CLLocation = self.container!.finishedRun!.locations[j];
+                pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+            }
+            
+            let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.container!.finishedRun!.locations.count);
+            polyline.title = "true";
+            self.mapView.addOverlay(polyline);
         }
         
-        
-//        var pointsCoordinate1: [CLLocationCoordinate2D] = [];
-//        var pointsCoordinate2: [CLLocationCoordinate2D] = [];
-//        
-//        for (var i=0; i<(self.container!.finishedRun!.locations.count/2); i++) {
-//            let location: CLLocation = self.container!.finishedRun!.locations[i];
-//            pointsCoordinate1.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-//        }
-//        for (var i=(self.container!.finishedRun!.locations.count/2); i<self.container!.finishedRun!.locations.count; i++) {
-//            let location: CLLocation = self.container!.finishedRun!.locations[i];
-//            pointsCoordinate2.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-//        }
-//        
-//        let polyline1: MKPolyline = MKPolyline(coordinates: &pointsCoordinate1, count: self.container!.finishedRun!.locations.count);
-//        polyline1.title = "1";
-//        self.mapView.addOverlay(polyline1);
-//        
-//        let polyline2: MKPolyline = MKPolyline(coordinates: &pointsCoordinate2, count: self.container!.finishedRun!.locations.count);
-//        polyline2.title = "2";
-//        self.mapView.addOverlay(polyline2);
         
         // Set region view of map
         /// Find longest distance horizontal and vertical
@@ -172,7 +177,9 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             let route: MKPolyline = overlay as MKPolyline;
             var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
             
-            println(route.title);
+            routeRenderer.lineCap = kCGLineCapRound;
+            routeRenderer.lineWidth = 5.0;
+            
             if (route.title == "false") {
                 routeRenderer.strokeColor = UIColor.redColor();
             } else {
@@ -247,19 +254,26 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             }
             
             // Set image of annotation
-            if (annotation.coordinate.latitude == container!.runPointHome?.latitude &&
-                annotation.coordinate.longitude == container!.runPointHome?.longitude) {
-                    // Home point
-                    view!.image = UIImage(named: "home_pin");
-            } else {
-                if (container!.runTypeId == 1) {
-                    // Location run
-                    view!.image = UIImage(named: "green_pin");
-                } else if (container!.runTypeId == 3) {
-                    // Collector run
-                    view!.image = UIImage(named: "orange_pin");
+            if annotation.subtitle != nil {
+                if (annotation.subtitle == "intSeparator") {
+                    view!.image = UIImage(named: "separatorLine");
+                } else {
+                    if (annotation.coordinate.latitude == container!.runPointHome?.latitude &&
+                        annotation.coordinate.longitude == container!.runPointHome?.longitude) {
+                            // Home point
+                            view!.image = UIImage(named: "home_pin");
+                    } else {
+                        if (container!.runTypeId == 1) {
+                            // Location run
+                            view!.image = UIImage(named: "green_pin");
+                        } else if (container!.runTypeId == 3) {
+                            // Collector run
+                            view!.image = UIImage(named: "orange_pin");
+                        }
+                    }
                 }
             }
+            
         }
         return view;
     }
