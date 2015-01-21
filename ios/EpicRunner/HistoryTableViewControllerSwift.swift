@@ -26,6 +26,8 @@ class HistoryTableViewControllerSwift: UITableViewController {
         self.btnMenu.action = "revealToggle:";  // This is dangerous - if wrong it's first going to crash at runtime
         self.navigationController!.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
+        // Bind pull to update
+        self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged);
         
         // Load data
         loadData();
@@ -61,20 +63,22 @@ class HistoryTableViewControllerSwift: UITableViewController {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("HistoryPrototypeCell", forIndexPath: indexPath) as UITableViewCell;
 
         var dateFormatter: NSDateFormatter = NSDateFormatter();
-        dateFormatter.dateFormat = "dd-MM HH:mm";
+        dateFormatter.dateFormat = "MMMM dd";
         
         let run: Run = self.runs[indexPath.row];
-        let runTimeInSeconds: NSNumber = run.end!.timeIntervalSinceDate(run.start!);
-    
-        let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
-        let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);
         
-        let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
-        let runRemainingTimeInSecondsFormat = NSString(format: "%02d", Int(runRemainingTimeInSeconds));
-
-        cell.textLabel.text = "\(dateFormatter.stringFromDate(run.start!)) - " + NSString(format: "%.2f", run.distance/1000) +
-            " km in \(runTimeInMinutesFormat):\(runRemainingTimeInSecondsFormat) min";
-
+        cell.textLabel.text = "\(HelperFunctions().runHeadline[run.runTypeId])";
+        cell.detailTextLabel!.text = "\(dateFormatter.stringFromDate(run.start!))";
+        switch run.medal {
+        case 1:
+            cell.imageView.image = UIImage(named: "medal_gold");
+        case 2:
+            cell.imageView.image = UIImage(named: "medal_silver");
+        case 3:
+            cell.imageView.image = UIImage(named: "medal_bronze");
+        default:
+            cell.imageView.image = UIImage(named: "medal_none");
+        }
         return cell
     }
 
@@ -168,7 +172,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
     func loadData() {
         
         // Read all runs
-        let queryRuns = db.query("SELECT id, startDate, endDate, distance FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC");
+        let queryRuns = db.query("SELECT id, startDate, endDate, distance, runTypeId, medal FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC");
         for runInDb in queryRuns {
             // Retrieve run data
             var run: Run = Run();
@@ -176,6 +180,9 @@ class HistoryTableViewControllerSwift: UITableViewController {
             run.start = NSDate(timeIntervalSince1970: Double(runInDb["startDate"]!.asInt()));
             run.end = NSDate(timeIntervalSince1970: Double(runInDb["endDate"]!.asInt()));
             run.distance = runInDb["distance"]!.asDouble();
+            run.runTypeId = runInDb["runTypeId"]!.asInt();
+            run.medal = runInDb["medal"]!.asInt();
+            
             
             // Read all locations for runs
             // - Probably use parameters........
@@ -204,6 +211,13 @@ class HistoryTableViewControllerSwift: UITableViewController {
         }
     }
     
+    func refresh(sender:AnyObject)
+    {
+        // Updating your data here...
+        println("herp derp");
+        //self.tableView.reloadData()
+        //self.refreshControl?.endRefreshing()
+    }
     
     @IBAction func unwindToHistory(segue: UIStoryboardSegue) {
     }

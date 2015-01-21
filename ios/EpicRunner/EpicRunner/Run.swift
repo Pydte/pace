@@ -18,5 +18,6 @@ class Run {
     var locations: [CLLocation] = [];
     var aborted: Bool = true; // in case of random stuff, true is default
     var runTypeId: Int = 0; //
+    var medal: Int = 0; 
     
 }

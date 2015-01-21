@@ -21,6 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let db = SQLiteDB.sharedInstance();
         //db.closeDatabase();
         
+        
+        //Clean up history, max 50 locally stored runs
+        //TODO
+        
         return true
     }
     

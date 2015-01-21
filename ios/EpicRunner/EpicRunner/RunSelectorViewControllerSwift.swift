@@ -87,6 +87,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         
         // If necessary, request active runs from webservice
         if (runTimedOut || (numberOfRuns-numberOfLockedRuns) != 5 || numberOfLockedRuns > 1) {
+        //if (true) {
             // Show loading info, this request can take a little while
             lblLoadingText.text = "Fetching available runs..";
             lblLoadingText.hidden = false;
@@ -446,7 +447,7 @@ class RunSelectorViewControllerSwift: UIViewController {
     override func viewWillAppear(animated: Bool) {
         let needsSyncQuery = db.query("SELECT id FROM runs WHERE synced=0 AND userId=(SELECT loggedInUserId FROM settings) LIMIT 1");
         if (needsSyncQuery.count > 0) {
-        //if (false) {
+        //if (true) {
             println("Not synced");
 
             // Sync

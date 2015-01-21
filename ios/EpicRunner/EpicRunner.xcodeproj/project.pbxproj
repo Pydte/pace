@@ -19,6 +19,7 @@
 		721AF6C9197569600084E0D1 /* RunSelectorViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721AF6C8197569600084E0D1 /* RunSelectorViewControllerSwift.swift */; };
 		721AF6CB19757A750084E0D1 /* RunSelectorItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721AF6CA19757A750084E0D1 /* RunSelectorItemView.swift */; };
 		7224EEDE19F57E98005E701E /* RunScreenContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */; };
+		72302C631A7034BD007980FE /* medal_none.png in Resources */ = {isa = PBXBuildFile; fileRef = 72302C621A7034BD007980FE /* medal_none.png */; };
 		723A50F919CC6B5F00B443BF /* MissionDVViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */; };
 		7242528A1A0CFECE00E99033 /* orange_pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 724252881A0CFECE00E99033 /* orange_pin@2x.png */; };
 		7242528B1A0CFECE00E99033 /* orange_pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 724252891A0CFECE00E99033 /* orange_pin.png */; };
@@ -118,6 +119,7 @@
 		721AF6C8197569600084E0D1 /* RunSelectorViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunSelectorViewControllerSwift.swift; sourceTree = "<group>"; };
 		721AF6CA19757A750084E0D1 /* RunSelectorItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunSelectorItemView.swift; sourceTree = "<group>"; };
 		7224EEDD19F57E98005E701E /* RunScreenContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerViewController.swift; sourceTree = "<group>"; };
+		72302C621A7034BD007980FE /* medal_none.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medal_none.png; sourceTree = "<group>"; };
 		723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissionDVViewController.swift; sourceTree = "<group>"; };
 		724252881A0CFECE00E99033 /* orange_pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange_pin@2x.png"; sourceTree = "<group>"; };
 		724252891A0CFECE00E99033 /* orange_pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orange_pin.png; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		72A7C6AE18D87AF4007FF58B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				72302C621A7034BD007980FE /* medal_none.png */,
 				727B15591A693BF200701A22 /* separatorLine.png */,
 				727B155A1A693BF200701A22 /* separatorLine@2.png */,
 				72A67F4E1A28C8CD009DCA77 /* medal_bronze.png */,
@@ -484,6 +487,7 @@
 				724252911A0D035100E99033 /* green_pin@2x.png in Resources */,
 				7242528B1A0CFECE00E99033 /* orange_pin.png in Resources */,
 				720CE24919112BA900D1FA43 /* player2_dot.png in Resources */,
+				72302C631A7034BD007980FE /* medal_none.png in Resources */,
 				72A7C6BA18D87AF4007FF58B /* Images.xcassets in Resources */,
 				72A67F541A28C8CD009DCA77 /* lock.png in Resources */,
 				724252921A0D035100E99033 /* home_pin.png in Resources */,

@@ -244,7 +244,7 @@ let SQLITE_DATE = SQLITE_NULL + 1
             execute("INSERT INTO settings DEFAULT VALUES");
             execute("CREATE TABLE IF NOT EXISTS runs (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "startDate INTEGER, endDate INTEGER, distance REAL, " +
-                "duration REAL, avgSpeed REAL, maxSpeed REAL, minAltitude REAL, maxAltitude REAL, realRunId INTEGER, userId INTEGER NOT NULL DEFAULT (null), runTypeId INTEGER NOT NULL DEFAULT 0, aborted BOOL NOT NULL DEFAULT 1, synced BOOL NOT NULL  DEFAULT 0)");
+                "duration REAL, avgSpeed REAL, maxSpeed REAL, minAltitude REAL, maxAltitude REAL, realRunId INTEGER, userId INTEGER NOT NULL DEFAULT (null), runTypeId INTEGER NOT NULL DEFAULT 0, aborted BOOL NOT NULL DEFAULT 1, synced BOOL NOT NULL DEFAULT 0, medal INTEGER NOT NULL DEFAULT 0)");
             execute("CREATE TABLE IF NOT EXISTS runs_location (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "runId INTEGER REFERENCES run(id) ON DELETE CASCADE, " +
                 "latitude REAL, longitude REAL, " +
