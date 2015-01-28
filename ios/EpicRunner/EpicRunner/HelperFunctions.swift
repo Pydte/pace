@@ -14,7 +14,7 @@ class HelperFunctions {
     // 1: Location Run
     // 2: Interval Run
     // 3: Collector Run
-    
+
     let runHeadline: [String] = ["Free Run", "Location Run", "Interval Run", "Collector Run"];
     let runDescription: [String] = ["Run anywhere in any pace you want. When you are done, you simply touch the stop button.",
         "You have to run from point A to point B and back to point A. Point A is your current physical location when you press 'Generate mission', while point B is a location of our choosing.",
@@ -117,5 +117,5 @@ class HelperFunctions {
         let runRemainingTimeInSecondsFormat = NSString(format: "%02d", Int(runRemainingTimeInSeconds));
         return "\(runTimeInMinutesFormat):\(runRemainingTimeInSecondsFormat)";
     }
-   
+
 }

@@ -15,8 +15,11 @@ class HistoryTableViewControllerSwift: UITableViewController {
     @IBOutlet var btnMenu: UIBarButtonItem!;
     
     let db = SQLiteDB.sharedInstance();
+    var userId: Int = 0;
     var runs: [Run] = [];
     var selectedIndex: Int = -1;
+    var loadMoreBtn: UIButton? = nil;
+    var loadMoreLocal: Bool = true;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,11 +29,31 @@ class HistoryTableViewControllerSwift: UITableViewController {
         self.btnMenu.action = "revealToggle:";  // This is dangerous - if wrong it's first going to crash at runtime
         self.navigationController!.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
+        // Load User Id
+        let queryId = db.query("SELECT loggedInUserId FROM settings");
+        self.userId = queryId[0]["loggedInUserId"]!.asInt();
+        
         // Bind pull to update
         self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged);
         
         // Load data
-        loadData();
+        loadData(25, offset: -1);
+        
+        // "Load more data"-button
+        var footerView: UIView = UIView(frame: CGRectMake(0, 0, 320, 30));
+        
+        self.loadMoreBtn = UIButton(frame: CGRectMake(0, 0, 320, 30));
+        loadMoreBtn!.setTitle("Load more", forState: UIControlState.Normal);
+        loadMoreBtn!.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal);
+        loadMoreBtn!.titleLabel?.font = UIFont.systemFontOfSize(14.0);
+        loadMoreBtn!.addTarget(self, action: "loadMore", forControlEvents: UIControlEvents.TouchUpInside)
+
+        footerView.addSubview(loadMoreBtn!);
+        footerView.userInteractionEnabled = true;
+        self.tableView.tableFooterView = footerView;
+        self.tableView.tableFooterView?.userInteractionEnabled = true;
+
+        
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -40,6 +63,51 @@ class HistoryTableViewControllerSwift: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
+    func loadMore() {
+        println("Loading more..");
+        loadMoreBtn!.setTitle("Loading more..", forState: UIControlState.Normal);
+        
+        let numOfRuns = self.runs.count;
+        let numOfRunsToRetrieve: Int = 25;
+        
+        if (!self.loadMoreLocal) {
+            //Retrieve numOfRunsToRetrieve from web service with offset numOfRuns
+            HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&count=\(numOfRunsToRetrieve)&offset=\(numOfRuns)", callbackSuccess: loadMoreSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
+        } else {
+            //Retrieve runs locally
+            loadData(numOfRunsToRetrieve, offset: numOfRuns);
+            
+            if (numOfRunsToRetrieve+numOfRuns != self.runs.count) {
+                // No more runs stored locally
+                self.loadMoreLocal = false;
+            }
+            
+            self.tableView.reloadData();
+            if (self.loadMoreLocal) {
+                loadMoreBtn!.setTitle("Load more", forState: UIControlState.Normal);
+            } else {
+                loadMoreBtn!.setTitle("Load more online", forState: UIControlState.Normal);
+            }
+        }
+    }
+    
+    func loadMoreSuccess(data: AnyObject?) {
+        //Extract data into db
+        let dic: NSDictionary = data as NSDictionary;
+        let runs: NSArray = dic.objectForKey("runs") as NSArray;
+        //HelperFunctions().extractRunsIntoDb(runs);
+        //SHOULD do it, but with other data than used in the runselector
+        
+        let numOfRuns = self.runs.count;
+        let numOfRunsToRetrieve: Int = 25;
+        
+        //Retrieve runs locally
+        loadData(numOfRunsToRetrieve, offset: numOfRuns);
+        
+        self.tableView.reloadData();
+        loadMoreBtn!.setTitle("Load more online", forState: UIControlState.Normal);
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,29 +127,36 @@ class HistoryTableViewControllerSwift: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        // Configure the cell...
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("HistoryPrototypeCell", forIndexPath: indexPath) as UITableViewCell;
-
+        
+        
+        //// Load more automatically - Not used
+        //if (indexPath.row == runs.count - 1) {
+        //    loadMore();
+        //}
+        
+        
+        // Configure the cell...
         var dateFormatter: NSDateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "MMMM dd";
         
         let run: Run = self.runs[indexPath.row];
         
-        cell.textLabel.text = "\(HelperFunctions().runHeadline[run.runTypeId])";
+        cell.textLabel!.text = "\(HelperFunctions().runHeadline[run.runTypeId])";
         cell.detailTextLabel!.text = "\(dateFormatter.stringFromDate(run.start!))";
         switch run.medal {
         case 1:
-            cell.imageView.image = UIImage(named: "medal_gold");
+            cell.imageView!.image = UIImage(named: "medal_gold");
         case 2:
-            cell.imageView.image = UIImage(named: "medal_silver");
+            cell.imageView!.image = UIImage(named: "medal_silver");
         case 3:
-            cell.imageView.image = UIImage(named: "medal_bronze");
+            cell.imageView!.image = UIImage(named: "medal_bronze");
         default:
-            cell.imageView.image = UIImage(named: "medal_none");
+            cell.imageView!.image = UIImage(named: "medal_none");
         }
         return cell
     }
-
+    
     func deleteRun() {
         let run: Run = self.runs[selectedIndex];
         
@@ -169,10 +244,19 @@ class HistoryTableViewControllerSwift: UITableViewController {
         self.runs.append(run2);
     }
 
-    func loadData() {
+    // -1 for limit or offset, means no limit/offset
+    func loadData(limit: Int, offset: Int) {
+        var limitStr: String = "";
+        var offsetStr: String = "";
+        if (limit > 0) {
+            limitStr = " LIMIT \(limit)";
+        }
+        if (offset > 0) {
+            offsetStr = " OFFSET \(offset)";
+        }
         
         // Read all runs
-        let queryRuns = db.query("SELECT id, startDate, endDate, distance, runTypeId, medal FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC");
+        let queryRuns = db.query("SELECT id, startDate, endDate, distance, runTypeId, medal FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC\(limitStr)\(offsetStr)");
         for runInDb in queryRuns {
             // Retrieve run data
             var run: Run = Run();
@@ -214,10 +298,40 @@ class HistoryTableViewControllerSwift: UITableViewController {
     func refresh(sender:AnyObject)
     {
         // Updating your data here...
-        println("herp derp");
-        //self.tableView.reloadData()
-        //self.refreshControl?.endRefreshing()
+        println("Updating history..");
+        
+        //Change title
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Updating history..");
+        
+        //Make webservice request
+        HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&count=40&offset=0", callbackSuccess: refreshSuccess, callbackFail: refreshFail);
     }
+
+    func refreshSuccess(data: AnyObject?) {
+        //Extract data into db
+        let dic: NSDictionary = data as NSDictionary;
+        let runs: NSArray = dic.objectForKey("runs") as NSArray;
+        //HelperFunctions().extractRunsIntoDb(runs);
+        //SHOULD do it, but with other data than used in the runselector
+        
+        //Retrieve runs from db
+        self.runs.removeAll(keepCapacity: true);
+        loadData(25, offset: -1);
+        self.tableView.reloadData();
+        
+        //Reset
+        self.refreshControl?.endRefreshing();
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Keep pulling to update..");
+    }
+    
+    func refreshFail(err: String) {
+        //On failure
+        println("Failed to update history");
+        self.refreshControl?.endRefreshing();
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Keep pulling to update..");
+        HelperFunctions().webServiceDefaultFail(err);
+    }
+    
     
     @IBAction func unwindToHistory(segue: UIStoryboardSegue) {
     }

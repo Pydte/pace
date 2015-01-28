@@ -182,62 +182,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         item5?.move(true, coord: CGPoint(x: 0, y: 340));
     }
     
-    func extractRunsIntoDb(runs: NSArray) {
-        for run in runs {
-            let runId: Int = run.objectForKey("id")!.integerValue;
-            var endDate: Int = 0;
-            var locked = 0;
-            if let derp = run.objectForKey("end_date") as? String {
-                endDate = run.objectForKey("end_date")!.integerValue;
-            } else {
-                locked = 1;
-            }
-            
-            let runTypeId: Int = run.objectForKey("run_type_id")!.integerValue;
-            let startDate: Int = run.objectForKey("start_date")!.integerValue;
-            
-            
-            // INSERT IF NOT EXISTS
-            self.db.execute("INSERT INTO active_runs (runid, runTypeId, startDate, endDate, userId, locked) " +
-                "SELECT * FROM (SELECT \(runId), \(runTypeId), \(startDate), \(endDate), (SELECT loggedInUserId FROM settings), \(locked)) AS tmp " +
-                "WHERE NOT EXISTS (SELECT runid FROM active_runs WHERE runid=\(runId)) LIMIT 1");
-            
-            
-            
-            // Individual data depending on run type
-            if (runTypeId == 1) {
-                // Location run
-                // UPDATE SAID RUN
-                let distance: Int = run.objectForKey("distance")!.integerValue;
-                let medalSilver: Int = run.objectForKey("medal_silver")!.integerValue;
-                let medalGold: Int = run.objectForKey("medal_gold")!.integerValue;
-                let difficulty: Int = run.objectForKey("difficulty")!.integerValue;
-                
-                self.db.execute("UPDATE active_runs SET distance=\(distance), medalSilver=\(medalSilver), medalGold=\(medalGold), difficulty=\(difficulty) WHERE runId=\(runId)");
-                
-            } else if (runTypeId == 2) {
-                // Interval run
-                let medalBronze: Int = run.objectForKey("medal_bronze")!.integerValue;
-                let medalSilver: Int = run.objectForKey("medal_silver")!.integerValue;
-                let medalGold: Int = run.objectForKey("medal_gold")!.integerValue;
-                let difficulty: Int = run.objectForKey("difficulty")!.integerValue;
-                let duration: Int = run.objectForKey("duration")!.integerValue;
-                
-                self.db.execute("UPDATE active_runs SET medalBronze=\(medalBronze), medalSilver=\(medalSilver), medalGold=\(medalGold), difficulty=\(difficulty), duration=\(duration) WHERE runId=\(runId)");
-                
-            } else if (runTypeId == 3) {
-                // Collector run
-                let distance: Int = run.objectForKey("distance")!.integerValue;
-                //let medalBronze: Int = run.objectForKey("medal_bronze")!.integerValue;
-                let medalSilver: Int = run.objectForKey("medal_silver")!.integerValue;
-                let medalGold: Int = run.objectForKey("medal_gold")!.integerValue;
-                let difficulty: Int = run.objectForKey("difficulty")!.integerValue;
-                let duration: Int = run.objectForKey("duration")!.integerValue;
-                
-                self.db.execute("UPDATE active_runs SET distance=\(distance), medalSilver=\(medalSilver), medalGold=\(medalGold), difficulty=\(difficulty), duration=\(duration) WHERE runId=\(runId)");
-            }
-        }
-    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -429,6 +374,64 @@ class RunSelectorViewControllerSwift: UIViewController {
         } else {
             println("Done all sync");
             loadRunSelector();
+        }
+    }
+    
+    // Puts runs from webservice into database. (INSERTS ONLY IF NOT EXISTS)
+    func extractRunsIntoDb(runs: NSArray) {
+        for run in runs {
+            let runId: Int = run.objectForKey("id")!.integerValue;
+            var endDate: Int = 0;
+            var locked = 0;
+            if let derp = run.objectForKey("end_date") as? String {
+                endDate = run.objectForKey("end_date")!.integerValue;
+            } else {
+                locked = 1;
+            }
+            
+            let runTypeId: Int = run.objectForKey("run_type_id")!.integerValue;
+            let startDate: Int = run.objectForKey("start_date")!.integerValue;
+            
+            
+            // INSERT IF NOT EXISTS
+            self.db.execute("INSERT INTO active_runs (runid, runTypeId, startDate, endDate, userId, locked) " +
+                "SELECT * FROM (SELECT \(runId), \(runTypeId), \(startDate), \(endDate), (SELECT loggedInUserId FROM settings), \(locked)) AS tmp " +
+                "WHERE NOT EXISTS (SELECT runid FROM active_runs WHERE runid=\(runId)) LIMIT 1");
+            
+            
+            
+            // Individual data depending on run type
+            if (runTypeId == 1) {
+                // Location run
+                // UPDATE SAID RUN
+                let distance: Int = run.objectForKey("distance")!.integerValue;
+                let medalSilver: Int = run.objectForKey("medal_silver")!.integerValue;
+                let medalGold: Int = run.objectForKey("medal_gold")!.integerValue;
+                let difficulty: Int = run.objectForKey("difficulty")!.integerValue;
+                
+                self.db.execute("UPDATE active_runs SET distance=\(distance), medalSilver=\(medalSilver), medalGold=\(medalGold), difficulty=\(difficulty) WHERE runId=\(runId)");
+                
+            } else if (runTypeId == 2) {
+                // Interval run
+                let medalBronze: Int = run.objectForKey("medal_bronze")!.integerValue;
+                let medalSilver: Int = run.objectForKey("medal_silver")!.integerValue;
+                let medalGold: Int = run.objectForKey("medal_gold")!.integerValue;
+                let difficulty: Int = run.objectForKey("difficulty")!.integerValue;
+                let duration: Int = run.objectForKey("duration")!.integerValue;
+                
+                self.db.execute("UPDATE active_runs SET medalBronze=\(medalBronze), medalSilver=\(medalSilver), medalGold=\(medalGold), difficulty=\(difficulty), duration=\(duration) WHERE runId=\(runId)");
+                
+            } else if (runTypeId == 3) {
+                // Collector run
+                let distance: Int = run.objectForKey("distance")!.integerValue;
+                //let medalBronze: Int = run.objectForKey("medal_bronze")!.integerValue;
+                let medalSilver: Int = run.objectForKey("medal_silver")!.integerValue;
+                let medalGold: Int = run.objectForKey("medal_gold")!.integerValue;
+                let difficulty: Int = run.objectForKey("difficulty")!.integerValue;
+                let duration: Int = run.objectForKey("duration")!.integerValue;
+                
+                self.db.execute("UPDATE active_runs SET distance=\(distance), medalSilver=\(medalSilver), medalGold=\(medalGold), difficulty=\(difficulty), duration=\(duration) WHERE runId=\(runId)");
+            }
         }
     }
     
