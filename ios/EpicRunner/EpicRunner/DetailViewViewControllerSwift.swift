@@ -24,6 +24,8 @@ class DetailViewViewControllerSwift: UIViewController {
     @IBOutlet var lblMinAltitude: UILabel!;
     @IBOutlet var lblMaxAltitude: UILabel!;
     @IBOutlet var btnDelete: UIBarButtonItem!;
+    @IBOutlet weak var lblRun: UILabel!;
+    @IBOutlet weak var imgMedal: UIImageView!;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,8 +85,9 @@ class DetailViewViewControllerSwift: UIViewController {
         var dateFormatter: NSDateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "MMM. dd, yyyy, HH:mm";
         self.lblDate.text = dateFormatter.stringFromDate(self.selectedRun!.start!);
-        
         self.lblDistance.text = NSString(format: "%.2f", self.selectedRun!.distance/1000);
+        self.lblRun.text = HelperFunctions().runHeadline[self.selectedRun!.runTypeId];
+        self.imgMedal.image = UIImage(named: "medal_\(HelperFunctions().runMedal[self.selectedRun!.medal])");
         
         let runTimeInSeconds: NSNumber = self.selectedRun!.end!.timeIntervalSinceDate(self.selectedRun!.start!);
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
@@ -203,6 +206,7 @@ class DetailViewViewControllerSwift: UIViewController {
         }
     }
     
+    //NOT USED ANYMORE
     @IBAction func btnUpload(sender: AnyObject) {
         func callbackSuccess(data: AnyObject) {
             println("Upload successful");

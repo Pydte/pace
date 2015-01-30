@@ -157,6 +157,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         return cell
     }
     
+    //TODO: Delete(or hide?) from cloud too?
     func deleteRun() {
         let run: Run = self.runs[selectedIndex];
         

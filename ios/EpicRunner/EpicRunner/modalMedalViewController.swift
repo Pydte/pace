@@ -19,20 +19,9 @@ class modalMedalViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad();
-
-        switch wonMedal {
-        case 1:
-            lblTitle.text = "YOU WON GOLD";
-            imgMedal.image = UIImage(named: "medal_gold");
-        case 2:
-            lblTitle.text = "YOU WON SILVER";
-            imgMedal.image = UIImage(named: "medal_silver");
-        case 3:
-            lblTitle.text = "YOU WON BRONZE";
-            imgMedal.image = UIImage(named: "medal_bronze");
-        default:
-            println("Unknown medal");
-        }
+        
+        lblTitle.text = "YOU WON \(HelperFunctions().runMedal[wonMedal].uppercaseString)";
+        imgMedal.image = UIImage(named: "medal_\(HelperFunctions().runMedal[wonMedal])");
         
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
         let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);

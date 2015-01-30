@@ -584,17 +584,15 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     // Update medal
                     if (self.intNumPassed == self.medalGold) {
                         self.currentMedalInt = 1;
-                        self.runScreenContainerViewController!.intController!.lblMedal.text = "Gold";
                     } else if (self.intNumPassed >= self.medalSilver) {
                         self.currentMedalInt = 2;
-                        self.runScreenContainerViewController!.intController!.lblMedal.text = "Silver";
                     } else if (self.intNumPassed >= self.medalBronze) {
                         self.currentMedalInt = 3;
-                        self.runScreenContainerViewController!.intController!.lblMedal.text = "Bronze";
                     } else {
                         self.currentMedalInt = 0;
-                        self.runScreenContainerViewController!.intController!.lblMedal.text = "-";
                     }
+                    self.runScreenContainerViewController!.intController!.lblMedal.text = HelperFunctions().runMedal[self.currentMedalInt];
+                    
                 }
             } else {
                 // Update distance
@@ -621,14 +619,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 if (self.locRunActive) {
                     if (Int(runTimeInSeconds) < self.medalGold) {
                         self.currentMedalInt = 1;
-                        self.runScreenContainerViewController!.lblMedal.text = "Gold";
                     } else if (Int(runTimeInSeconds) < self.medalSilver) {
                         self.currentMedalInt = 2;
-                        self.runScreenContainerViewController!.lblMedal.text = "Silver";
                     } else {
                         self.currentMedalInt = 3;
-                        self.runScreenContainerViewController!.lblMedal.text = "Bronze";
                     }
+                    self.runScreenContainerViewController!.intController!.lblMedal.text = HelperFunctions().runMedal[self.currentMedalInt];
                 }
             }
         }
