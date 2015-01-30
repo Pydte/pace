@@ -8,13 +8,16 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, FBLoginViewDelegate {
 
-    @IBOutlet var txtEmail: UITextField!;
-    @IBOutlet var txtPassword: UITextField!;
+    @IBOutlet weak var fbLoginView: FBLoginView!;
     
     override func viewDidLoad() {
         super.viewDidLoad();
+        
+        //FB settings
+        self.fbLoginView.delegate = self;
+        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"];
     }
     
     override func viewDidAppear(animated: Bool)
@@ -40,30 +43,22 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func btnLogIn(sender: UIButton) {
-        func callbackSuccess(data: AnyObject) {
-            println("Sign in successful");
-            let dic: NSDictionary = data as NSDictionary;
-            let id: Int = dic.objectForKey("id")!.integerValue;
-            
-            //Save userID in database
-            let db = SQLiteDB.sharedInstance();
-            let query = db.execute("UPDATE settings SET loggedInUserId=\(id), loggedInUsername='\(self.txtEmail.text)'");
-            
-            println("id: \(id)");
-            
-            //Forward user
-            self.performSegueWithIdentifier("segueFromLoginToApp", sender: self);
-        }
-        
-        println("Logging in..");
-        
-        //Check not empty fields
-        
-        //Send data to server
-        HelperFunctions().callWebService("user-login", params: "email=\(txtEmail.text)&password=\(txtPassword.text)", callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
-        }
+    func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser) {
+        //println("Hello \(user.first_name) \(user.last_name)");
+        //println(user.objectForKey("email"));
+        //println(user.objectForKey("id")); (unique user id)
+        //println(user);
+    }
+    
+    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
+        println("You're logged in via the mighty Facebook");
+    }
+    
+    func loginViewHandleError(loginView: FBLoginView!, error: NSError) {
+        println("herp derp");
+    }
 
+    
     /*
     // #pragma mark - Navigation
 

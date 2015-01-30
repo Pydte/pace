@@ -75,6 +75,14 @@ class SignUpViewController: UIViewController {
         HelperFunctions().callWebService("user-create", params: params, callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
     }
 
+    @IBAction func cancelTouched(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil);
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) {
+        textField.resignFirstResponder();
+    }
+    
     /*
     // #pragma mark - Navigation
 

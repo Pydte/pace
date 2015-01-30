@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
         // Override point for customization after application launch.
         
+        // Load class before views
+        FBLoginView.self;
+        FBProfilePictureView.self;
+        
         // SQLite setup
         // - Check to see if SQLite db file exists, else create
         //let db = SQLiteDB.sharedInstance();
@@ -25,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Clean up history, max 50 locally stored runs
         //TODO
         
-        return true
+        return true;
     }
     
     func applicationWillResignActive(application: UIApplication!) {
@@ -50,5 +54,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
+        // Handle Facebook app responses
+        var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication);
+        return wasHandled;
+    }
 }

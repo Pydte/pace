@@ -64,6 +64,9 @@
 		72B4FCEA1906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 72B4FCE91906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 */; };
 		72B4FCEC1906FBED002AE72C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72B4FCEB1906FBED002AE72C /* AVFoundation.framework */; };
 		72BD3D3C19E7FECC00AEAC11 /* GenerateRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72BD3D3B19E7FECC00AEAC11 /* GenerateRunViewController.swift */; };
+		72C8D9061A7BB0B700DADD2A /* CustomLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C8D9051A7BB0B700DADD2A /* CustomLoginViewController.swift */; };
+		72C8D9081A7BB97A00DADD2A /* forest.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 72C8D9071A7BB97A00DADD2A /* forest.jpg */; };
+		72C8D90C1A7BC1A800DADD2A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C8D90B1A7BC1A800DADD2A /* FacebookSDK.framework */; };
 		72CD37BA19C7676C0049AD4E /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CD37B919C7676C0049AD4E /* MenuViewController.m */; };
 		72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CD37BC19C768520049AD4E /* SWRevealViewController.m */; };
 		72DF2438197AED7800F9A96B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF2437197AED7800F9A96B /* MenuViewController.swift */; };
@@ -167,6 +170,9 @@
 		72B4FCE91906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "213423__taira-komori__coin05.mp3"; sourceTree = "<group>"; };
 		72B4FCEB1906FBED002AE72C /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		72BD3D3B19E7FECC00AEAC11 /* GenerateRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateRunViewController.swift; sourceTree = "<group>"; };
+		72C8D9051A7BB0B700DADD2A /* CustomLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLoginViewController.swift; sourceTree = "<group>"; };
+		72C8D9071A7BB97A00DADD2A /* forest.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = forest.jpg; sourceTree = "<group>"; };
+		72C8D90B1A7BC1A800DADD2A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		72CD37B819C7676C0049AD4E /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
 		72CD37B919C7676C0049AD4E /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		72CD37BB19C768520049AD4E /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -192,6 +198,7 @@
 				72A7C6AA18D87AF4007FF58B /* CoreGraphics.framework in Frameworks */,
 				72A7C6AC18D87AF4007FF58B /* UIKit.framework in Frameworks */,
 				72A7C6A818D87AF4007FF58B /* Foundation.framework in Frameworks */,
+				72C8D90C1A7BC1A800DADD2A /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +282,7 @@
 		72A7C6A618D87AF4007FF58B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				72C8D90B1A7BC1A800DADD2A /* FacebookSDK.framework */,
 				72B4FCEB1906FBED002AE72C /* AVFoundation.framework */,
 				72A4008E18F4512600D739B3 /* libsqlite3.dylib */,
 				72A7C6D818D8813C007FF58B /* MapKit.framework */,
@@ -305,6 +313,7 @@
 		72A7C6AE18D87AF4007FF58B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				72C8D9071A7BB97A00DADD2A /* forest.jpg */,
 				72302C621A7034BD007980FE /* medal_none.png */,
 				727B15591A693BF200701A22 /* separatorLine.png */,
 				727B155A1A693BF200701A22 /* separatorLine@2.png */,
@@ -365,6 +374,7 @@
 				720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */,
 				7244D50C197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift */,
 				72F1EBF319BE0CC800DB0DE1 /* LoginViewController.swift */,
+				72C8D9051A7BB0B700DADD2A /* CustomLoginViewController.swift */,
 				72F1EBF519BE1D1600DB0DE1 /* SignUpViewController.swift */,
 				721AF6C8197569600084E0D1 /* RunSelectorViewControllerSwift.swift */,
 				723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */,
@@ -471,6 +481,7 @@
 				7242528A1A0CFECE00E99033 /* orange_pin@2x.png in Resources */,
 				72A67F531A28C8CD009DCA77 /* medal_silver.png in Resources */,
 				727B155C1A693BF200701A22 /* separatorLine@2.png in Resources */,
+				72C8D9081A7BB97A00DADD2A /* forest.jpg in Resources */,
 				72A7C6D718D87EE8007FF58B /* Main.storyboard in Resources */,
 				720CE24519110C0A00D1FA43 /* README.txt in Resources */,
 				72A67F521A28C8CD009DCA77 /* medal_bronze.png in Resources */,
@@ -537,6 +548,7 @@
 				72A67F4B1A28A590009DCA77 /* modalLeagueViewController.swift in Sources */,
 				72F1EBF619BE1D1600DB0DE1 /* SignUpViewController.swift in Sources */,
 				721AF6C9197569600084E0D1 /* RunSelectorViewControllerSwift.swift in Sources */,
+				72C8D9061A7BB0B700DADD2A /* CustomLoginViewController.swift in Sources */,
 				72DF2438197AED7800F9A96B /* MenuViewController.swift in Sources */,
 				7224EEDE19F57E98005E701E /* RunScreenContainerViewController.swift in Sources */,
 				7244D511197BF74C0034D91F /* HistoryTableViewControllerSwift.swift in Sources */,
@@ -675,6 +687,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					/Users/jeppe/Documents/FacebookSDK,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EpicRunner/EpicRunner-Prefix.pch";
 				INFOPLIST_FILE = "EpicRunner/EpicRunner-Info.plist";
@@ -697,6 +714,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					/Users/jeppe/Documents/FacebookSDK,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EpicRunner/EpicRunner-Prefix.pch";
 				INFOPLIST_FILE = "EpicRunner/EpicRunner-Info.plist";
