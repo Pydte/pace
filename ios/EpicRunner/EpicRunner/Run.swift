@@ -15,6 +15,8 @@ class Run {
     var start: NSDate? = nil;
     var end: NSDate? = nil;
     var distance: Double = 0.0; // in meters
+    var duration: Double = 0.0; // in seconds
+    var avgSpeed: Double = 0.0; // in m/s (i believe?)
     var locations: [CLLocation] = [];
     var aborted: Bool = true; // in case of random stuff, true is default
     var runTypeId: Int = 0; //

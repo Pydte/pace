@@ -57,8 +57,9 @@ class DetailViewViewControllerSwift: UIViewController {
     }
     
     func loadRouteData() {
-        // Check if the data points already is in memory, otherwise load them from db.
+        // Check if the data points already is in memory
         if (self.selectedRun!.locations.count == 0) {
+            // Check if is available in local db, if so, load it
             let queryLocs = db.query("SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = \(self.selectedRun!.dbId!) ORDER BY id");
             for locInDb in queryLocs {
                 // Retrieve loc data
@@ -89,7 +90,8 @@ class DetailViewViewControllerSwift: UIViewController {
         self.lblRun.text = HelperFunctions().runHeadline[self.selectedRun!.runTypeId];
         self.imgMedal.image = UIImage(named: "medal_\(HelperFunctions().runMedal[self.selectedRun!.medal])");
         
-        let runTimeInSeconds: NSNumber = self.selectedRun!.end!.timeIntervalSinceDate(self.selectedRun!.start!);
+        //let runTimeInSeconds: NSNumber = self.selectedRun!.end!.timeIntervalSinceDate(self.selectedRun!.start!);
+        let runTimeInSeconds: NSNumber = NSNumber(double: self.selectedRun!.duration);
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
         let runRemainingTimeInSeconds: Double = fmod(Double(runTimeInSeconds), 60);
         let runTimeInMinutesFormat = NSString(format: "%02d", Int(runTimeInMinutes));
@@ -125,7 +127,7 @@ class DetailViewViewControllerSwift: UIViewController {
             
             
             // Plus all speed entries
-            avgSpeed = avgSpeed + loc.speed;
+            //avgSpeed = avgSpeed + loc.speed;
             
             
             // Find min and max altitude
@@ -138,7 +140,10 @@ class DetailViewViewControllerSwift: UIViewController {
         }
         
         // Divide accumulated speeds with number of entries
-        avgSpeed = avgSpeed/Double(self.selectedRun!.locations.count);
+        //avgSpeed = avgSpeed/Double(self.selectedRun!.locations.count);
+        
+        // Use avg speed from db (IN M/S!)
+        avgSpeed = self.selectedRun!.avgSpeed;
         
         // Convert avg. speed from m/s to min/km
         avgSpeed = 16.66666666666667/avgSpeed;

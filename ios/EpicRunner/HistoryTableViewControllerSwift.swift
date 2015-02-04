@@ -95,8 +95,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         //Extract data into db
         let dic: NSDictionary = data as NSDictionary;
         let runs: NSArray = dic.objectForKey("runs") as NSArray;
-        //HelperFunctions().extractRunsIntoDb(runs);
-        //SHOULD do it, but with other data than used in the runselector
+        extractRunsIntoDb(runs);
         
         let numOfRuns = self.runs.count;
         let numOfRunsToRetrieve: Int = 25;
@@ -257,7 +256,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         }
         
         // Read all runs
-        let queryRuns = db.query("SELECT id, startDate, endDate, distance, runTypeId, medal FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC\(limitStr)\(offsetStr)");
+        let queryRuns = db.query("SELECT id, startDate, endDate, distance, duration, avgSpeed, runTypeId, medal FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC\(limitStr)\(offsetStr)");
         for runInDb in queryRuns {
             // Retrieve run data
             var run: Run = Run();
@@ -265,6 +264,8 @@ class HistoryTableViewControllerSwift: UITableViewController {
             run.start = NSDate(timeIntervalSince1970: Double(runInDb["startDate"]!.asInt()));
             run.end = NSDate(timeIntervalSince1970: Double(runInDb["endDate"]!.asInt()));
             run.distance = runInDb["distance"]!.asDouble();
+            run.duration = runInDb["duration"]!.asDouble();
+            run.avgSpeed = runInDb["avgSpeed"]!.asDouble();
             run.runTypeId = runInDb["runTypeId"]!.asInt();
             run.medal = runInDb["medal"]!.asInt();
             
@@ -312,8 +313,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         //Extract data into db
         let dic: NSDictionary = data as NSDictionary;
         let runs: NSArray = dic.objectForKey("runs") as NSArray;
-        //HelperFunctions().extractRunsIntoDb(runs);
-        //SHOULD do it, but with other data than used in the runselector
+        extractRunsIntoDb(runs);
         
         //Retrieve runs from db
         self.runs.removeAll(keepCapacity: true);
@@ -333,6 +333,42 @@ class HistoryTableViewControllerSwift: UITableViewController {
         HelperFunctions().webServiceDefaultFail(err);
     }
     
+    
+    // Puts runs from webservice into database. (INSERTS ONLY IF NOT EXISTS)
+    func extractRunsIntoDb(runs: NSArray) {
+        for run in runs {
+            let runId: Int = run.objectForKey("id")!.integerValue;
+            var runTypeId: Int = 0;
+            if let tmp1 = run.objectForKey("run_type_id") as? String {
+                runTypeId = run.objectForKey("run_type_id")!.integerValue;
+            }
+            var startDate: Int = 0;
+            if let tmp2 = run.objectForKey("start_date") as? String {
+                startDate = run.objectForKey("start_date")!.integerValue;
+            }
+            var endDate: Int = 0;
+            if let tmp3 = run.objectForKey("end_date") as? String {
+                endDate = run.objectForKey("end_date")!.integerValue;
+            }
+            let distance: Double = run.objectForKey("distance")!.doubleValue;
+            let duration: Double = run.objectForKey("duration")!.doubleValue;
+            let avgSpeed: Double = run.objectForKey("avg_speed")!.doubleValue;
+            let maxSpeed: Double = run.objectForKey("max_speed")!.doubleValue;
+            let minAltitude: Double = run.objectForKey("min_altitude")!.doubleValue;
+            let maxAltitude: Double = run.objectForKey("max_altitude")!.doubleValue;
+            var medalScore: Int = 0;
+            if let derp = run.objectForKey("medal_score") as? String {
+                medalScore = run.objectForKey("medal_score")!.integerValue;
+            }
+            
+            
+            
+            // INSERT IF NOT EXISTS
+            self.db.execute("INSERT INTO runs (startDate, endDate, distance, duration, avgSpeed, maxSpeed, minAltitude, maxAltitude, realRunId, userId, runTypeId, aborted, medal, synced) " +
+                "SELECT * FROM (SELECT \(startDate), \(endDate), \(distance), \(duration), \(avgSpeed), \(maxSpeed), \(minAltitude), \(maxAltitude), \(runId), \(self.userId), \(runTypeId), (SELECT loggedInUserId FROM settings), \(medalScore), 1) AS tmp " +
+                "WHERE NOT EXISTS (SELECT realRunId FROM runs WHERE realRunId=\(runId)) LIMIT 1");
+        }
+    }
     
     @IBAction func unwindToHistory(segue: UIStoryboardSegue) {
     }
