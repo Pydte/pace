@@ -27,6 +27,10 @@ class DetailViewViewControllerSwift: UIViewController {
     @IBOutlet weak var lblRun: UILabel!;
     @IBOutlet weak var imgMedal: UIImageView!;
     
+    @IBOutlet weak var mapOverlay: UIView!;
+    @IBOutlet weak var mapOverlayText: UILabel!;
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,29 +61,72 @@ class DetailViewViewControllerSwift: UIViewController {
     }
     
     func loadRouteData() {
+        func callbackSuccess(data: AnyObject?) {
+            //Extract data into db
+            let dic: NSDictionary = data as NSDictionary;
+            let runs: NSArray = dic.objectForKey("runs") as NSArray;
+            
+            for run in runs {
+                let la: Double = run.objectForKey("la")!.doubleValue;
+                let lo: Double = run.objectForKey("lo")!.doubleValue;
+                let ho: Double = run.objectForKey("ho")!.doubleValue;
+                let al: Double = 0.0;//run.objectForKey("al")!.doubleValue;
+                let ve: Double = run.objectForKey("ve")!.doubleValue;
+                let sp: Double = run.objectForKey("sp")!.doubleValue;
+                let ti: Int = run.objectForKey("ti")!.integerValue;
+                
+                
+                // INSERT IF NOT EXISTS
+                self.db.execute("INSERT INTO runs_location (runid, latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed, timestamp) VALUES (" +
+                    "\(self.selectedRun!.dbId!), \(la), \(lo), \(ho), \(al), \(ve), \(sp), \(ti))");
+            }
+            
+            loadRouteData();
+            drawRoute();
+        }
+        
+        func callbackFail(err: String) {
+            self.loadingIndicator.stopAnimating();
+            self.mapOverlayText.text = "Route unavailable.";
+        }
+        
         // Check if the data points already is in memory
         if (self.selectedRun!.locations.count == 0) {
             // Check if is available in local db, if so, load it
             let queryLocs = db.query("SELECT latitude, longitude, horizontalAccuracy, altitude, verticalAccuracy, speed FROM runs_location WHERE runId = \(self.selectedRun!.dbId!) ORDER BY id");
-            for locInDb in queryLocs {
-                // Retrieve loc data
-                let lat = locInDb["latitude"]!.asDouble();
-                let lon = locInDb["longitude"]!.asDouble();
-                let horizontalAcc = locInDb["horizontalAccuracy"]!.asDouble();
-                let altitude = locInDb["altitude"]!.asDouble();
-                let verticalAcc = locInDb["verticalAccuracy"]!.asDouble();
-                let speed = locInDb["speed"]!.asDouble();
-                let loc = CLLocation(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon),
-                    altitude: altitude,
-                    horizontalAccuracy: horizontalAcc,
-                    verticalAccuracy: verticalAcc,
-                    course: 0,
-                    speed: speed,
-                    timestamp: nil)
-                
-                self.selectedRun!.locations.append(loc);
+            
+            if (queryLocs.count > 0) {
+                for locInDb in queryLocs {
+                    // Retrieve loc data
+                    let lat = locInDb["latitude"]!.asDouble();
+                    let lon = locInDb["longitude"]!.asDouble();
+                    let horizontalAcc = locInDb["horizontalAccuracy"]!.asDouble();
+                    let altitude = locInDb["altitude"]!.asDouble();
+                    let verticalAcc = locInDb["verticalAccuracy"]!.asDouble();
+                    let speed = locInDb["speed"]!.asDouble();
+                    let loc = CLLocation(coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lon),
+                        altitude: altitude,
+                        horizontalAccuracy: horizontalAcc,
+                        verticalAccuracy: verticalAcc,
+                        course: 0,
+                        speed: speed,
+                        timestamp: nil)
+                    
+                    self.selectedRun!.locations.append(loc);
+                }
+                removeMapOverlay();
+            } else {
+                // Load from webservice
+                HelperFunctions().callWebService("old-run-locations", params: "runid=\(self.selectedRun!.realRunId!)", callbackSuccess: callbackSuccess, callbackFail: callbackFail);
             }
+        } else {
+            removeMapOverlay();
         }
+    }
+    
+    func removeMapOverlay() {
+        self.mapOverlay.hidden = true;
+        //self.mapOverlay.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0);
     }
     
     func presentInfo() {
@@ -100,32 +147,11 @@ class DetailViewViewControllerSwift: UIViewController {
         
         
         // Extreme coordinates
-        var latTop: Double    = -999999;
-        var lonRight: Double  = -999999;
-        var latBottom: Double = 999999;
-        var lonLeft: Double   = 999999;
-        
         var avgSpeed: Double    = 0.0; // In min/km
         var minAltitude: Double = 999999;
         var maxAltitude: Double = -999999;
         
         for loc in self.selectedRun!.locations {
-            //Find extreme coordinates
-            if (loc.coordinate.latitude > latTop) {
-                latTop = loc.coordinate.latitude;
-            }
-            if (loc.coordinate.latitude < latBottom) {
-                latBottom = loc.coordinate.latitude;
-            }
-            
-            if (loc.coordinate.longitude > lonRight) {
-                lonRight = loc.coordinate.longitude;
-            }
-            if (loc.coordinate.longitude < lonLeft) {
-                lonLeft = loc.coordinate.longitude;
-            }
-            
-            
             // Plus all speed entries
             //avgSpeed = avgSpeed + loc.speed;
             
@@ -152,6 +178,41 @@ class DetailViewViewControllerSwift: UIViewController {
         // Set altitude
         self.lblMinAltitude.text = NSString(format: "%.0f", minAltitude);
         self.lblMaxAltitude.text = NSString(format: "%.0f", maxAltitude);
+    }
+    
+    func drawRoute() {
+        var pointsCoordinate: [CLLocationCoordinate2D] = [];
+        
+        for (var i=0; i<self.selectedRun!.locations.count; i++) {
+            let location: CLLocation = self.selectedRun!.locations[i];
+            pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
+        }
+        
+        let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.selectedRun!.locations.count);
+        self.mapView.addOverlay(polyline);
+        
+        // Extreme coordinates
+        var latTop: Double    = -999999;
+        var lonRight: Double  = -999999;
+        var latBottom: Double = 999999;
+        var lonLeft: Double   = 999999;
+    
+        for loc in self.selectedRun!.locations {
+            //Find extreme coordinates
+            if (loc.coordinate.latitude > latTop) {
+                latTop = loc.coordinate.latitude;
+            }
+            if (loc.coordinate.latitude < latBottom) {
+                latBottom = loc.coordinate.latitude;
+            }
+            
+            if (loc.coordinate.longitude > lonRight) {
+                lonRight = loc.coordinate.longitude;
+            }
+            if (loc.coordinate.longitude < lonLeft) {
+                lonLeft = loc.coordinate.longitude;
+            }
+        }
         
         // Find longest distance horizontal and vertical
         let locTopLeft: CLLocation    = CLLocation(latitude: latTop, longitude: lonLeft);
@@ -168,24 +229,11 @@ class DetailViewViewControllerSwift: UIViewController {
         else {
             distanceMargin = distanceLon*1;
         }
-        
-        
+
         // Center map
         let startCoord: CLLocationCoordinate2D = CLLocationCoordinate2DMake((latTop+latBottom)/2, (lonRight+lonLeft)/2);
         let adjustedRegion = MKCoordinateRegionMakeWithDistance(startCoord, Double(distanceLat+distanceMargin), Double(distanceLon+distanceMargin));
         self.mapView.setRegion(adjustedRegion, animated: true);
-    }
-    
-    func drawRoute() {
-        var pointsCoordinate: [CLLocationCoordinate2D] = [];
-        
-        for (var i=0; i<self.selectedRun!.locations.count; i++) {
-            let location: CLLocation = self.selectedRun!.locations[i];
-            pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
-        }
-        
-        let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: self.selectedRun!.locations.count);
-        self.mapView.addOverlay(polyline);
     }
     
     @IBAction func deleteRun(sender: AnyObject) {

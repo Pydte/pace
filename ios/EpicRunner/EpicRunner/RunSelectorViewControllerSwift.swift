@@ -376,6 +376,7 @@ class RunSelectorViewControllerSwift: UIViewController {
             loadRunSelector();
         }
     }
+
     
     // Puts runs from webservice into database. (INSERTS ONLY IF NOT EXISTS)
     func extractRunsIntoDb(runs: NSArray) {

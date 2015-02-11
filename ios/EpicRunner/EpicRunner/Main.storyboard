@@ -721,6 +721,24 @@
                                 <rect key="frame" x="238" y="203" width="66" height="74"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view alpha="0.74999999999999978" contentMode="scaleToFill" id="bg9-qJ-faC">
+                                <rect key="frame" x="0.0" y="64" width="320" height="135"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" id="6DS-DU-2fX">
+                                        <rect key="frame" x="78" y="58" width="20" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading route..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8YD-K2-ZDr">
+                                        <rect key="frame" x="106" y="54" width="145" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.098039217293262482" green="0.098039217293262482" blue="0.098039217293262482" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -738,6 +756,9 @@
                         <outlet property="lblMaxSpeed" destination="XUp-zq-eFl" id="JCi-9g-Gse"/>
                         <outlet property="lblMinAltitude" destination="7nF-IO-uDG" id="9EY-HN-fVW"/>
                         <outlet property="lblRun" destination="bl5-qc-6vi" id="FAa-1R-6fm"/>
+                        <outlet property="loadingIndicator" destination="6DS-DU-2fX" id="ev2-b6-roF"/>
+                        <outlet property="mapOverlay" destination="bg9-qJ-faC" id="G8b-Ho-K4a"/>
+                        <outlet property="mapOverlayText" destination="8YD-K2-ZDr" id="bya-5e-T9J"/>
                         <outlet property="mapView" destination="aaM-dZ-z2b" id="JfR-f5-6y1"/>
                         <segue destination="Yc2-UU-vD8" kind="unwind" identifier="unwindToHistory" unwindAction="unwindToHistory:" id="9cE-7e-iWp"/>
                     </connections>

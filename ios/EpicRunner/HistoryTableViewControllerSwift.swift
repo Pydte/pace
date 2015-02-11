@@ -256,11 +256,12 @@ class HistoryTableViewControllerSwift: UITableViewController {
         }
         
         // Read all runs
-        let queryRuns = db.query("SELECT id, startDate, endDate, distance, duration, avgSpeed, runTypeId, medal FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC\(limitStr)\(offsetStr)");
+        let queryRuns = db.query("SELECT id, realRunId, startDate, endDate, distance, duration, avgSpeed, runTypeId, medal FROM runs WHERE userId=(SELECT loggedInUserId FROM Settings) ORDER BY startDate DESC\(limitStr)\(offsetStr)");
         for runInDb in queryRuns {
             // Retrieve run data
             var run: Run = Run();
             run.dbId = runInDb["id"]!.asInt();
+            run.realRunId = runInDb["realRunId"]!.asInt();
             run.start = NSDate(timeIntervalSince1970: Double(runInDb["startDate"]!.asInt()));
             run.end = NSDate(timeIntervalSince1970: Double(runInDb["endDate"]!.asInt()));
             run.distance = runInDb["distance"]!.asDouble();
