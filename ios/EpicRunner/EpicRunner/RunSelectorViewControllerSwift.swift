@@ -449,21 +449,36 @@ class RunSelectorViewControllerSwift: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        let needsSyncQuery = db.query("SELECT id FROM runs WHERE synced=0 AND userId=(SELECT loggedInUserId FROM settings) LIMIT 1");
-        if (needsSyncQuery.count > 0) {
-        //if (true) {
-            println("Not synced");
-
-            // Sync
-            lblLoadingText.text = "Synchronizing local runs..";
-            lblLoadingText.hidden = false;
-            idcLoading.startAnimating();
-            
-            syncAllRuns();
+        // Do we have access?
+        let queryAccess = db.query("SELECT loggedInLevel, loggedInTuRunSelector FROM settings");
+        let level: Int = queryAccess[0]["loggedInLevel"]!.asInt();
+        if (level == 0) {
+            println("No access, you should at least be level 1!");
+            var noAccessController: UIViewController = self.storyboard?.instantiateViewControllerWithIdentifier("noAccess") as UIViewController;
+            self.addChildViewController(noAccessController);
+            self.view.addSubview(noAccessController.view);
         } else {
-            println("Already synced");
-            // Already synced, load runs
-            loadRunSelector();
+            let needsSyncQuery = db.query("SELECT id FROM runs WHERE synced=0 AND userId=(SELECT loggedInUserId FROM settings) LIMIT 1");
+            if (needsSyncQuery.count > 0) {
+                println("Not synced");
+
+                // Sync
+                lblLoadingText.text = "Synchronizing local runs..";
+                lblLoadingText.hidden = false;
+                idcLoading.startAnimating();
+                
+                syncAllRuns();
+            } else {
+                println("Already synced");
+                // Already synced, load runs
+                loadRunSelector();
+            }
+            
+            // Should we show the tutorial?
+            let tutorialDone: Bool = Bool(queryAccess[0]["loggedInTuRunSelector"]!.asInt());
+            if (!tutorialDone) {
+                println("Showing tutorial");
+            }
         }
     }
     

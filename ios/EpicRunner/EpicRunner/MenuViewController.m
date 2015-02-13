@@ -50,7 +50,7 @@
     switch ( indexPath.row )
     {
         case 0:
-            CellIdentifier = @"Profile";
+            CellIdentifier = @"Main";
             break;
             
         case 1:

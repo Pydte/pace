@@ -70,7 +70,7 @@ class DetailViewViewControllerSwift: UIViewController {
                 let la: Double = run.objectForKey("la")!.doubleValue;
                 let lo: Double = run.objectForKey("lo")!.doubleValue;
                 let ho: Double = run.objectForKey("ho")!.doubleValue;
-                let al: Double = 0.0;//run.objectForKey("al")!.doubleValue;
+                let al: Double = run.objectForKey("al")!.doubleValue;
                 let ve: Double = run.objectForKey("ve")!.doubleValue;
                 let sp: Double = run.objectForKey("sp")!.doubleValue;
                 let ti: Int = run.objectForKey("ti")!.integerValue;

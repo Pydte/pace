@@ -857,7 +857,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T1F-bQ-5oZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1182" y="1450"/>
+            <point key="canvasLocation" x="1714" y="1450"/>
         </scene>
         <!--Detail View-->
         <scene sceneID="FLi-6q-e8R">
@@ -963,7 +963,48 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IS4-Xp-yVo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1646" y="1450"/>
+            <point key="canvasLocation" x="2178" y="1450"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="7zt-wB-PkZ">
+            <objects>
+                <viewController restorationIdentifier="noAccess" storyboardIdentifier="noAccess" id="Ka5-QF-cPh" sceneMemberID="viewController">
+                    <view key="view" alpha="0.94999999999999996" contentMode="scaleToFill" id="6dR-WS-4Cc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Access" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v9n-g6-78H">
+                                <rect key="frame" x="85" y="93" width="150" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To access the run selector, you will have to get your runner certificate." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Glj-Ll-IdC">
+                                <rect key="frame" x="16" y="145" width="288" height="53"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Wpm-Kp-3M9">
+                                <rect key="frame" x="16" y="409" width="288" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Touch here to get your certificate">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="xPY-Pb-YcF" kind="push" id="5SO-pN-eFt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.098039217293262482" green="0.098039217293262482" blue="0.098039217293262482" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wdj-vF-ILi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1714" y="2015"/>
         </scene>
         <!--Generate run-->
         <scene sceneID="g0U-op-YDK">
@@ -1014,7 +1055,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DNR-mR-I86" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2116" y="1450"/>
+            <point key="canvasLocation" x="2648" y="1450"/>
         </scene>
         <!--OneP Location Run View Controller Swift-->
         <scene sceneID="aYF-5X-4wJ">
@@ -1140,7 +1181,7 @@
         <!--Epic Runner-->
         <scene sceneID="zL2-gx-mfA">
             <objects>
-                <viewController id="W8q-5t-AhF" customClass="MainScreenViewControllerSwift" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="W8q-5t-AhF" customClass="MainScreenViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7zk-Wk-o6e">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1154,7 +1195,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="zOs-7I-Fgx" kind="push" id="TCo-xG-qvc"/>
+                                    <action selector="btnRunSelectorTouched:" destination="W8q-5t-AhF" eventType="touchUpInside" id="Sk5-U6-Z34"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZSD-WL-r3Q">
@@ -1183,12 +1224,15 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnMenu" destination="g4n-4S-FQn" id="Etu-lw-eD5"/>
+                        <outlet property="btnRunSelector" destination="YdE-hk-oxc" id="MUf-JO-edG"/>
                         <outlet property="lblEmail" destination="lak-qc-soQ" id="2g6-Ic-iwO"/>
+                        <segue destination="zOs-7I-Fgx" kind="push" identifier="segueToRunSelector" id="Fey-b3-m5h"/>
+                        <segue destination="xPY-Pb-YcF" kind="push" identifier="segueToTest" id="ywH-R1-92u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jr9-wX-fRz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="675" y="818"/>
+            <point key="canvasLocation" x="681" y="818"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IaC-a8-xYV">
@@ -1236,14 +1280,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Profile" textLabel="sdq-B3-oR7" style="IBUITableViewCellStyleDefault" id="Kmk-ze-h9w" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Main" textLabel="sdq-B3-oR7" style="IBUITableViewCellStyleDefault" id="Kmk-ze-h9w" customClass="SWUITableViewCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kmk-ze-h9w" id="XrU-0Y-FdH">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Demo Selector" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sdq-B3-oR7">
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Main" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sdq-B3-oR7">
                                             <rect key="frame" x="15" y="0.0" width="290" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -1254,7 +1298,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="label" destination="sdq-B3-oR7" id="nSj-JB-XZv"/>
-                                    <segue destination="PS6-S7-6yK" kind="custom" identifier="DemoSelector" customClass="SWRevealViewControllerSeguePushController" id="73I-gB-P97"/>
+                                    <segue destination="06V-dE-ckG" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="gqT-L8-fgk"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Run" textLabel="nYb-Xy-5A6" style="IBUITableViewCellStyleDefault" id="thA-wX-jUz" customClass="SWUITableViewCell">
@@ -1455,6 +1499,7 @@
                     <connections>
                         <outlet property="fbLoginView" destination="NGl-zu-o8U" id="mpO-43-BXD"/>
                         <segue destination="ZIN-YB-L81" kind="modal" identifier="segueFromLoginToApp" id="LU8-OD-Lhj"/>
+                        <segue destination="xPY-Pb-YcF" kind="modal" identifier="segueToTest" id="eDO-9U-3ef"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xez-R4-FwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1792,6 +1837,49 @@
             </objects>
             <point key="canvasLocation" x="776" y="172"/>
         </scene>
+        <!--Get running certificate-->
+        <scene sceneID="mcl-In-Jdo">
+            <objects>
+                <viewController id="xPY-Pb-YcF" customClass="TestViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KFt-q3-D1T">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xm2-ea-dbe">
+                                <rect key="frame" x="16" y="74" width="283" height="113"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <string key="text">Before you can run as you like, you will need to certified first.
+  This is done by running 1 km in moderate speed.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IL4-wL-SCc">
+                                <rect key="frame" x="62" y="413" width="196" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="&quot;I have now done that&quot;">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnDoneTouched:" destination="xPY-Pb-YcF" eventType="touchUpInside" id="yHI-FO-m8q"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Get running certificate" id="rb0-6g-uUN">
+                        <barButtonItem key="leftBarButtonItem" image="reveal-icon.png" id="0ZR-SS-nLc"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="btnMenu" destination="0ZR-SS-nLc" id="vtA-8N-Tj9"/>
+                        <segue destination="W8q-5t-AhF" kind="push" identifier="segueToRunSelector" id="vLK-Zy-ags"/>
+                        <segue destination="W8q-5t-AhF" kind="push" identifier="segueToMain" id="5uZ-CR-ZAp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H6w-59-c9a" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="612" y="1450"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="iSO-vp-GAG">
             <objects>
@@ -1808,7 +1896,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iPX-4z-0iV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="770" y="1450"/>
+            <point key="canvasLocation" x="1302" y="1450"/>
         </scene>
         <!--Run Screen Container View Controller-->
         <scene sceneID="mW2-yd-F90">
@@ -2194,6 +2282,24 @@ P</string>
             </objects>
             <point key="canvasLocation" x="2958" y="605"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gwY-XV-3Qk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hOC-Qo-sDG" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aoP-m8-GHq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xPY-Pb-YcF" kind="relationship" relationship="rootViewController" id="Vgf-xO-pzg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IDF-FK-sgG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="226" y="1450"/>
+        </scene>
     </scenes>
     <resources>
         <image name="forest.jpg" width="747" height="899"/>
@@ -2209,10 +2315,12 @@ P</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ovp-yw-I3B"/>
-        <segue reference="LU8-OD-Lhj"/>
-        <segue reference="nYe-7U-n7u"/>
-        <segue reference="l2r-f2-U8L"/>
+        <segue reference="Fey-b3-m5h"/>
+        <segue reference="vLK-Zy-ags"/>
+        <segue reference="5SO-pN-eFt"/>
+        <segue reference="cGr-4D-Jrw"/>
+        <segue reference="lBb-zS-EeT"/>
+        <segue reference="Bhg-Sl-vMl"/>
         <segue reference="1bv-M6-sUt"/>
     </inferredMetricsTieBreakers>
 </document>

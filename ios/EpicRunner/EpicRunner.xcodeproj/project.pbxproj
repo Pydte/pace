@@ -32,6 +32,8 @@
 		7244D50D197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D50C197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift */; };
 		7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */; };
 		7244D511197BF74C0034D91F /* HistoryTableViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D510197BF74C0034D91F /* HistoryTableViewControllerSwift.swift */; };
+		726236211A8E058F0045ABAB /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726236201A8E058F0045ABAB /* TestViewController.swift */; };
+		726236231A8E27490045ABAB /* tuTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 726236221A8E27490045ABAB /* tuTest.png */; };
 		7275AE491902BD8C00D81950 /* README_SWRVC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE481902BD8C00D81950 /* README_SWRVC.txt */; };
 		7275AE521902DDFB00D81950 /* reveal-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE501902DDFB00D81950 /* reveal-icon.png */; };
 		7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE511902DDFB00D81950 /* reveal-icon@2x.png */; };
@@ -135,6 +137,8 @@
 		7244D50C197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePLocationRunViewControllerSwift.swift; sourceTree = "<group>"; };
 		7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunFinishedSummaryViewControllerSwift.swift; sourceTree = "<group>"; };
 		7244D510197BF74C0034D91F /* HistoryTableViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryTableViewControllerSwift.swift; path = ../HistoryTableViewControllerSwift.swift; sourceTree = "<group>"; };
+		726236201A8E058F0045ABAB /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		726236221A8E27490045ABAB /* tuTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuTest.png; sourceTree = "<group>"; };
 		7275AE481902BD8C00D81950 /* README_SWRVC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SWRVC.txt; sourceTree = "<group>"; };
 		7275AE501902DDFB00D81950 /* reveal-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon.png"; sourceTree = "<group>"; };
 		7275AE511902DDFB00D81950 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
@@ -313,6 +317,7 @@
 		72A7C6AE18D87AF4007FF58B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				726236221A8E27490045ABAB /* tuTest.png */,
 				72C8D9071A7BB97A00DADD2A /* forest.jpg */,
 				72302C621A7034BD007980FE /* medal_none.png */,
 				727B15591A693BF200701A22 /* separatorLine.png */,
@@ -379,6 +384,7 @@
 				721AF6C8197569600084E0D1 /* RunSelectorViewControllerSwift.swift */,
 				723A50F819CC6B5F00B443BF /* MissionDVViewController.swift */,
 				72BD3D3B19E7FECC00AEAC11 /* GenerateRunViewController.swift */,
+				726236201A8E058F0045ABAB /* TestViewController.swift */,
 				72A79B7C19813BD80054ADC0 /* RunScreenViewController.swift */,
 				729FE79D1A60053A00833747 /* RunScreenControllers */,
 				72A67F421A288E80009DCA77 /* modalMedalViewController.swift */,
@@ -496,6 +502,7 @@
 				72B4FCEA1906FA1E002AE72C /* 213423__taira-komori__coin05.mp3 in Resources */,
 				7275AE491902BD8C00D81950 /* README_SWRVC.txt in Resources */,
 				724252911A0D035100E99033 /* green_pin@2x.png in Resources */,
+				726236231A8E27490045ABAB /* tuTest.png in Resources */,
 				7242528B1A0CFECE00E99033 /* orange_pin.png in Resources */,
 				720CE24919112BA900D1FA43 /* player2_dot.png in Resources */,
 				72302C631A7034BD007980FE /* medal_none.png in Resources */,
@@ -523,6 +530,7 @@
 			files = (
 				721AF6C519755AB20084E0D1 /* Run.swift in Sources */,
 				72A79B7D19813BD80054ADC0 /* RunScreenViewController.swift in Sources */,
+				726236211A8E058F0045ABAB /* TestViewController.swift in Sources */,
 				720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */,
 				72F1EBF419BE0CC800DB0DE1 /* LoginViewController.swift in Sources */,
 				7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */,

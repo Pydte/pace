@@ -240,7 +240,7 @@ let SQLITE_DATE = SQLITE_NULL + 1
         
         // ** EDIT START ** //
         if virginDb {
-            execute("CREATE TABLE IF NOT EXISTS settings (loggedInUserId INTEGER, loggedInUserName TEXT)");
+            execute("CREATE TABLE IF NOT EXISTS settings (loggedInUserId INTEGER, loggedInUserName TEXT, loggedInLevel INTEGER NOT NULL DEFAULT 0, loggedInTuRunSelector BOOL NOT NULL DEFAULT 0)");
             execute("INSERT INTO settings DEFAULT VALUES");
             execute("CREATE TABLE IF NOT EXISTS runs (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "startDate INTEGER, endDate INTEGER, distance REAL, " +
