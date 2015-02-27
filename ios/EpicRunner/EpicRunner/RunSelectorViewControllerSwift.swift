@@ -105,7 +105,13 @@ class RunSelectorViewControllerSwift: UIViewController {
         lblLoadingText.hidden = true;
         idcLoading.stopAnimating();
         
+//        if (data != nil) {
+//            // Extract runs from webservice into database
+//            let runsJSON = JSON(data!);
+//            self.extractRunsIntoDb(runsJSON);
+//        }
         if let dic: NSDictionary = data as? NSDictionary {
+            print(dic);
             // Extract runs from webservice into database
             let runs: NSArray = dic.objectForKey("runs") as NSArray;
             self.extractRunsIntoDb(runs);
@@ -380,6 +386,7 @@ class RunSelectorViewControllerSwift: UIViewController {
     
     // Puts runs from webservice into database. (INSERTS ONLY IF NOT EXISTS)
     func extractRunsIntoDb(runs: NSArray) {
+    //func extractRunsIntoDb(runs: JSON) {
         for run in runs {
             let runId: Int = run.objectForKey("id")!.integerValue;
             var endDate: Int = 0;

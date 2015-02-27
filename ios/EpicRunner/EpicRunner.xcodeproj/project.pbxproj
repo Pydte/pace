@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7208EF861AA0B7E70002BB95 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7208EF851AA0B7E70002BB95 /* SwiftyJSON.swift */; };
+		7208EF881AA0B84C0002BB95 /* README_SwiftyJSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */; };
 		720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */; };
 		720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23D19110BE900D1FA43 /* CJSONSerializer.m */; };
 		720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24019110BE900D1FA43 /* NSDictionary_JSONExtensions.m */; };
@@ -106,6 +108,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7208EF851AA0B7E70002BB95 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SwiftyJSON.txt; sourceTree = "<group>"; };
 		720CE23A19110BE900D1FA43 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
 		720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
 		720CE23C19110BE900D1FA43 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
@@ -219,6 +223,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7208EF841AA0B7C40002BB95 /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				7208EF851AA0B7E70002BB95 /* SwiftyJSON.swift */,
+				7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */,
+			);
+			name = SwiftyJSON;
+			sourceTree = "<group>";
+		};
 		720CE23919110BB700D1FA43 /* TouchJSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,6 +314,7 @@
 		72A7C6AD18D87AF4007FF58B /* EpicRunner */ = {
 			isa = PBXGroup;
 			children = (
+				7208EF841AA0B7C40002BB95 /* SwiftyJSON */,
 				72DF246C197BCAB900F9A96B /* SQLiteDB */,
 				720CE23919110BB700D1FA43 /* TouchJSON */,
 				7275AE441902BD3E00D81950 /* SWRevealViewController */,
@@ -494,6 +508,7 @@
 				72DF246E197BCAE600F9A96B /* README_SQLiteDB.txt in Resources */,
 				724252931A0D035100E99033 /* home_pin@2x.png in Resources */,
 				72A7C6B218D87AF4007FF58B /* InfoPlist.strings in Resources */,
+				7208EF881AA0B84C0002BB95 /* README_SwiftyJSON.txt in Resources */,
 				72A67F551A28C8CD009DCA77 /* medal_gold.png in Resources */,
 				727B155B1A693BF200701A22 /* separatorLine.png in Resources */,
 				724252901A0D035100E99033 /* green_pin.png in Resources */,
@@ -561,6 +576,7 @@
 				7224EEDE19F57E98005E701E /* RunScreenContainerViewController.swift in Sources */,
 				7244D511197BF74C0034D91F /* HistoryTableViewControllerSwift.swift in Sources */,
 				720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */,
+				7208EF861AA0B7E70002BB95 /* SwiftyJSON.swift in Sources */,
 				7244D50D197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

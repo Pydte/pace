@@ -31,8 +31,12 @@ class MenuViewController: UITableViewController {
         if (segue.identifier == "Logout") {
             println("Logging out...");
             
+            // Log out locally
             let db = SQLiteDB.sharedInstance();
             let query = db.execute("UPDATE settings SET loggedInUserId=NULL");
+            
+            // Log out facebook
+            FBSession.activeSession().closeAndClearTokenInformation();
         }
     }
     
