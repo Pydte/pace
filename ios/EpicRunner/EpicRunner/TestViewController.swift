@@ -31,6 +31,7 @@ class TestViewController: UIViewController {
     }
     
     @IBAction func btnDoneTouched(sender: AnyObject) {
+        println("simulating done..");
         // Set level local
         self.db.execute("UPDATE settings SET loggedInLevel=1");
         
@@ -40,14 +41,24 @@ class TestViewController: UIViewController {
         self.performSegueWithIdentifier("segueToMain", sender: self);
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if (segue.identifier == "segueStartCalRun") {
+            var generateRunViewController: GenerateRunViewController = segue.destinationViewController as GenerateRunViewController;
+            //generateRunViewController.runId = 0;
+            generateRunViewController.runTypeId = 4;
+            generateRunViewController.locRunDistance = 3600;
+            generateRunViewController.medalBronze = 2;
+            generateRunViewController.medalSilver = 4;
+            generateRunViewController.medalGold = 8;
+        }
+        
     }
-    */
+
 
 }

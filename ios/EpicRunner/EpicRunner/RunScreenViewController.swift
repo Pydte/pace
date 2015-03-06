@@ -178,6 +178,8 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 doWorkIntervalRun(userLocation);  // Interval Run
             } else if (self.runTypeId == 3) {
                 doWorkCollectorRun(userLocation); // Collector Run
+            } else if (self.runTypeId == 4) {
+                doWorkCertificateRun(userLocation); // Certificate Run
             }
         }
     }
@@ -333,13 +335,59 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         }
     }
     
+    func doWorkCertificateRun(userLocation: CLLocation!)  {
+        let acceptableDeltaDistInMeters: Double = 25;
+        let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
+        
+        if (self.carryingPoint) {
+            let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
+            let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+            
+            if (distanceToGoal < acceptableDeltaDistInMeters) {
+                if (self.runPoints.count == 0) {
+                    // Final point delivered, end game
+                    println("All points delivered!");
+                    self.active = false;
+                    self.currentRun!.aborted = false;
+                    endCapturing();
+                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                } else {
+                    // More points to collect
+                    self.carryingPoint = false;
+                    self.runScreenContainerViewController!.hideHomeAnno();
+                    self.runScreenContainerViewController!.showPointsAnno();
+                    self.lblCurrentObj.text = "Collect a new point..";
+                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                }
+            }
+        } else {
+            var i: Int = 0;
+            for point in self.runPoints {
+                let endLocation: CLLocation = CLLocation(latitude: point.latitude, longitude: point.longitude);
+                let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
+                if (distanceToGoal < acceptableDeltaDistInMeters) {
+                    // Point collected, return to home
+                    self.carryingPoint = true;
+                    self.runScreenContainerViewController!.removePoint(point);
+                    self.runPoints.removeAtIndex(i);
+                    self.runScreenContainerViewController!.showHomeAnno();
+                    self.runScreenContainerViewController!.hidePointsAnno();
+                    self.lblCurrentObj.text = "Deliver the point at base..";
+                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                }
+                i++;
+            }
+        }
+    }
+    
     func locationManagerDidPauseLocationUpdates(manager: CLLocationManager!) {
         println("lc didPause??? Who the hell did that?!");
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
+        
         // Init location manager
         self.locationManager.distanceFilter = kCLDistanceFilterNone;
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -453,6 +501,27 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             
             // Set run-specific values
             self.currentRun!.realRunId = self.runId;
+            
+            // Set current objective
+            lblCurrentObj.text = "Collect a point..";
+            
+        } else if (self.runTypeId == 4) {
+            // Certificate run
+            self.totalNumOfPoints = self.runPoints.count;
+            
+            // Draw progress labels
+            let numOfPoints: CGFloat = CGFloat(self.totalNumOfPoints*2);
+            addProgressLabel("A", offsetProcent: 0);
+            for (var i:Int=1; i<=runPoints.count; i++) {
+                addProgressLabel(String(i), offsetProcent: 1/numOfPoints*CGFloat(i*2-1));
+                addProgressLabel("A", offsetProcent: 1/numOfPoints*CGFloat(i*2));
+            }
+            
+            // Start run
+            startCapturing();
+            
+            // Set run-specific values
+            self.currentRun!.runTypeId = self.runTypeId;
             
             // Set current objective
             lblCurrentObj.text = "Collect a point..";
@@ -624,7 +693,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     } else {
                         self.currentMedalInt = 3;
                     }
-                    self.runScreenContainerViewController!.intController!.lblMedal.text = HelperFunctions().runMedal[self.currentMedalInt];
+                    self.runScreenContainerViewController!.lblMedal.text = HelperFunctions().runMedal[self.currentMedalInt];
                 }
             }
         }
@@ -710,6 +779,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 self.modals.append(modalMedal);
             }
         }
+        //Should be inside the "NOT ABORTED" if, above
+        if (self.currentRun!.runTypeId == 4) {
+            let modalCertificate = self.storyboard?.instantiateViewControllerWithIdentifier("modalCertificate") as UIViewController;
+            self.modals.append(modalCertificate);
+        }
+        
         
         // Add more modals to queue
         //let modalLeague = self.storyboard?.instantiateViewControllerWithIdentifier("modalLeague") as UIViewController;
@@ -731,7 +806,8 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     func saveRunInDb() {
         // realRunId = nil if "Free run", format to db null/int
         var realRunIdDbFormat:String = "null";
-        if (currentRun?.realRunId != nil) {
+        println(currentRun!.runTypeId);
+        if (currentRun?.realRunId != nil && currentRun?.realRunId != 0) {
             realRunIdDbFormat = String(self.currentRun!.realRunId!);
             // Get and set runTypeId from db
             let realRunIdQuery = db.query("SELECT runTypeId FROM active_runs WHERE runId = \(currentRun!.realRunId!)");
@@ -832,7 +908,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         
         var params: String = "user_id=\(userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
         var webService: String = "post-free-run";
-        if (self.currentRun!.runTypeId != 0) {
+        if (self.currentRun!.runTypeId != 0 && self.currentRun!.runTypeId != 4) {
             webService = "post-run";
             params = "run_id=\(realRunId)&" + params;
         }
@@ -904,6 +980,14 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             
         } else if (self.runTypeId == 3) {
             // Collector run
+            
+            self.runScreenContainerViewController!.runPointHome = self.runPointHome;
+            self.runScreenContainerViewController!.runPoints = self.runPoints;
+            self.runScreenContainerViewController!.medalGold = self.medalGold;
+            self.runScreenContainerViewController!.medalSilver = self.medalSilver;
+            self.runScreenContainerViewController!.medalBronze = self.medalBronze;
+        } else if (self.runTypeId == 4) {
+            // Calibrate run
             
             self.runScreenContainerViewController!.runPointHome = self.runPointHome;
             self.runScreenContainerViewController!.runPoints = self.runPoints;

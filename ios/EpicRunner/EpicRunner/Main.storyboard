@@ -1846,18 +1846,53 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xm2-ea-dbe">
-                                <rect key="frame" x="16" y="74" width="283" height="113"/>
+                                <rect key="frame" x="16" y="61" width="288" height="272"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">Before you can run as you like, you will need to certified first.
-  This is done by running 1 km in moderate speed.</string>
+                                <mutableString key="text">Before we can let you loose, you will need your runner certificate.
+  To get your certificate you will need to run a specially modified collector run. There is a total of 12 points and you have to collect as many as possible in 12 minutes.
+
+To collect a point you have to run into it and then you have to return the point to the starting point before you can collect a new point.. </mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IL4-wL-SCc">
-                                <rect key="frame" x="62" y="413" width="196" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="r0L-zC-oxJ">
+                                <rect key="frame" x="62" y="384" width="196" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="&quot;I have now done that&quot;">
+                                <fontDescription key="fontDescription" type="system" pointSize="45"/>
+                                <state key="normal" title="Let's do it">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnDoneTouched:" destination="xPY-Pb-YcF" eventType="touchUpInside" id="ALJ-7i-URC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NMg-0t-S2E">
+                                <rect key="frame" x="45" y="439" width="230" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="I dont want to do that right now.">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="W8q-5t-AhF" kind="push" identifier="segueToMain" id="ELW-Fu-FZT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rCm-7a-jQ5">
+                                <rect key="frame" x="62" y="384" width="196" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="45"/>
+                                <state key="normal" title="Let's do it">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="7qI-yi-SKc" kind="push" identifier="segueStartCalRun" id="DDe-hD-AaQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IL4-wL-SCc">
+                                <rect key="frame" x="96" y="341" width="128" height="11"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <state key="normal" title="&quot;I have done that now&quot;">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1873,7 +1908,6 @@
                     <connections>
                         <outlet property="btnMenu" destination="0ZR-SS-nLc" id="vtA-8N-Tj9"/>
                         <segue destination="W8q-5t-AhF" kind="push" identifier="segueToRunSelector" id="vLK-Zy-ags"/>
-                        <segue destination="W8q-5t-AhF" kind="push" identifier="segueToMain" id="5uZ-CR-ZAp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H6w-59-c9a" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2300,6 +2334,47 @@ P</string>
             </objects>
             <point key="canvasLocation" x="226" y="1450"/>
         </scene>
+        <!--Modal Certificate View Controller-->
+        <scene sceneID="fj2-6f-azD">
+            <objects>
+                <viewController storyboardIdentifier="modalCertificate" id="5ig-2x-HXx" customClass="modalCertificateViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="kx2-FV-3s4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR CERTIFICATE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YJZ-ZI-rLS">
+                                <rect key="frame" x="20" y="48" width="280" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sPq-2W-xRY">
+                                <rect key="frame" x="81" y="430" width="158" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <state key="normal" title="Dismiss">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnDismissClicked:" destination="5ig-2x-HXx" eventType="touchUpInside" id="7W5-KQ-GHa"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We have estimated your running niveau as medium  " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GhM-PA-YOW">
+                                <rect key="frame" x="16" y="364" width="288" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.88" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eCg-oQ-hHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3716" y="172"/>
+        </scene>
     </scenes>
     <resources>
         <image name="forest.jpg" width="747" height="899"/>
@@ -2315,12 +2390,13 @@ P</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Fey-b3-m5h"/>
-        <segue reference="vLK-Zy-ags"/>
-        <segue reference="5SO-pN-eFt"/>
-        <segue reference="cGr-4D-Jrw"/>
         <segue reference="lBb-zS-EeT"/>
-        <segue reference="Bhg-Sl-vMl"/>
+        <segue reference="gqT-L8-fgk"/>
         <segue reference="1bv-M6-sUt"/>
+        <segue reference="eDO-9U-3ef"/>
+        <segue reference="ELW-Fu-FZT"/>
+        <segue reference="DDe-hD-AaQ"/>
+        <segue reference="Fey-b3-m5h"/>
+        <segue reference="cGr-4D-Jrw"/>
     </inferredMetricsTieBreakers>
 </document>

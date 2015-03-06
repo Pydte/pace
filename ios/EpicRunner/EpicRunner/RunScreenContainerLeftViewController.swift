@@ -30,6 +30,9 @@ class RunScreenContainerLeftViewController: UIViewController {
             populateIntervalRun();
         case 3:
             populateCollectorRun();
+        case 4:
+            println("Calibrate run");
+            populateCollectorRun();
         default:
             println("Unknown run type");
         }

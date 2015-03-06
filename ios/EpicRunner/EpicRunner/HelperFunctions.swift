@@ -15,11 +15,12 @@ class HelperFunctions {
     // 2: Interval Run
     // 3: Collector Run
 
-    let runHeadline: [String] = ["Free Run", "Location Run", "Interval Run", "Collector Run"];
+    let runHeadline: [String] = ["Free Run", "Location Run", "Interval Run", "Collector Run", "Certificate Run"];
     let runDescription: [String] = ["Run anywhere in any pace you want. When you are done, you simply touch the stop button.",
         "You have to run from point A to point B and back to point A. Point A is your current physical location when you press 'Generate mission', while point B is a location of our choosing.",
         "You have to run x intervals, which is made up of two parts; one part walking and one part sprinting. This is a radically different way of running, one of constant high intensity rather than medium, long-term load.",
-        "You have to collect a series of objects and return them to your base (starting point). Each time an object is collected it must be returned to the base. An object is effectively collected by running through its position on the map and is registered as 'collected' by running through the 'base' point on the map. There is no specific order to collect the objects in, but you can only carry one object at the time."];
+        "You have to collect a series of objects and return them to your base (starting point). Each time an object is collected it must be returned to the base. An object is effectively collected by running through its position on the map and is registered as 'collected' by running through the 'base' point on the map. There is no specific order to collect the objects in, but you can only carry one object at the time.",
+        "You have to collect a series of objects and return them to your base (starting point). Each time an object is collected it must be returned to the base. Collect as many as you can within the time limit."];
     let runMedal: [String] = ["None", "Gold", "Silver", "Bronze"];
     
     // A function which contacts the server and sends the response to the callback function

@@ -79,6 +79,26 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                 container!.runPointsAnno.append(mkPointAnno2);
                 self.mapView.addAnnotation(mkPointAnno2);
             }
+            
+            
+            
+        } else if (container!.runTypeId == 4) {
+            println("map: collector run");
+            // Collector run
+            // Draw home point
+            self.container!.runPointHomeAnno = MKPointAnnotation();
+            self.container!.runPointHomeAnno!.coordinate = container!.runPointHome!;
+            self.container!.runPointHomeAnno!.subtitle = "collectorPoint";
+            //self.mapView.addAnnotation(self.container!.runPointHomeAnno);
+            
+            // Draw all points to collect
+            for pointCoord in container!.runPoints {
+                var mkPointAnno2: MKPointAnnotation = MKPointAnnotation();
+                mkPointAnno2.coordinate = pointCoord;
+                mkPointAnno2.subtitle = "point";
+                container!.runPointsAnno.append(mkPointAnno2);
+                self.mapView.addAnnotation(mkPointAnno2);
+            }
         }
        
     }
@@ -268,6 +288,9 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                             view!.image = UIImage(named: "green_pin");
                         } else if (container!.runTypeId == 3) {
                             // Collector run
+                            view!.image = UIImage(named: "orange_pin");
+                        } else if (container!.runTypeId == 4) {
+                            // Certificate run
                             view!.image = UIImage(named: "orange_pin");
                         }
                     }

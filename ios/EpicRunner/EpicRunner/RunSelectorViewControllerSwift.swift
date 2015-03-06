@@ -61,6 +61,7 @@ class RunSelectorViewControllerSwift: UIViewController {
             let endDate: Int = run["endDate"]!.asInt();
             let locked: Bool = Bool(run["locked"]!.asInt());
             
+            
             if (nowUnix > endDate && locked == false) {
                 // A run has timed out, delete it and notify
                 runTimedOut = true;
@@ -99,19 +100,17 @@ class RunSelectorViewControllerSwift: UIViewController {
             showRuns(nil);
         }
     }
-    
     func showRuns(data: AnyObject?) {
         // Hide loading info
         lblLoadingText.hidden = true;
         idcLoading.stopAnimating();
         
-//        if (data != nil) {
-//            // Extract runs from webservice into database
-//            let runsJSON = JSON(data!);
-//            self.extractRunsIntoDb(runsJSON);
-//        }
+        //        if (data != nil) {
+        //            // Extract runs from webservice into database
+        //            let runsJSON = JSON(data!);
+        //            self.extractRunsIntoDb(runsJSON);
+        //        }
         if let dic: NSDictionary = data as? NSDictionary {
-            print(dic);
             // Extract runs from webservice into database
             let runs: NSArray = dic.objectForKey("runs") as NSArray;
             self.extractRunsIntoDb(runs);
@@ -188,7 +187,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         item5?.move(true, coord: CGPoint(x: 0, y: 340));
     }
     
-
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -198,7 +197,7 @@ class RunSelectorViewControllerSwift: UIViewController {
     func lockRun(runId: Int) {
         func callback(data: AnyObject) {
             let dic: NSDictionary = data as NSDictionary;
-                
+            
             // If succeeds: Delete current locked run & Set run to locked
             self.db.execute("DELETE FROM active_runs WHERE userId=\(self.userId) AND locked=1;");
             self.db.execute("UPDATE active_runs SET locked=1, endDate=0 WHERE runid=\(runId);");
@@ -382,11 +381,10 @@ class RunSelectorViewControllerSwift: UIViewController {
             loadRunSelector();
         }
     }
-
+    
     
     // Puts runs from webservice into database. (INSERTS ONLY IF NOT EXISTS)
     func extractRunsIntoDb(runs: NSArray) {
-    //func extractRunsIntoDb(runs: JSON) {
         for run in runs {
             let runId: Int = run.objectForKey("id")!.integerValue;
             var endDate: Int = 0;
@@ -468,7 +466,7 @@ class RunSelectorViewControllerSwift: UIViewController {
             let needsSyncQuery = db.query("SELECT id FROM runs WHERE synced=0 AND userId=(SELECT loggedInUserId FROM settings) LIMIT 1");
             if (needsSyncQuery.count > 0) {
                 println("Not synced");
-
+                
                 // Sync
                 lblLoadingText.text = "Synchronizing local runs..";
                 lblLoadingText.hidden = false;

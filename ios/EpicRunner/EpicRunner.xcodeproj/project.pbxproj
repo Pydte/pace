@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		7208EF861AA0B7E70002BB95 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7208EF851AA0B7E70002BB95 /* SwiftyJSON.swift */; };
 		7208EF881AA0B84C0002BB95 /* README_SwiftyJSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */; };
-		720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */; };
-		720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE23D19110BE900D1FA43 /* CJSONSerializer.m */; };
-		720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24019110BE900D1FA43 /* NSDictionary_JSONExtensions.m */; };
-		720CE24519110C0A00D1FA43 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24419110C0A00D1FA43 /* README.txt */; };
 		720CE24919112BA900D1FA43 /* player2_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24819112BA900D1FA43 /* player2_dot.png */; };
 		720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */; };
 		7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */; };
@@ -34,6 +30,7 @@
 		7244D50D197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D50C197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift */; };
 		7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */; };
 		7244D511197BF74C0034D91F /* HistoryTableViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7244D510197BF74C0034D91F /* HistoryTableViewControllerSwift.swift */; };
+		72538EDE1AAA13FA0034CF81 /* modalCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72538EDD1AAA13FA0034CF81 /* modalCertificateViewController.swift */; };
 		726236211A8E058F0045ABAB /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726236201A8E058F0045ABAB /* TestViewController.swift */; };
 		726236231A8E27490045ABAB /* tuTest.png in Resources */ = {isa = PBXBuildFile; fileRef = 726236221A8E27490045ABAB /* tuTest.png */; };
 		7275AE491902BD8C00D81950 /* README_SWRVC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE481902BD8C00D81950 /* README_SWRVC.txt */; };
@@ -110,14 +107,6 @@
 /* Begin PBXFileReference section */
 		7208EF851AA0B7E70002BB95 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SwiftyJSON.txt; sourceTree = "<group>"; };
-		720CE23A19110BE900D1FA43 /* CJSONDeserializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDeserializer.h; sourceTree = "<group>"; };
-		720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONDeserializer.m; sourceTree = "<group>"; };
-		720CE23C19110BE900D1FA43 /* CJSONSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONSerializer.h; sourceTree = "<group>"; };
-		720CE23D19110BE900D1FA43 /* CJSONSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CJSONSerializer.m; sourceTree = "<group>"; };
-		720CE23E19110BE900D1FA43 /* JSONRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONRepresentation.h; sourceTree = "<group>"; };
-		720CE23F19110BE900D1FA43 /* NSDictionary_JSONExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionary_JSONExtensions.h; sourceTree = "<group>"; };
-		720CE24019110BE900D1FA43 /* NSDictionary_JSONExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_JSONExtensions.m; sourceTree = "<group>"; };
-		720CE24419110C0A00D1FA43 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		720CE24819112BA900D1FA43 /* player2_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player2_dot.png; sourceTree = "<group>"; };
 		720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.h.old; sourceTree = "<group>"; };
 		720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.m.old; sourceTree = "<group>"; };
@@ -141,6 +130,7 @@
 		7244D50C197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePLocationRunViewControllerSwift.swift; sourceTree = "<group>"; };
 		7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunFinishedSummaryViewControllerSwift.swift; sourceTree = "<group>"; };
 		7244D510197BF74C0034D91F /* HistoryTableViewControllerSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryTableViewControllerSwift.swift; path = ../HistoryTableViewControllerSwift.swift; sourceTree = "<group>"; };
+		72538EDD1AAA13FA0034CF81 /* modalCertificateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = modalCertificateViewController.swift; sourceTree = "<group>"; };
 		726236201A8E058F0045ABAB /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		726236221A8E27490045ABAB /* tuTest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tuTest.png; sourceTree = "<group>"; };
 		7275AE481902BD8C00D81950 /* README_SWRVC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SWRVC.txt; sourceTree = "<group>"; };
@@ -232,21 +222,6 @@
 			name = SwiftyJSON;
 			sourceTree = "<group>";
 		};
-		720CE23919110BB700D1FA43 /* TouchJSON */ = {
-			isa = PBXGroup;
-			children = (
-				720CE23A19110BE900D1FA43 /* CJSONDeserializer.h */,
-				720CE23B19110BE900D1FA43 /* CJSONDeserializer.m */,
-				720CE23C19110BE900D1FA43 /* CJSONSerializer.h */,
-				720CE23D19110BE900D1FA43 /* CJSONSerializer.m */,
-				720CE23E19110BE900D1FA43 /* JSONRepresentation.h */,
-				720CE23F19110BE900D1FA43 /* NSDictionary_JSONExtensions.h */,
-				720CE24019110BE900D1FA43 /* NSDictionary_JSONExtensions.m */,
-				720CE24419110C0A00D1FA43 /* README.txt */,
-			);
-			name = TouchJSON;
-			sourceTree = "<group>";
-		};
 		72508DBF18E1C1BF00A2E59C /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -316,7 +291,6 @@
 			children = (
 				7208EF841AA0B7C40002BB95 /* SwiftyJSON */,
 				72DF246C197BCAB900F9A96B /* SQLiteDB */,
-				720CE23919110BB700D1FA43 /* TouchJSON */,
 				7275AE441902BD3E00D81950 /* SWRevealViewController */,
 				72508DBF18E1C1BF00A2E59C /* Objects */,
 				72A7C6DA18D883D5007FF58B /* Controllers */,
@@ -403,6 +377,7 @@
 				729FE79D1A60053A00833747 /* RunScreenControllers */,
 				72A67F421A288E80009DCA77 /* modalMedalViewController.swift */,
 				72A67F4A1A28A590009DCA77 /* modalLeagueViewController.swift */,
+				72538EDD1AAA13FA0034CF81 /* modalCertificateViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -503,7 +478,6 @@
 				727B155C1A693BF200701A22 /* separatorLine@2.png in Resources */,
 				72C8D9081A7BB97A00DADD2A /* forest.jpg in Resources */,
 				72A7C6D718D87EE8007FF58B /* Main.storyboard in Resources */,
-				720CE24519110C0A00D1FA43 /* README.txt in Resources */,
 				72A67F521A28C8CD009DCA77 /* medal_bronze.png in Resources */,
 				72DF246E197BCAE600F9A96B /* README_SQLiteDB.txt in Resources */,
 				724252931A0D035100E99033 /* home_pin@2x.png in Resources */,
@@ -563,8 +537,6 @@
 				723A50F919CC6B5F00B443BF /* MissionDVViewController.swift in Sources */,
 				72A67F431A288E80009DCA77 /* modalMedalViewController.swift in Sources */,
 				7244D50B197BF6700034D91F /* DemoSelectorViewControllerSwift.swift in Sources */,
-				720CE24319110BE900D1FA43 /* NSDictionary_JSONExtensions.m in Sources */,
-				720CE24119110BE900D1FA43 /* CJSONDeserializer.m in Sources */,
 				7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */,
 				72E328661A161C5E0075E2DC /* SQLiteDB.swift in Sources */,
 				7244D509197BF6390034D91F /* DetailViewViewControllerSwift.swift in Sources */,
@@ -574,8 +546,8 @@
 				72C8D9061A7BB0B700DADD2A /* CustomLoginViewController.swift in Sources */,
 				72DF2438197AED7800F9A96B /* MenuViewController.swift in Sources */,
 				7224EEDE19F57E98005E701E /* RunScreenContainerViewController.swift in Sources */,
+				72538EDE1AAA13FA0034CF81 /* modalCertificateViewController.swift in Sources */,
 				7244D511197BF74C0034D91F /* HistoryTableViewControllerSwift.swift in Sources */,
-				720CE24219110BE900D1FA43 /* CJSONSerializer.m in Sources */,
 				7208EF861AA0B7E70002BB95 /* SwiftyJSON.swift in Sources */,
 				7244D50D197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift in Sources */,
 			);

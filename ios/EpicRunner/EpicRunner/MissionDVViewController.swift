@@ -34,8 +34,6 @@ class MissionDVViewController: UIViewController {
         //ifnull(medalBronze,0) AS
         let selectedRunQuery = db.query("SELECT runTypeId, startDate, endDate, difficulty, distance, duration, locked, medalBronze, medalSilver, medalGold FROM active_runs WHERE runId=\(self.selectedRunId)");
         
-        let runTypeName = ["Location Run","Interval Run","Collector Run"];
-        
         self.selectedRunTypeId = selectedRunQuery[0]["runTypeId"]!.asInt();
         let endDateUnix: Int = selectedRunQuery[0]["endDate"]!.asInt();
         let locked: Bool = Bool(selectedRunQuery[0]["locked"]!.asInt());
@@ -45,7 +43,7 @@ class MissionDVViewController: UIViewController {
         self.difficulty = selectedRunQuery[0]["difficulty"]!.asInt();
         self.distance = selectedRunQuery[0]["distance"]!.asDouble();
         self.duration = selectedRunQuery[0]["duration"]!.asInt();
-        self.title = runTypeName[self.selectedRunTypeId-1];
+        self.title = HelperFunctions().runHeadline[self.selectedRunTypeId];
         
         // Set time remaining
         if (locked) {

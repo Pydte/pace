@@ -5,5 +5,4 @@
 #import "SWRevealViewController.h"
 #import "sqlite3.h"
 #import <time.h>
-#import "CJSONDeserializer.h"
 #import <FacebookSDK/FacebookSDK.h>

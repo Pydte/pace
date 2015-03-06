@@ -158,6 +158,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                 
             case 2:
                 println("IntRun");
+                
             case 3:
                 println("ColRun");
                 self.totalNeededPoints = 5;
@@ -166,6 +167,22 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                 self.distancePerPoint.append(self.locRunDistance/2/5);
                 self.distancePerPoint.append(self.locRunDistance/2/5);
                 self.distancePerPoint.append(self.locRunDistance/2/5);
+                
+            case 4:
+                println("CalRun");
+                self.totalNeededPoints = 12;
+                self.distancePerPoint.append(200);
+                self.distancePerPoint.append(400);
+                self.distancePerPoint.append(600);
+                self.distancePerPoint.append(200);
+                self.distancePerPoint.append(400);
+                self.distancePerPoint.append(600);
+                self.distancePerPoint.append(200);
+                self.distancePerPoint.append(400);
+                self.distancePerPoint.append(600);
+                self.distancePerPoint.append(200);
+                self.distancePerPoint.append(400);
+                self.distancePerPoint.append(600);
                 
             default:
                 println("Unkown runTypeId in GenerateRunViewController");
