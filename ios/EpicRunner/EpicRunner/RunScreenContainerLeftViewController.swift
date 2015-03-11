@@ -13,6 +13,9 @@ class RunScreenContainerLeftViewController: UIViewController {
     @IBOutlet var lblMedalBronze: UILabel!;
     @IBOutlet var lblMedalSilver: UILabel!;
     @IBOutlet var lblMedalGold: UILabel!;
+    @IBOutlet weak var lblMedalBronzeHeadline: UILabel!;
+    @IBOutlet weak var lblMedalSilverHeadline: UILabel!;
+    @IBOutlet weak var lblMedalGoldHeadline: UILabel!;
     
     var container: RunScreenContainerViewController?;
     
@@ -31,8 +34,7 @@ class RunScreenContainerLeftViewController: UIViewController {
         case 3:
             populateCollectorRun();
         case 4:
-            println("Calibrate run");
-            populateCollectorRun();
+            populateCertificateRun();
         default:
             println("Unknown run type");
         }
@@ -70,6 +72,16 @@ class RunScreenContainerLeftViewController: UIViewController {
         }
         lblMedalSilver.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalSilver))";
         lblMedalGold.text = "in \(HelperFunctions().formatSecToMinSec(self.container!.medalGold))";
+    }
+    
+    func populateCertificateRun() {
+        // Remove medals
+        lblMedalBronze.hidden = true;
+        lblMedalSilver.hidden = true;
+        lblMedalGold.hidden = true;
+        lblMedalBronzeHeadline.hidden = true;
+        lblMedalSilverHeadline.hidden = true;
+        lblMedalGoldHeadline.hidden = true;
     }
 
     override func didReceiveMemoryWarning() {

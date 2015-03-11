@@ -8,6 +8,8 @@
 import UIKit
 
 class SWUITableViewCell: UITableViewCell {
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var img: UIImageView!
     
 }
 
@@ -90,7 +92,13 @@ class MenuViewController: UITableViewController {
             break;
         }
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as UITableViewCell;
-        
+        let cell2: SWUITableViewCell? = cell as? SWUITableViewCell
+        //cell.img.hidden = true; // = UIImage(named: "lock");
+        if cell2 == nil {
+            println("Whyy jebus?!");
+        } else {
+            println("derp");
+        }
         return cell;
     }
     

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7208EF861AA0B7E70002BB95 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7208EF851AA0B7E70002BB95 /* SwiftyJSON.swift */; };
 		7208EF881AA0B84C0002BB95 /* README_SwiftyJSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */; };
+		72093E8C1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72093E8B1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift */; };
 		720CE24919112BA900D1FA43 /* player2_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24819112BA900D1FA43 /* player2_dot.png */; };
 		720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */; };
 		7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */; };
@@ -107,6 +108,7 @@
 /* Begin PBXFileReference section */
 		7208EF851AA0B7E70002BB95 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SwiftyJSON.txt; sourceTree = "<group>"; };
+		72093E8B1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerCertificateViewController.swift; sourceTree = "<group>"; };
 		720CE24819112BA900D1FA43 /* player2_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player2_dot.png; sourceTree = "<group>"; };
 		720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.h.old; sourceTree = "<group>"; };
 		720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.m.old; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */,
 				7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */,
 				729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */,
+				72093E8B1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift */,
 			);
 			name = RunScreenControllers;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				721AF6CB19757A750084E0D1 /* RunSelectorItemView.swift in Sources */,
 				72BD3D3C19E7FECC00AEAC11 /* GenerateRunViewController.swift in Sources */,
 				723A50F919CC6B5F00B443BF /* MissionDVViewController.swift in Sources */,
+				72093E8C1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift in Sources */,
 				72A67F431A288E80009DCA77 /* modalMedalViewController.swift in Sources */,
 				7244D50B197BF6700034D91F /* DemoSelectorViewControllerSwift.swift in Sources */,
 				7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */,

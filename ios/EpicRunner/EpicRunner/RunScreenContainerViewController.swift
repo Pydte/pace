@@ -12,6 +12,7 @@ import MapKit
 class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var intController: RunScreenContainerIntervalViewController?;
+    var cerController: RunScreenContainerCertificateViewController?;
     
     var leftController: UIViewController?;
     var rightController: RunScreenContainerRightViewController?;
@@ -21,7 +22,7 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
     @IBOutlet weak var lblDuration: UILabel!;
     @IBOutlet weak var lblDistance: UILabel!;
     @IBOutlet weak var lblSpeed: UILabel!;
-    @IBOutlet weak var lblSpeedDesc: UILabel!
+    @IBOutlet weak var lblSpeedDesc: UILabel!;
     @IBOutlet weak var lblMedal: UILabel!;
     
     
@@ -66,6 +67,14 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
             intController!.view.frame.origin.x += 25;
             intController!.view.frame.size.width -= 50;
             self.view.addSubview(intController!.view);
+        }
+        
+        // If Certificate run, show custom "default container"
+        if (self.runTypeId == 4) {
+            cerController = self.storyboard?.instantiateViewControllerWithIdentifier("RSCCertificate") as? RunScreenContainerCertificateViewController;
+            cerController!.view.frame.origin.x += 25;
+            cerController!.view.frame.size.width -= 50;
+            self.view.addSubview(cerController!.view);
         }
         
         // Init obj & map screen

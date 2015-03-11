@@ -1297,7 +1297,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="sdq-B3-oR7" id="nSj-JB-XZv"/>
+                                    <outlet property="label" destination="sdq-B3-oR7" id="Dtp-Nf-arQ"/>
                                     <segue destination="06V-dE-ckG" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="gqT-L8-fgk"/>
                                 </connections>
                             </tableViewCell>
@@ -1310,13 +1310,18 @@
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Run Selector" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nYb-Xy-5A6">
                                             <rect key="frame" x="15" y="0.0" width="290" height="44"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock.png" id="I6S-mN-JWU">
+                                            <rect key="frame" x="215" y="9" width="29" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="img" destination="I6S-mN-JWU" id="oBC-nb-DaT"/>
                                     <outlet property="label" destination="nYb-Xy-5A6" id="jSH-rn-PId"/>
                                     <segue destination="xiq-B9-izy" kind="custom" identifier="RunSelector" customClass="SWRevealViewControllerSeguePushController" id="sqv-J8-Zh2"/>
                                 </connections>
@@ -1848,10 +1853,10 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xm2-ea-dbe">
                                 <rect key="frame" x="16" y="61" width="288" height="272"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <mutableString key="text">Before we can let you loose, you will need your runner certificate.
+                                <string key="text">Before we can let you loose, you will need your runner certificate.
   To get your certificate you will need to run a specially modified collector run. There is a total of 12 points and you have to collect as many as possible in 12 minutes.
 
-To collect a point you have to run into it and then you have to return the point to the starting point before you can collect a new point.. </mutableString>
+To collect a point you have to run into it and then you have to return the point to the starting point before you can collect a new point.. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -2120,8 +2125,11 @@ P</string>
                     <connections>
                         <outlet property="lblDescription" destination="Ib1-Ud-q2W" id="zvh-5r-owg"/>
                         <outlet property="lblMedalBronze" destination="GLt-1O-XNa" id="H63-5J-R3V"/>
+                        <outlet property="lblMedalBronzeHeadline" destination="alJ-RD-dY1" id="j4T-Gx-b26"/>
                         <outlet property="lblMedalGold" destination="pHn-d2-4M3" id="eoU-3g-1KV"/>
+                        <outlet property="lblMedalGoldHeadline" destination="ijf-z7-W9o" id="UQN-Su-ht0"/>
                         <outlet property="lblMedalSilver" destination="gow-QR-Ir5" id="4Ff-lu-nLo"/>
+                        <outlet property="lblMedalSilverHeadline" destination="Vrr-3P-pvo" id="sT7-Nl-UcP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dWi-RM-UBK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2374,6 +2382,93 @@ P</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eCg-oQ-hHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3716" y="172"/>
+        </scene>
+        <!--Run Screen Container Certificate View Controller-->
+        <scene sceneID="Mfx-wb-4ru">
+            <objects>
+                <viewController storyboardIdentifier="RSCCertificate" id="9y8-iV-XBU" customClass="RunScreenContainerCertificateViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="k5g-NI-Qqn">
+                        <rect key="frame" x="0.0" y="0.0" width="270" height="280"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time left:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZLN-lu-fpU">
+                                <rect key="frame" x="16" y="20" width="77" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oOs-rE-q9w">
+                                <rect key="frame" x="16" y="42" width="114" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="? / ?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pRA-XZ-hxf">
+                                <rect key="frame" x="16" y="127" width="114" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Gp-ln-QUD">
+                                <rect key="frame" x="158" y="42" width="114" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="asR-ED-A5a">
+                                <rect key="frame" x="158" y="20" width="77" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Points captured:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9rw-hE-zi4">
+                                <rect key="frame" x="16" y="103" width="127" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Fae-J1-0hh">
+                                <rect key="frame" x="158" y="127" width="65" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Speed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gmP-Ue-Eus">
+                                <rect key="frame" x="158" y="103" width="121" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="min/km" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Aqc-Dj-VqE">
+                                <rect key="frame" x="222" y="132" width="57" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="270" height="280"/>
+                    <connections>
+                        <outlet property="lblDistance" destination="4Gp-ln-QUD" id="SS1-rH-pNu"/>
+                        <outlet property="lblPointsCaptured" destination="pRA-XZ-hxf" id="pJe-aE-aJa"/>
+                        <outlet property="lblSpeed" destination="Fae-J1-0hh" id="LH9-zD-nsB"/>
+                        <outlet property="lblTimeLeft" destination="oOs-rE-q9w" id="rGt-Dn-27A"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZX9-d0-dVZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2541" y="949"/>
         </scene>
     </scenes>
     <resources>

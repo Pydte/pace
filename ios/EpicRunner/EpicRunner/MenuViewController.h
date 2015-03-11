@@ -10,6 +10,7 @@
 
 @interface SWUITableViewCell : UITableViewCell
 @property (nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIImageView *img;
 @end
 
 @interface MenuViewController : UITableViewController

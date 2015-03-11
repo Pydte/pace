@@ -101,6 +101,8 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     var intTargetRunPace: Double = 4.0;          // km/min
     var intTargetWalkPace: Double = 6.0;         // km/min
     
+    // Certification Run
+    var cerEndTime: Double = 60*12;
     
     var runScreenContainerViewController: RunScreenContainerViewController?;
     var timerContainerUpdater: NSTimer? = nil;
@@ -339,6 +341,11 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         let acceptableDeltaDistInMeters: Double = 25;
         let startLocation: CLLocation = CLLocation(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude);
         
+        // Set progressbar
+        let dDate: Double = NSDate().timeIntervalSinceDate(self.currentRun!.start!);
+        setProgressToProgressBar(CGFloat(dDate/self.cerEndTime));
+    
+        
         if (self.carryingPoint) {
             let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
             let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
@@ -350,14 +357,14 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     self.active = false;
                     self.currentRun!.aborted = false;
                     endCapturing();
-                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                    //addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
                 } else {
                     // More points to collect
                     self.carryingPoint = false;
                     self.runScreenContainerViewController!.hideHomeAnno();
                     self.runScreenContainerViewController!.showPointsAnno();
                     self.lblCurrentObj.text = "Collect a new point..";
-                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                    //addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
                 }
             }
         } else {
@@ -373,7 +380,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     self.runScreenContainerViewController!.showHomeAnno();
                     self.runScreenContainerViewController!.hidePointsAnno();
                     self.lblCurrentObj.text = "Deliver the point at base..";
-                    addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
+                    //addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
                 }
                 i++;
             }
@@ -510,12 +517,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             self.totalNumOfPoints = self.runPoints.count;
             
             // Draw progress labels
-            let numOfPoints: CGFloat = CGFloat(self.totalNumOfPoints*2);
-            addProgressLabel("A", offsetProcent: 0);
-            for (var i:Int=1; i<=runPoints.count; i++) {
-                addProgressLabel(String(i), offsetProcent: 1/numOfPoints*CGFloat(i*2-1));
-                addProgressLabel("A", offsetProcent: 1/numOfPoints*CGFloat(i*2));
-            }
+//            let numOfPoints: CGFloat = CGFloat(self.totalNumOfPoints*2);
+//            addProgressLabel("A", offsetProcent: 0);
+//            for (var i:Int=1; i<=runPoints.count; i++) {
+//                addProgressLabel(String(i), offsetProcent: 1/numOfPoints*CGFloat(i*2-1));
+//                addProgressLabel("A", offsetProcent: 1/numOfPoints*CGFloat(i*2));
+//            }
             
             // Start run
             startCapturing();
@@ -574,6 +581,24 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 self.btnTotalMadeProgress.frame = CGRect(origin: self.btnTotalMadeProgress.frame.origin,
                                                            size: CGSize(width: newWidth,
                                                                        height: self.btnTotalMadeProgress.frame.height));
+            },
+            completion: { _ in ()}
+        );
+    }
+    
+    func setProgressToProgressBar(procent: CGFloat) {
+        var newWidth: CGFloat = self.lblTotalPossibleProgress.frame.width * procent;
+        if (newWidth > self.lblTotalPossibleProgress.frame.width) {
+            newWidth = self.lblTotalPossibleProgress.frame.width;
+        }
+        
+        UIView.animateWithDuration(0.5,
+            delay: 0.0,
+            options: .CurveLinear,
+            animations: { _ in
+                self.btnTotalMadeProgress.frame = CGRect(origin: self.btnTotalMadeProgress.frame.origin,
+                    size: CGSize(width: newWidth,
+                        height: self.btnTotalMadeProgress.frame.height));
             },
             completion: { _ in ()}
         );
@@ -987,7 +1012,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             self.runScreenContainerViewController!.medalSilver = self.medalSilver;
             self.runScreenContainerViewController!.medalBronze = self.medalBronze;
         } else if (self.runTypeId == 4) {
-            // Calibrate run
+            // Certificate run
             
             self.runScreenContainerViewController!.runPointHome = self.runPointHome;
             self.runScreenContainerViewController!.runPoints = self.runPoints;
