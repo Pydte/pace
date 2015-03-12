@@ -9,11 +9,21 @@
 import UIKit
 
 class modalCertificateViewController: UIViewController {
-
+    
+    let db = SQLiteDB.sharedInstance();
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Update level! (certify)
+        let query = db.query("SELECT loggedInLevel FROM settings");
+        if (query[0]["loggedInLevel"]!.asInt() < 1) {
+            /// Locally
+            db.execute("UPDATE settings set loggedInLevel=1");
+            
+            /// Post to server
+            //TODO
+        }
     }
 
     override func didReceiveMemoryWarning() {

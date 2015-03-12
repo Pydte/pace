@@ -102,7 +102,8 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     var intTargetWalkPace: Double = 6.0;         // km/min
     
     // Certification Run
-    var cerEndTime: Double = 60*12;
+    var cerEndTime: NSTimeInterval = 60*12;
+    var cerEndDate: NSDate = NSDate();
     
     var runScreenContainerViewController: RunScreenContainerViewController?;
     var timerContainerUpdater: NSTimer? = nil;
@@ -345,7 +346,15 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         let dDate: Double = NSDate().timeIntervalSinceDate(self.currentRun!.start!);
         setProgressToProgressBar(CGFloat(dDate/self.cerEndTime));
     
+        // End run, if time has run out
+        if (dDate >= self.cerEndTime) {
+            println("Time has run out!");
+            self.active = false;
+            self.currentRun!.aborted = false;
+            endCapturing();
+        }
         
+        // Game logic
         if (self.carryingPoint) {
             let endLocation: CLLocation = CLLocation(latitude: self.runPointHome!.latitude, longitude: self.runPointHome!.longitude);
             let distanceToGoal: Double = startLocation.distanceFromLocation(endLocation);
@@ -357,14 +366,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     self.active = false;
                     self.currentRun!.aborted = false;
                     endCapturing();
-                    //addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
                 } else {
                     // More points to collect
                     self.carryingPoint = false;
                     self.runScreenContainerViewController!.hideHomeAnno();
                     self.runScreenContainerViewController!.showPointsAnno();
                     self.lblCurrentObj.text = "Collect a new point..";
-                    //addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
                 }
             }
         } else {
@@ -380,7 +387,6 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     self.runScreenContainerViewController!.showHomeAnno();
                     self.runScreenContainerViewController!.hidePointsAnno();
                     self.lblCurrentObj.text = "Deliver the point at base..";
-                    //addProgressToProgressBar(1/CGFloat(self.totalNumOfPoints*2));
                 }
                 i++;
             }
@@ -515,14 +521,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         } else if (self.runTypeId == 4) {
             // Certificate run
             self.totalNumOfPoints = self.runPoints.count;
-            
-            // Draw progress labels
-//            let numOfPoints: CGFloat = CGFloat(self.totalNumOfPoints*2);
-//            addProgressLabel("A", offsetProcent: 0);
-//            for (var i:Int=1; i<=runPoints.count; i++) {
-//                addProgressLabel(String(i), offsetProcent: 1/numOfPoints*CGFloat(i*2-1));
-//                addProgressLabel("A", offsetProcent: 1/numOfPoints*CGFloat(i*2));
-//            }
+            self.cerEndDate = self.cerEndDate.dateByAddingTimeInterval(self.cerEndTime);
             
             // Start run
             startCapturing();
@@ -607,6 +606,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     func tickContainer() {
         // Updates the container view periodically
         if (self.currentRun != nil) {
+            // If interval run
             if (self.runTypeId == 2) {
                 if (self.active) {
                     var timeRemaining: Int = Int(self.intSwitchIn.timeIntervalSinceDate(NSDate()));
@@ -687,6 +687,39 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     }
                     self.runScreenContainerViewController!.intController!.lblMedal.text = HelperFunctions().runMedal[self.currentMedalInt];
                     
+                }
+            } else if self.runTypeId == 4 {
+                if (self.active) {
+                    var timeRemaining: Int = Int(self.cerEndDate.timeIntervalSinceDate(NSDate()));
+                    
+                    // Update time left
+                    self.runScreenContainerViewController!.cerController!.lblTimeLeft.text = NSString(format: "%02d:", timeRemaining/60) + NSString(format: "%02d", timeRemaining%60);
+                    
+                    // Update distance
+                    self.runScreenContainerViewController!.cerController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000);
+                    
+                    // Update points captured
+                    var pointsCaptured: Int = self.totalNumOfPoints-self.runPoints.count;
+                    if (self.carryingPoint)
+                    {
+                        pointsCaptured -= 1;
+                    }
+                    self.runScreenContainerViewController!.cerController!.lblPointsCaptured.text = "\(pointsCaptured) / \(self.totalNumOfPoints)";
+                    
+                    // Update Current pace
+                    if (self.currentRun!.locations.count > 0) {
+                        //From m/s -> km/min
+                        var speed: Double = (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed));
+                        // According to the emulator, it is very likely to be infinite sometimes.
+                        if (speed.isInfinite) {
+                            speed = 0.0;
+                        }
+                        let speedInt: Int = Int(speed);
+                        let speedDec = Int((speed-Double(speedInt))*60);
+                        
+                        self.runScreenContainerViewController!.cerController!.lblSpeed.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+                    }
+                
                 }
             } else {
                 // Update distance
