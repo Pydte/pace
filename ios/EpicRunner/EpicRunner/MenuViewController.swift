@@ -9,11 +9,12 @@ import UIKit
 
 class SWUITableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var img: UIImageView!
     
 }
 
 class MenuViewController: UITableViewController {
+    let db = SQLiteDB.sharedInstance();
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // configure the destination view controller:
         //    if ( [segue.destinationViewController isKindOfClass: [ColorViewController class]] &&
@@ -56,50 +57,60 @@ class MenuViewController: UITableViewController {
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var CellIdentifier: String = "Cell";
+        var cell: SWUITableViewCell? = nil;
+        let query = self.db.query("SELECT loggedInLevel FROM settings");
+        let loggedInLevel: Int = query[0]["loggedInLevel"]!.asInt();
         
         switch (indexPath.row)
         {
         case 0:
-            CellIdentifier = "Main";
+            cell = (tableView.dequeueReusableCellWithIdentifier("Main") as SWUITableViewCell)
             break;
             
         case 1:
-            CellIdentifier = "Run";
+            cell = (tableView.dequeueReusableCellWithIdentifier("Run") as SWUITableViewCell)
+            println("mother fucking DOING IT?!");
+            // If menu item is locked, show it
+            if (loggedInLevel < 1) {
+                cell?.label.textColor = UIColor(red: 0.45, green: 0.45, blue: 0.45, alpha: 1.0);
+                var lock: UIImageView = UIImageView(image: UIImage(named: "lock")!);
+                lock.frame.size = CGSize(width: 25, height: 25);
+                lock.frame.origin = CGPoint(x: self.view.frame.size.width-100, y: (cell!.frame.size.height-lock.frame.height)/2);
+                lock.alpha = 0.6;
+                cell?.addSubview(lock);
+            }
             break;
             
         case 2:
-            CellIdentifier = "History";
+            cell = (tableView.dequeueReusableCellWithIdentifier("History") as SWUITableViewCell)
             break;
             
         case 3:
-            CellIdentifier = "Community";
+            cell = (tableView.dequeueReusableCellWithIdentifier("Community") as SWUITableViewCell)
             break;
             
         case 4:
-            CellIdentifier = "Shop";
+            cell = (tableView.dequeueReusableCellWithIdentifier("Shop") as SWUITableViewCell)
             break;
             
         case 5:
-            CellIdentifier = "Settings";
+            cell = (tableView.dequeueReusableCellWithIdentifier("Settings") as SWUITableViewCell)
             break;
             
         case 6:
-            CellIdentifier = "Logout";
+            cell = (tableView.dequeueReusableCellWithIdentifier("Logout") as SWUITableViewCell)
             break;
         
         default:
             break;
         }
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier, forIndexPath: indexPath) as UITableViewCell;
-        let cell2: SWUITableViewCell? = cell as? SWUITableViewCell
-        //cell.img.hidden = true; // = UIImage(named: "lock");
-        if cell2 == nil {
-            println("Whyy jebus?!");
-        } else {
-            println("derp");
-        }
-        return cell;
+
+        return cell!;
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // Reload data, some menus might have been unlocked :)
+        self.tableView.reloadData();
     }
     
     
@@ -123,7 +134,7 @@ class MenuViewController: UITableViewController {
     
     override func applicationFinishedRestoringState() {
         //NSLog(@"%s", __PRETTY_FUNCTION__);
-    
+        
         // TODO call whatever function you need to visually restore
     }
 }

@@ -246,6 +246,8 @@ class HistoryTableViewControllerSwift: UITableViewController {
 
     // -1 for limit or offset, means no limit/offset
     func loadData(limit: Int, offset: Int) {
+        println("Load data locally");
+        
         var limitStr: String = "";
         var offsetStr: String = "";
         if (limit > 0) {

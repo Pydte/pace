@@ -1280,7 +1280,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Main" textLabel="sdq-B3-oR7" style="IBUITableViewCellStyleDefault" id="Kmk-ze-h9w" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Main" textLabel="sdq-B3-oR7" style="IBUITableViewCellStyleDefault" id="Kmk-ze-h9w" customClass="SWUITableViewCell" customModule="EpicRunner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kmk-ze-h9w" id="XrU-0Y-FdH">
@@ -1297,11 +1297,11 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="sdq-B3-oR7" id="Dtp-Nf-arQ"/>
+                                    <outlet property="label" destination="sdq-B3-oR7" id="HSA-YT-0B0"/>
                                     <segue destination="06V-dE-ckG" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="gqT-L8-fgk"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Run" textLabel="nYb-Xy-5A6" style="IBUITableViewCellStyleDefault" id="thA-wX-jUz" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Run" textLabel="nYb-Xy-5A6" style="IBUITableViewCellStyleDefault" id="thA-wX-jUz" customClass="SWUITableViewCell" customModule="EpicRunner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="thA-wX-jUz" id="9Mz-pi-rQR">
@@ -1310,23 +1310,18 @@
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Run Selector" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nYb-Xy-5A6">
                                             <rect key="frame" x="15" y="0.0" width="290" height="44"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lock.png" id="I6S-mN-JWU">
-                                            <rect key="frame" x="215" y="9" width="29" height="26"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="img" destination="I6S-mN-JWU" id="oBC-nb-DaT"/>
-                                    <outlet property="label" destination="nYb-Xy-5A6" id="jSH-rn-PId"/>
+                                    <outlet property="label" destination="nYb-Xy-5A6" id="dH2-rp-TzK"/>
                                     <segue destination="xiq-B9-izy" kind="custom" identifier="RunSelector" customClass="SWRevealViewControllerSeguePushController" id="sqv-J8-Zh2"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="History" textLabel="loa-jn-2t1" style="IBUITableViewCellStyleDefault" id="gr1-uD-vdH" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="History" textLabel="loa-jn-2t1" style="IBUITableViewCellStyleDefault" id="gr1-uD-vdH" customClass="SWUITableViewCell" customModule="EpicRunner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="110" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gr1-uD-vdH" id="08G-J0-CVq">
@@ -1343,11 +1338,11 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="loa-jn-2t1" id="S1y-bC-8dH"/>
+                                    <outlet property="label" destination="loa-jn-2t1" id="86a-ug-UVy"/>
                                     <segue destination="Ugi-Wg-shH" kind="custom" identifier="History" customClass="SWRevealViewControllerSeguePushController" id="w2r-eN-XkL"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Community" textLabel="ZzV-PY-U9q" style="IBUITableViewCellStyleDefault" id="d6K-ve-DFj" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Community" textLabel="ZzV-PY-U9q" style="IBUITableViewCellStyleDefault" id="d6K-ve-DFj" customClass="SWUITableViewCell" customModule="EpicRunner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="154" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="d6K-ve-DFj" id="DMG-GF-Dyt">
@@ -1364,10 +1359,10 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="ZzV-PY-U9q" id="r6w-ba-u8i"/>
+                                    <outlet property="label" destination="ZzV-PY-U9q" id="aRJ-Xl-vRj"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Shop" textLabel="Ocg-Rb-1Cw" style="IBUITableViewCellStyleDefault" id="vMV-ZK-Ieh" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Shop" textLabel="Ocg-Rb-1Cw" style="IBUITableViewCellStyleDefault" id="vMV-ZK-Ieh" customClass="SWUITableViewCell" customModule="EpicRunner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="198" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vMV-ZK-Ieh" id="gDG-Db-5It">
@@ -1384,10 +1379,10 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="Ocg-Rb-1Cw" id="Wlq-ge-mEi"/>
+                                    <outlet property="label" destination="Ocg-Rb-1Cw" id="D3I-U0-A3x"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Settings" textLabel="kE0-FM-fGK" style="IBUITableViewCellStyleDefault" id="6r9-0s-ehg" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Settings" textLabel="kE0-FM-fGK" style="IBUITableViewCellStyleDefault" id="6r9-0s-ehg" customClass="SWUITableViewCell" customModule="EpicRunner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6r9-0s-ehg" id="v8X-fY-NcR">
@@ -1404,10 +1399,10 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="kE0-FM-fGK" id="iLD-KY-X3d"/>
+                                    <outlet property="label" destination="kE0-FM-fGK" id="r2Q-tF-eRp"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Logout" textLabel="NXZ-l3-dn9" style="IBUITableViewCellStyleDefault" id="PJT-45-7me" userLabel="Logout" customClass="SWUITableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Logout" textLabel="NXZ-l3-dn9" style="IBUITableViewCellStyleDefault" id="PJT-45-7me" userLabel="Logout" customClass="SWUITableViewCell" customModule="EpicRunner" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="242" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PJT-45-7me" id="P3e-Ci-gP7">
@@ -1424,7 +1419,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="label" destination="NXZ-l3-dn9" id="u66-pb-17m"/>
+                                    <outlet property="label" destination="NXZ-l3-dn9" id="eGf-gt-dAH"/>
                                     <segue destination="2BX-Pb-UOX" kind="custom" identifier="Logout" customClass="SWRevealViewControllerSeguePushController" id="Zro-Gy-3Zr"/>
                                 </connections>
                             </tableViewCell>
@@ -2492,12 +2487,12 @@ P</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="lBb-zS-EeT"/>
+        <segue reference="LU8-OD-Lhj"/>
         <segue reference="gqT-L8-fgk"/>
         <segue reference="1bv-M6-sUt"/>
         <segue reference="eDO-9U-3ef"/>
-        <segue reference="ELW-Fu-FZT"/>
         <segue reference="DDe-hD-AaQ"/>
+        <segue reference="ELW-Fu-FZT"/>
         <segue reference="Fey-b3-m5h"/>
         <segue reference="cGr-4D-Jrw"/>
     </inferredMetricsTieBreakers>

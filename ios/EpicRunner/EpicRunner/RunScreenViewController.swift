@@ -102,7 +102,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     var intTargetWalkPace: Double = 6.0;         // km/min
     
     // Certification Run
-    var cerEndTime: NSTimeInterval = 60*12;
+    var cerEndTime: NSTimeInterval = 60*1;
     var cerEndDate: NSDate = NSDate();
     
     var runScreenContainerViewController: RunScreenContainerViewController?;
@@ -425,39 +425,6 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         self.navigationItem.title = HelperFunctions().runHeadline[self.runTypeId];
         
         
-        // Set coin sound
-        //let soundURL: NSURL = NSBundle.URLForResource("213423__taira-komori__coin05", withExtension: "mp3", subdirectory: nil, inBundleWithURL: nil);
-        //self.avCoinSound = AVAudioPlayer(contentsOfURL: soundURL, error: nil);
-        
-        
-
-        
-        
-//        // Init 1-point location run
-//        if (self.autoroute1) {
-//            println("autoroute1 START");
-//            self.autopoint1Generated = false;
-//            self.autopoint1Annotation = MKPointAnnotation();
-//            self.onePointLocationRunGenPointTries = 0;
-//            self.onePointLocationRunGenPointTotalTries = 0;
-//            self.onePointLocationRunGenPointAccumDist = 0;
-//            self.onePointLocationRunShootOutDistance = self.onePointLocationRunDistance;
-//            
-//            if (self.onePointLocationLocation == nil) {
-//                //autoroute1_generate_route();
-//            } else {
-//                println("Using custom location");
-//                var autopoint1Annotation: MKPointAnnotation = MKPointAnnotation();
-//                autopoint1Annotation.coordinate = self.onePointLocationLocation!.coordinate;
-//                
-//                // Draw point on map
-//                self.autopoint1Annotation = autopoint1Annotation;
-//                self.mapView.addAnnotation(self.autopoint1Annotation);
-//                self.autopoint1Generated = true;
-//            }
-//        }
-        
-        
         // For Each Run Type
         if (self.runTypeId == 1) {
             // Location run
@@ -531,7 +498,6 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             
             // Set current objective
             lblCurrentObj.text = "Collect a point..";
-            
         }
         
         
@@ -608,120 +574,12 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         if (self.currentRun != nil) {
             // If interval run
             if (self.runTypeId == 2) {
-                if (self.active) {
-                    var timeRemaining: Int = Int(self.intSwitchIn.timeIntervalSinceDate(NSDate()));
-                    
-                    // Update passed/failed
-                    self.runScreenContainerViewController!.intController!.lblPassed.text = "\(self.intNumPassed)";
-                    self.runScreenContainerViewController!.intController!.lblFailed.text = "\(self.intNumFailed)";
-                    
-                    // Update Switch in
-                    self.runScreenContainerViewController!.intController!.lblSwitchIn.text = "\(timeRemaining)";
-                    
-                    // Update Target pace
-                    var targetSpeed: Double;
-                    if (self.intSprintMode) {
-                        targetSpeed = self.intTargetRunPace;
-                    } else {
-                        targetSpeed = self.intTargetWalkPace;
-                    }
-                    let speedInt: Int = Int(targetSpeed);
-                    let speedDec = Int((targetSpeed-Double(speedInt))*60);
-                    
-                    self.runScreenContainerViewController!.intController!.lblTargetPace.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
-                    
-                    // Update Current pace & obj
-                    if (self.currentRun!.locations.count > 0) {
-                        //From m/s -> km/min
-                        var speed: Double = (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed));
-                        // According to the emulator, it is very likely to be infinite sometimes.
-                        if (speed.isInfinite) {
-                            speed = 0.0;
-                        }
-                        let speedInt: Int = Int(speed);
-                        let speedDec = Int((speed-Double(speedInt))*60);
-                        
-                        self.runScreenContainerViewController!.intController!.lblCurrentPace.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
-                        
-                        // Set color and specify current obj
-                        if (self.intSprintMode) {
-                            if (speed <= self.intTargetRunPace) {
-                                self.intCurrentIntPassed++;
-                                self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1);
-                                lblCurrentObj.text = "Keep running";
-                            } else {
-                                self.intCurrentIntFailed++;
-                                if (speed > self.intTargetRunPace) {
-                                    lblCurrentObj.text = "Run faster!";
-                                }
-                                self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1);
-                            }
-                        } else {
-                            if (speed < self.intTargetWalkPace && speed > self.intTargetRunPace) {
-                                self.intCurrentIntPassed++;
-                                self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1);
-                                lblCurrentObj.text = "Keep walking";
-                            } else {
-                                self.intCurrentIntFailed++;
-                                if (speed <= self.intTargetRunPace) {
-                                    lblCurrentObj.text = "Walk slower!";
-                                } else if (speed > self.intTargetWalkPace) {
-                                    lblCurrentObj.text = "Walk faster!";
-                                }
-                                self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1);
-                            }
-                        }
-                    }
-                    
-
-                    
-                    // Update medal
-                    if (self.intNumPassed == self.medalGold) {
-                        self.currentMedalInt = 1;
-                    } else if (self.intNumPassed >= self.medalSilver) {
-                        self.currentMedalInt = 2;
-                    } else if (self.intNumPassed >= self.medalBronze) {
-                        self.currentMedalInt = 3;
-                    } else {
-                        self.currentMedalInt = 0;
-                    }
-                    self.runScreenContainerViewController!.intController!.lblMedal.text = HelperFunctions().runMedal[self.currentMedalInt];
-                    
-                }
+                tickContainerInterval();
             } else if self.runTypeId == 4 {
-                if (self.active) {
-                    var timeRemaining: Int = Int(self.cerEndDate.timeIntervalSinceDate(NSDate()));
-                    
-                    // Update time left
-                    self.runScreenContainerViewController!.cerController!.lblTimeLeft.text = NSString(format: "%02d:", timeRemaining/60) + NSString(format: "%02d", timeRemaining%60);
-                    
-                    // Update distance
-                    self.runScreenContainerViewController!.cerController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000);
-                    
-                    // Update points captured
-                    var pointsCaptured: Int = self.totalNumOfPoints-self.runPoints.count;
-                    if (self.carryingPoint)
-                    {
-                        pointsCaptured -= 1;
-                    }
-                    self.runScreenContainerViewController!.cerController!.lblPointsCaptured.text = "\(pointsCaptured) / \(self.totalNumOfPoints)";
-                    
-                    // Update Current pace
-                    if (self.currentRun!.locations.count > 0) {
-                        //From m/s -> km/min
-                        var speed: Double = (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed));
-                        // According to the emulator, it is very likely to be infinite sometimes.
-                        if (speed.isInfinite) {
-                            speed = 0.0;
-                        }
-                        let speedInt: Int = Int(speed);
-                        let speedDec = Int((speed-Double(speedInt))*60);
-                        
-                        self.runScreenContainerViewController!.cerController!.lblSpeed.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
-                    }
-                
-                }
+                tickContainerCertificate();
             } else {
+                //tickContainer-Everything-Else:
+                
                 // Update distance
                 self.runScreenContainerViewController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000);
                 
@@ -757,6 +615,123 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         }
     }
 
+    func tickContainerInterval() {
+        if (self.active) {
+            var timeRemaining: Int = Int(self.intSwitchIn.timeIntervalSinceDate(NSDate()));
+            
+            // Update passed/failed
+            self.runScreenContainerViewController!.intController!.lblPassed.text = "\(self.intNumPassed)";
+            self.runScreenContainerViewController!.intController!.lblFailed.text = "\(self.intNumFailed)";
+            
+            // Update Switch in
+            self.runScreenContainerViewController!.intController!.lblSwitchIn.text = "\(timeRemaining)";
+            
+            // Update Target pace
+            var targetSpeed: Double;
+            if (self.intSprintMode) {
+                targetSpeed = self.intTargetRunPace;
+            } else {
+                targetSpeed = self.intTargetWalkPace;
+            }
+            let speedInt: Int = Int(targetSpeed);
+            let speedDec = Int((targetSpeed-Double(speedInt))*60);
+            
+            self.runScreenContainerViewController!.intController!.lblTargetPace.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+            
+            // Update Current pace & obj
+            if (self.currentRun!.locations.count > 0) {
+                //From m/s -> km/min
+                var speed: Double = (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed));
+                // According to the emulator, it is very likely to be infinite sometimes.
+                if (speed.isInfinite) {
+                    speed = 0.0;
+                }
+                let speedInt: Int = Int(speed);
+                let speedDec = Int((speed-Double(speedInt))*60);
+                
+                self.runScreenContainerViewController!.intController!.lblCurrentPace.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+                
+                // Set color and specify current obj
+                if (self.intSprintMode) {
+                    if (speed <= self.intTargetRunPace) {
+                        self.intCurrentIntPassed++;
+                        self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1);
+                        lblCurrentObj.text = "Keep running";
+                    } else {
+                        self.intCurrentIntFailed++;
+                        if (speed > self.intTargetRunPace) {
+                            lblCurrentObj.text = "Run faster!";
+                        }
+                        self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1);
+                    }
+                } else {
+                    if (speed < self.intTargetWalkPace && speed > self.intTargetRunPace) {
+                        self.intCurrentIntPassed++;
+                        self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1);
+                        lblCurrentObj.text = "Keep walking";
+                    } else {
+                        self.intCurrentIntFailed++;
+                        if (speed <= self.intTargetRunPace) {
+                            lblCurrentObj.text = "Walk slower!";
+                        } else if (speed > self.intTargetWalkPace) {
+                            lblCurrentObj.text = "Walk faster!";
+                        }
+                        self.runScreenContainerViewController!.intController!.lblCurrentPace.textColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1);
+                    }
+                }
+            }
+            
+            
+            
+            // Update medal
+            if (self.intNumPassed == self.medalGold) {
+                self.currentMedalInt = 1;
+            } else if (self.intNumPassed >= self.medalSilver) {
+                self.currentMedalInt = 2;
+            } else if (self.intNumPassed >= self.medalBronze) {
+                self.currentMedalInt = 3;
+            } else {
+                self.currentMedalInt = 0;
+            }
+            self.runScreenContainerViewController!.intController!.lblMedal.text = HelperFunctions().runMedal[self.currentMedalInt];
+        }
+    }
+    
+    func tickContainerCertificate() {
+        if (self.active) {
+            var timeRemaining: Int = Int(self.cerEndDate.timeIntervalSinceDate(NSDate()));
+            
+            // Update time left
+            self.runScreenContainerViewController!.cerController!.lblTimeLeft.text = NSString(format: "%02d:", timeRemaining/60) + NSString(format: "%02d", timeRemaining%60);
+            
+            // Update distance
+            self.runScreenContainerViewController!.cerController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000);
+            
+            // Update points captured
+            var pointsCaptured: Int = self.totalNumOfPoints-self.runPoints.count;
+            if (self.carryingPoint)
+            {
+                pointsCaptured -= 1;
+            }
+            self.runScreenContainerViewController!.cerController!.lblPointsCaptured.text = "\(pointsCaptured) / \(self.totalNumOfPoints)";
+            
+            // Update Current pace
+            if (self.currentRun!.locations.count > 0) {
+                //From m/s -> km/min
+                var speed: Double = (16.666666666667/(self.currentRun!.locations[self.currentRun!.locations.count-1].speed));
+                // According to the emulator, it is very likely to be infinite sometimes.
+                if (speed.isInfinite) {
+                    speed = 0.0;
+                }
+                let speedInt: Int = Int(speed);
+                let speedDec = Int((speed-Double(speedInt))*60);
+                
+                self.runScreenContainerViewController!.cerController!.lblSpeed.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+            }
+            
+        }
+    }
+    
     func startCapturing() {
         //Start a new run
         self.currentRun = Run();
@@ -830,19 +805,20 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         
         // * Show relevant modals
         if (!self.currentRun!.aborted) {
+            // Medal modal
             if (self.currentMedalInt > 0) {
                 let modalMedal = self.storyboard?.instantiateViewControllerWithIdentifier("modalMedal") as modalMedalViewController;
                 modalMedal.runTimeInSeconds = self.currentRun!.end!.timeIntervalSinceDate(self.currentRun!.start!);
                 modalMedal.wonMedal = self.currentMedalInt;
                 self.modals.append(modalMedal);
             }
+            
+            // Certificate modal
+            if (self.currentRun!.runTypeId == 4) {
+                let modalCertificate = self.storyboard?.instantiateViewControllerWithIdentifier("modalCertificate") as UIViewController;
+                self.modals.append(modalCertificate);
+            }
         }
-        //Should be inside the "NOT ABORTED" if, above
-        if (self.currentRun!.runTypeId == 4) {
-            let modalCertificate = self.storyboard?.instantiateViewControllerWithIdentifier("modalCertificate") as UIViewController;
-            self.modals.append(modalCertificate);
-        }
-        
         
         // Add more modals to queue
         //let modalLeague = self.storyboard?.instantiateViewControllerWithIdentifier("modalLeague") as UIViewController;

@@ -69,7 +69,6 @@
 		72C8D9061A7BB0B700DADD2A /* CustomLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72C8D9051A7BB0B700DADD2A /* CustomLoginViewController.swift */; };
 		72C8D9081A7BB97A00DADD2A /* forest.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 72C8D9071A7BB97A00DADD2A /* forest.jpg */; };
 		72C8D90C1A7BC1A800DADD2A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72C8D90B1A7BC1A800DADD2A /* FacebookSDK.framework */; };
-		72CD37BA19C7676C0049AD4E /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CD37B919C7676C0049AD4E /* MenuViewController.m */; };
 		72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72CD37BC19C768520049AD4E /* SWRevealViewController.m */; };
 		72DF2438197AED7800F9A96B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF2437197AED7800F9A96B /* MenuViewController.swift */; };
 		72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */; };
@@ -173,8 +172,6 @@
 		72C8D9051A7BB0B700DADD2A /* CustomLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomLoginViewController.swift; sourceTree = "<group>"; };
 		72C8D9071A7BB97A00DADD2A /* forest.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = forest.jpg; sourceTree = "<group>"; };
 		72C8D90B1A7BC1A800DADD2A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
-		72CD37B819C7676C0049AD4E /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
-		72CD37B919C7676C0049AD4E /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
 		72CD37BB19C768520049AD4E /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		72CD37BC19C768520049AD4E /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		72DF2437197AED7800F9A96B /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -358,8 +355,6 @@
 		72A7C6DA18D883D5007FF58B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				72CD37B819C7676C0049AD4E /* MenuViewController.h */,
-				72CD37B919C7676C0049AD4E /* MenuViewController.m */,
 				72DF2437197AED7800F9A96B /* MenuViewController.swift */,
 				7244D510197BF74C0034D91F /* HistoryTableViewControllerSwift.swift */,
 				7244D508197BF6390034D91F /* DetailViewViewControllerSwift.swift */,
@@ -531,7 +526,6 @@
 				72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */,
 				72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */,
 				72DF2470197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old in Sources */,
-				72CD37BA19C7676C0049AD4E /* MenuViewController.m in Sources */,
 				72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */,
 				7215A81F19FAB69C0041751B /* RunScreenContainerLeftViewController.swift in Sources */,
 				72DF246B197BC7C400F9A96B /* AppDelegate.swift in Sources */,
