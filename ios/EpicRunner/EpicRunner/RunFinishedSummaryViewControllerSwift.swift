@@ -192,8 +192,9 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
             self.synchronized = true;
         }
         
-        let runDataQuery = self.db.query("SELECT s.loggedInUserId, r.realRunId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude FROM Settings s, Runs r WHERE r.id=\(self.runId)");
+        let runDataQuery = self.db.query("SELECT s.loggedInUserId, s.loggedInSessionToken, r.realRunId, r.distance, r.duration, r.avgSpeed, r.maxSpeed, r.minAltitude, r.maxAltitude FROM Settings s, Runs r WHERE r.id=\(self.runId)");
         let userId: Int = runDataQuery[0]["loggedInUserId"]!.asInt();
+        let sessionToken: String = runDataQuery[0]["loggedInSessionToken"]!.asString();
         let realRunId: Int = runDataQuery[0]["realRunId"]!.asInt();
         let distance: Double = runDataQuery[0]["distance"]!.asDouble();
         let duration: Double = runDataQuery[0]["duration"]!.asDouble();
@@ -203,7 +204,7 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         let maxAltitude: Double = runDataQuery[0]["maxAltitude"]!.asDouble();
         
         
-        var params: String = "user_id=\(userId)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
+        var params: String = "user_id=\(userId)&session_token=\(sessionToken)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
         var webService: String = "post-free-run";
         if (self.finishedRun!.runTypeId != 0) {
             webService = "post-run";

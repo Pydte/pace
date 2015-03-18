@@ -14,6 +14,8 @@ class DetailViewViewControllerSwift: UIViewController {
 
     var selectedRun: Run?;
     let db = SQLiteDB.sharedInstance();
+    var userId: Int = 0;
+    var sessionToken: String?;
     
     @IBOutlet var mapView: MKMapView!;
     @IBOutlet var lblDate: UILabel!;
@@ -33,7 +35,13 @@ class DetailViewViewControllerSwift: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // Load User Id
+        let queryId = db.query("SELECT loggedInUserId, loggedInSessionToken FROM settings");
+        self.userId = queryId[0]["loggedInUserId"]!.asInt();
+        self.sessionToken = queryId[0]["loggedInSessionToken"]!.asString();
+        
+        
         // Load all data points into memory
         loadRouteData();
         
@@ -117,7 +125,7 @@ class DetailViewViewControllerSwift: UIViewController {
                 removeMapOverlay();
             } else {
                 // Load from webservice
-                HelperFunctions().callWebService("old-run-locations", params: "runid=\(self.selectedRun!.realRunId!)", callbackSuccess: callbackSuccess, callbackFail: callbackFail);
+                HelperFunctions().callWebService("old-run-locations", params: "runid=\(self.selectedRun!.realRunId!)&userid=\(self.userId)&session_token='\(self.sessionToken)'", callbackSuccess: callbackSuccess, callbackFail: callbackFail);
             }
         } else {
             removeMapOverlay();

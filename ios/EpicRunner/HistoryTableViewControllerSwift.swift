@@ -16,6 +16,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
     
     let db = SQLiteDB.sharedInstance();
     var userId: Int = 0;
+    var sessionToken: String?;
     var runs: [Run] = [];
     var selectedIndex: Int = -1;
     var loadMoreBtn: UIButton? = nil;
@@ -30,8 +31,9 @@ class HistoryTableViewControllerSwift: UITableViewController {
         self.navigationController!.navigationBar.addGestureRecognizer(self.revealViewController().panGestureRecognizer());
         
         // Load User Id
-        let queryId = db.query("SELECT loggedInUserId FROM settings");
+        let queryId = db.query("SELECT loggedInUserId, loggedInSessionToken FROM settings");
         self.userId = queryId[0]["loggedInUserId"]!.asInt();
+        self.sessionToken = queryId[0]["loggedInSessionToken"]!.asString();
         
         // Bind pull to update
         self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged);
@@ -72,7 +74,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         
         if (!self.loadMoreLocal) {
             //Retrieve numOfRunsToRetrieve from web service with offset numOfRuns
-            HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&count=\(numOfRunsToRetrieve)&offset=\(numOfRuns)", callbackSuccess: loadMoreSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
+            HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&session_token='\(self.sessionToken!)'&count=\(numOfRunsToRetrieve)&offset=\(numOfRuns)", callbackSuccess: loadMoreSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
         } else {
             //Retrieve runs locally
             loadData(numOfRunsToRetrieve, offset: numOfRuns);
@@ -309,10 +311,11 @@ class HistoryTableViewControllerSwift: UITableViewController {
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Updating history..");
         
         //Make webservice request
-        HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&count=40&offset=0", callbackSuccess: refreshSuccess, callbackFail: refreshFail);
+        HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&session_token='\(self.sessionToken!)'&count=40&offset=0", callbackSuccess: refreshSuccess, callbackFail: refreshFail);
     }
 
     func refreshSuccess(data: AnyObject?) {
+        println(data);
         //Extract data into db
         let dic: NSDictionary = data as NSDictionary;
         let runs: NSArray = dic.objectForKey("runs") as NSArray;

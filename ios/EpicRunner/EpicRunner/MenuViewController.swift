@@ -110,6 +110,7 @@ class MenuViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         // Reload data, some menus might have been unlocked :)
+        println("reloadData on viewDidAppear");
         self.tableView.reloadData();
     }
     

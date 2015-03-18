@@ -13,16 +13,22 @@ class modalCertificateViewController: UIViewController {
     let db = SQLiteDB.sharedInstance();
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
+        
+        func callbackSuccess(data: AnyObject) {
+            println("Level updated on server");
+            //let dic: NSDictionary = data as NSDictionary;
+            // Locally
+            db.execute("UPDATE settings set loggedInLevel=1");
+        }
 
         // Update level! (certify)
-        let query = db.query("SELECT loggedInLevel FROM settings");
+        let query = db.query("SELECT loggedInLevel, loggedInUserId, loggedInSessionToken FROM settings");
         if (query[0]["loggedInLevel"]!.asInt() < 1) {
-            /// Locally
-            db.execute("UPDATE settings set loggedInLevel=1");
-            
             /// Post to server
-            //TODO
+            let userId: Int = query[0]["loggedInUserId"]!.asInt();
+            let sessionToken: String = query[0]["loggedInSessionToken"]!.asString();
+            HelperFunctions().callWebService("update-level", params: "userid=\(userId)&new_level=1&session_token='\(sessionToken)'", callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
         }
     }
 

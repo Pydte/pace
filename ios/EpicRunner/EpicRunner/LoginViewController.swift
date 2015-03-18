@@ -48,8 +48,8 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser) {
         //Set email
-        //self.email = user.objectForKey("email") as String;
-        self.email = "jr@pandisign.dk";
+        self.email = user.objectForKey("email") as String;
+        //self.email = "jr@pandisign.dk";
         println("**setting email : \(self.email)**");
         
         
@@ -61,12 +61,20 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
         func callbackSuccess(data: AnyObject) {
             println("Sign in successful");
-            let dic: NSDictionary = data as NSDictionary;
-            let id: Int = dic.objectForKey("id")!.integerValue;
+            let json = JSON(data)
+            let sessionToken2: String = json["session_token"].string!;
+            println(sessionToken2);
             
-            //Save userID in database
+            let dic: NSDictionary = data as NSDictionary;
+            let id = 6;
+            //let id: Int = json["id"].intValue;
+            let level: Int = json["level"].intValue;
+            let tuRunSelector: Int = json["tutorial_completed"].intValue;
+            let sessionToken: String = json["session_token"].stringValue;
+            
+            //Save userID & session_token in database
             let db = SQLiteDB.sharedInstance();
-            let query = db.execute("UPDATE settings SET loggedInUserId=\(id), loggedInUsername='\(self.email)'");
+            let query = db.execute("UPDATE settings SET loggedInUserId=\(id), loggedInUsername='\(self.email)', loggedInSessionToken='\(sessionToken)', loggedInLevel=\(level), loggedInTuRunSelector=\(tuRunSelector)");
             
             println("id: \(id)");
             
@@ -94,9 +102,10 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             println("Facebook succeeded locally.");
             println("Authenticating with EpicRunner servers..")
             var FBAuthToken = FBSession.activeSession().accessTokenData.accessToken;
+            println(FBAuthToken);
             
             // Do webservice call with fbAuthToken
-            HelperFunctions().callWebService("user-login", params: "email=jr@pandisign.dk&password=pass", callbackSuccess: callbackSuccess, callbackFail: callbackFailure);
+            HelperFunctions().callWebService("fb-login", params: "email=" + self.email + "&auth_token=" + FBAuthToken, callbackSuccess: callbackSuccess, callbackFail: callbackFailure);
             
             println("\"Done\"");
         }
