@@ -27,6 +27,8 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     {
         super.viewWillAppear(animated);
         
+        println("SCREEN ENTERED: login");
+        
         //Check if the user already is logged in.
         let db = SQLiteDB.sharedInstance();
         let query = db.query("SELECT loggedInUserId FROM settings");
@@ -40,6 +42,11 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         }
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        
+        println("SCREEN EXITED: login");
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -114,7 +121,6 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     func loginViewHandleError(loginView: FBLoginView!, error: NSError) {
         println("Facebook authentication fucked up :)");
     }
-
     
     /*
     // #pragma mark - Navigation

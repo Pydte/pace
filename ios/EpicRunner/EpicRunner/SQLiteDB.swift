@@ -253,6 +253,9 @@ let SQLITE_DATE = SQLITE_NULL + 1
             execute("CREATE TABLE IF NOT EXISTS active_runs (runId INTEGER NOT NULL PRIMARY KEY, userId INTEGER NOT NULL, " +
                 " runTypeId INTEGER NOT NULL, startDate INTEGER NOT NULL , endDate INTEGER, distance REAL, medalBronze INTEGER, " +
                 " medalSilver INTEGER, medalGold INTEGER, duration INTEGER, difficulty INTEGER, locked BOOL NOT NULL DEFAULT 0, disabled BOOL NOT NULL DEFAULT 0)");
+            execute("CREATE TABLE IF NOT EXISTS stat_session (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, deviceId TEXT, deviceType TEXT, os TEXT, userId INTEGER, timestamp INTEGER)");
+            execute("CREATE TABLE stat_screen (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, statSession INTEGER NOT NULL, screen TEXT, enteredTimestamp INTEGER, exitedTimestamp INTEGER)");
+            execute("CREATE  TABLE stat_action (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE, statScreenId INTEGER NOT NULL, type TEXT, msg TEXT, timestamp INTEGER)");
             
             println("SQLITE Database created and is now a'okay.");
         }
