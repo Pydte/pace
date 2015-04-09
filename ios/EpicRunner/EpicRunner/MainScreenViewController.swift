@@ -9,6 +9,8 @@
 import UIKit
 
 class MainScreenViewController: UIViewController {
+    let screenName = "main";
+    
     @IBOutlet var btnMenu: UIBarButtonItem!;
     @IBOutlet var lblEmail: UILabel!;
     @IBOutlet weak var btnRunSelector: UIButton!;
@@ -35,6 +37,16 @@ class MainScreenViewController: UIViewController {
         } else {
             btnRunSelector.setTitle("Run Selector", forState: UIControlState.Normal);
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
     }
     
     override func didReceiveMemoryWarning() {

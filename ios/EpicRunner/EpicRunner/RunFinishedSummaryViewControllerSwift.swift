@@ -11,6 +11,7 @@ import MapKit
 import CoreLocation
 
 class RunFinishedSummaryViewControllerSwift: UIViewController {
+    let screenName = "runFinished"
     
     @IBOutlet var lblTitle: UILabel!;
     @IBOutlet var lblDate: UILabel!;
@@ -60,6 +61,16 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         
         // Synchronize
         uploadRun();
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
     }
 
     override func didReceiveMemoryWarning() {

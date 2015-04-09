@@ -9,6 +9,7 @@
 import UIKit
 
 class CustomLoginViewController: UIViewController {
+    let screenName = "customLogin";
 
     @IBOutlet weak var txtEmail: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
@@ -59,6 +60,16 @@ class CustomLoginViewController: UIViewController {
     
     func textFieldShouldReturn(textField: UITextField) {
         textField.resignFirstResponder();
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
     }
     
     /*

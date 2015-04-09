@@ -9,6 +9,7 @@
 import UIKit
 
 class LoginViewController: UIViewController, FBLoginViewDelegate {
+    let screenName = "login";
 
     @IBOutlet weak var fbLoginView: FBLoginView!;
     var doOnce: Bool = false;
@@ -20,14 +21,12 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         //FB settings
         self.fbLoginView.delegate = self;
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"];
-        
     }
     
     override func viewDidAppear(animated: Bool)
     {
         super.viewWillAppear(animated);
-        
-        println("SCREEN ENTERED: login");
+        HelperFunctions().statScreenEntered(screenName);
         
         //Check if the user already is logged in.
         let db = SQLiteDB.sharedInstance();
@@ -44,8 +43,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated);
-        
-        println("SCREEN EXITED: login");
+        HelperFunctions().statScreenExited(screenName);
     }
     
     override func didReceiveMemoryWarning() {

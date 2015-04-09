@@ -17,6 +17,8 @@
 import UIKit
 
 class RunSelectorViewControllerSwift: UIViewController {
+    let screenName = "runSelector";
+    
     @IBOutlet var btnMenu: UIBarButtonItem!;
     @IBOutlet var btnLockedRunPlaceholder: UIButton!;
     @IBOutlet var lblLoadingText: UILabel!;
@@ -454,8 +456,10 @@ class RunSelectorViewControllerSwift: UIViewController {
             destCtrl.selectedRunId = self.selectedRunId;
         }
     }
-    
+
     override func viewWillAppear(animated: Bool) {
+        HelperFunctions().statScreenEntered(screenName);
+        
         // Do we have access?
         let queryAccess = db.query("SELECT loggedInLevel, loggedInTuRunSelector FROM settings");
         let level: Int = queryAccess[0]["loggedInLevel"]!.asInt();
@@ -490,6 +494,8 @@ class RunSelectorViewControllerSwift: UIViewController {
     }
     
     override func viewWillDisappear(animated:Bool) {
+        HelperFunctions().statScreenExited(screenName);
+        
         // Clean up
         println("View will disappear, cleaning up views!");
         item1?.destroy(false);

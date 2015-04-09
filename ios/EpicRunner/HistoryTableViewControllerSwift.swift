@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 
 class HistoryTableViewControllerSwift: UITableViewController {
+    let screenName = "history"
+    
     //@IBOutlet strong var myTableView: UITableView!;
     @IBOutlet var myTableView: UITableView!;
     @IBOutlet var btnMenu: UIBarButtonItem!;
@@ -63,6 +65,16 @@ class HistoryTableViewControllerSwift: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
     }
 
     func loadMore() {
@@ -126,7 +138,6 @@ class HistoryTableViewControllerSwift: UITableViewController {
         return self.runs.count;
     }
 
-    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("HistoryPrototypeCell", forIndexPath: indexPath) as UITableViewCell;
         

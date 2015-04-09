@@ -9,6 +9,7 @@
 import UIKit
 
 class modalMedalViewController: UIViewController {
+    let screenName = "modalMedal";
 
     var wonMedal: Int = 0;
     var runTimeInSeconds: NSNumber = 0;
@@ -29,7 +30,17 @@ class modalMedalViewController: UIViewController {
         let runRemainingTimeInSecondsFormat = NSString(format: "%02d", Int(runRemainingTimeInSeconds));
         lblDesc.text = "You finished in: \(runTimeInMinutesFormat):\(runRemainingTimeInSecondsFormat)";
     }
-
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -39,6 +39,7 @@
 		7275AE531902DDFB00D81950 /* reveal-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7275AE511902DDFB00D81950 /* reveal-icon@2x.png */; };
 		727B155B1A693BF200701A22 /* separatorLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 727B15591A693BF200701A22 /* separatorLine.png */; };
 		727B155C1A693BF200701A22 /* separatorLine@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 727B155A1A693BF200701A22 /* separatorLine@2.png */; };
+		728B50211AD6ED7200353BB9 /* Hardware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728B50201AD6ED7200353BB9 /* Hardware.swift */; };
 		729FE79F1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */; };
 		72A4008F18F4512600D739B3 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 72A4008E18F4512600D739B3 /* libsqlite3.dylib */; };
 		72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A5816D1A1D0CA700FC6926 /* String-Extras.swift */; };
@@ -139,6 +140,7 @@
 		7275AE511902DDFB00D81950 /* reveal-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reveal-icon@2x.png"; sourceTree = "<group>"; };
 		727B15591A693BF200701A22 /* separatorLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = separatorLine.png; sourceTree = "<group>"; };
 		727B155A1A693BF200701A22 /* separatorLine@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "separatorLine@2.png"; sourceTree = "<group>"; };
+		728B50201AD6ED7200353BB9 /* Hardware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hardware.swift; sourceTree = "<group>"; };
 		729FE79E1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerIntervalViewController.swift; sourceTree = "<group>"; };
 		72A4008E18F4512600D739B3 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		72A5816D1A1D0CA700FC6926 /* String-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-Extras.swift"; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				72A7C6B018D87AF4007FF58B /* InfoPlist.strings */,
 				72A7C6B518D87AF4007FF58B /* EpicRunner-Prefix.pch */,
 				72AA3A3319D9C9E300179DA8 /* HelperFunctions.swift */,
+				728B50201AD6ED7200353BB9 /* Hardware.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -546,6 +549,7 @@
 				7224EEDE19F57E98005E701E /* RunScreenContainerViewController.swift in Sources */,
 				72538EDE1AAA13FA0034CF81 /* modalCertificateViewController.swift in Sources */,
 				7244D511197BF74C0034D91F /* HistoryTableViewControllerSwift.swift in Sources */,
+				728B50211AD6ED7200353BB9 /* Hardware.swift in Sources */,
 				7208EF861AA0B7E70002BB95 /* SwiftyJSON.swift in Sources */,
 				7244D50D197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift in Sources */,
 			);

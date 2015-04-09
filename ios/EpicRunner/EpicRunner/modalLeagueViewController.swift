@@ -9,11 +9,22 @@
 import UIKit
 
 class modalLeagueViewController: UIViewController {
-
+    let screenName = "modalLeague";
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
     }
 
     override func didReceiveMemoryWarning() {

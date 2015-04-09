@@ -11,6 +11,8 @@ import MapKit
 import AVFoundation
 
 class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGestureRecognizerDelegate {
+    let screenName = "runScreen";
+    
     @IBOutlet var btnMenu: UIBarButtonItem!;
     @IBOutlet var btnRun: UIButton!;
     @IBOutlet var container: UIView!;
@@ -1171,6 +1173,16 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 self.navigationController!.navigationBar.addGestureRecognizer(self.handlePanBlock!);
             }
         );
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
     }
     
     override func viewWillDisappear(animated:Bool) {

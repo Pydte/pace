@@ -10,7 +10,9 @@ import UIKit
 import MapKit
 
 class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIAlertViewDelegate {
-  
+    let screenName = "generateRun";
+    
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var btnReady: UIButton!;
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!;
@@ -346,6 +348,17 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
         }
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+    
+    
     
     // #pragma mark - Navigation
 

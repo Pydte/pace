@@ -31,8 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //STATISTICS
         // Create new session
-        //TODO
-        println("NEWLY OPENED?");
+        HelperFunctions().statNewSession();
         
         return true;
     }
@@ -47,14 +46,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         //STATISTICS
-        // ??
-        //println("BACKGROUND possibly TERMINATE");
+        // println("BACKGROUND possibly TERMINATE");
+        // If "action" should be saved when "minimize"
     }
     
     func applicationWillEnterForeground(application: UIApplication!) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         
         //println("kinda ACTIVE again, yiss");
+        // If "action" should be saved when "maximize"
     }
     
     func applicationDidBecomeActive(application: UIApplication!) {

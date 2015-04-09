@@ -9,6 +9,7 @@
 import UIKit
 
 class modalCertificateViewController: UIViewController {
+    let screenName = "modalCertification";
     
     let db = SQLiteDB.sharedInstance();
     
@@ -31,7 +32,17 @@ class modalCertificateViewController: UIViewController {
             HelperFunctions().callWebService("update-level", params: "userid=\(userId)&new_level=1&session_token='\(sessionToken)'", callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
         }
     }
-
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

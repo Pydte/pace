@@ -11,7 +11,8 @@ import MapKit
 import CoreLocation
 
 class DetailViewViewControllerSwift: UIViewController {
-
+    let screenName = "historyDetailView";
+    
     var selectedRun: Run?;
     let db = SQLiteDB.sharedInstance();
     var userId: Int = 0;
@@ -34,7 +35,7 @@ class DetailViewViewControllerSwift: UIViewController {
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!;
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
         
         // Load User Id
         let queryId = db.query("SELECT loggedInUserId, loggedInSessionToken FROM settings");
@@ -51,6 +52,17 @@ class DetailViewViewControllerSwift: UIViewController {
         // Draw route
         drawRoute();
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

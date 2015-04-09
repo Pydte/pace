@@ -9,12 +9,15 @@
 import UIKit
 import CoreLocation
 
+
+
 class HelperFunctions {
+    let db = SQLiteDB.sharedInstance();
+    
     // 0: Free Run
     // 1: Location Run
     // 2: Interval Run
     // 3: Collector Run
-
     let runHeadline: [String] = ["Free Run", "Location Run", "Interval Run", "Collector Run", "Certificate Run"];
     let runDescription: [String] = ["Run anywhere in any pace you want. When you are done, you simply touch the stop button.",
         "You have to run from point A to point B and back to point A. Point A is your current physical location when you press 'Generate mission', while point B is a location of our choosing.",
@@ -118,5 +121,50 @@ class HelperFunctions {
         let runRemainingTimeInSecondsFormat = NSString(format: "%02d", Int(runRemainingTimeInSeconds));
         return "\(runTimeInMinutesFormat):\(runRemainingTimeInSecondsFormat)";
     }
+    
+    
+    /// Statistics
+    // STAT: Create new session
+    func statNewSession() {
+        let deviceId = UIDevice.currentDevice().identifierForVendor.UUIDString;
+        let deviceType = Hardware().toString();
+        let os = UIDevice.currentDevice().systemVersion;
+        let timestamp = NSDate().timeIntervalSince1970;
+        
+        self.db.execute("INSERT INTO stat_session (deviceId, deviceType, os, userId, timestamp) VALUES ('\(deviceId)','\(deviceType)','\(os)',(SELECT loggedInUserId FROM settings),\(timestamp))");
+        
+        println("STAT New Session: \(deviceId), \(deviceType), \(os), \(timestamp)");
+    }
 
+    // STAT: Update userId for Session
+    func updateUserIdForSession() {
+        println("STAT Update UserID for Session");
+        
+    }
+    
+    // STAT: Screen Entered
+    func statScreenEntered(screen: String) {
+        println("STAT Screen Entered: \(screen)");
+        let timestamp = NSDate().timeIntervalSince1970;
+        
+        self.db.execute("INSERT INTO stat_screen (statSessionId, screen, enteredTimestamp) VALUES ((SELECT id FROM stat_session ORDER BY timestamp DESC), '\(screen)', \(timestamp))");
+    }
+    
+    // STAT: Screen Exited
+    func statScreenExited(screen: String) {
+        println("STAT Screen Exited: \(screen)");
+        let timestamp = NSDate().timeIntervalSince1970;
+        
+        self.db.execute("UPDATE stat_screen SET exitedTimestamp = \(timestamp) WHERE id = (SELECT id FROM stat_screen WHERE screen = '\(screen)' ORDER BY enteredTimestamp DESC LIMIT 1)");
+    }
+    
+    // STAT: Action
+    func statAction(type: String, msg: String) {
+        println("STAT Action: \(msg)");
+        let type = 0;
+        let msg = 0;
+        let timestamp = 0;
+        
+        self.db.execute("INSERT INTO stat_action (statScreenId, type, msg, timestamp) VALUES ((SELECT id FROM stat_screen ORDER BY id DESC LIMIT 1), \(type), \(msg), \(timestamp))");
+    }
 }

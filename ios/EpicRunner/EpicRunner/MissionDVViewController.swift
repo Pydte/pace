@@ -9,7 +9,8 @@
 import UIKit
 
 class MissionDVViewController: UIViewController {
-
+    let screenName = "runselectorDetailView";
+    
     @IBOutlet var lblTimeRemaning: UILabel!;
     @IBOutlet var lblBronze: UILabel!;
     @IBOutlet var lblSilver: UILabel!;
@@ -116,7 +117,15 @@ class MissionDVViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    override func viewDidAppear(animated: Bool) {
+        super.viewWillAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
     
     // #pragma mark - Navigation
 
