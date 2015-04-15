@@ -26,12 +26,24 @@ class HelperFunctions {
         "You have to collect a series of objects and return them to your base (starting point). Each time an object is collected it must be returned to the base. Collect as many as you can within the time limit."];
     let runMedal: [String] = ["None", "Gold", "Silver", "Bronze"];
     
+    // ONLY USED TO TEST
+    func callWebService2(serviceName: String, params: String, callbackSuccess: (AnyObject) -> Void, callbackFail: (String) -> Void, controller: UIViewController) {
+        let toViewController: UIViewController = MainScreenViewController();
+        
+        //controller.presentViewController(toViewController, animated: true, completion: nil);
+        
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil);
+        storyboard.instantiateViewControllerWithIdentifier("MainScreenController");
+        controller.navigationController!.pushViewController(toViewController, animated: true);
+        
+    }
+    
     // A function which contacts the server and sends the response to the callback function
     func callWebService(serviceName: String, params: String, callbackSuccess: (AnyObject) -> Void, callbackFail: (String) -> Void) {
         let defaultConfigObject: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
         let defaultSession: NSURLSession = NSURLSession(configuration: defaultConfigObject, delegate: nil, delegateQueue: NSOperationQueue.mainQueue());
         
-        let url: NSURL = NSURL(string: "http://epicrunner.com.pandiweb.dk/webservice/\(serviceName)")!;
+        let url: NSURL = NSURL(string: "http://epicrunner.dk.panditest.dk/webservice/\(serviceName)")!;
         let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url);
         urlRequest.HTTPMethod = "POST";
         urlRequest.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false);
@@ -54,16 +66,18 @@ class HelperFunctions {
                         println("Mr. Server is not happy.");
                         
                         let errArr: NSArray = dic!.objectForKey("errors") as NSArray;
-                        callbackFail(errArr[0] as String);
+                        self.handleSharedMistakes(errArr[0] as String, callbackFail); // Will call the callback function, if appropriet
                     }
                 } else {
-                    println("Mr. Server went full retard.");
+                    println("The server did not respond with a valid response.");
+                    self.statError("The server did not respond with a valid response.");
                     println(text);
-                    callbackFail("Mr. Server went full retard1.");
+                    callbackFail("The server did not respond with a valid response.");
                 }
                 
             } else {
                 println("Failed to contact server: \(error.description)");
+                self.statError("Failed to contact server: \(error.description)");
                 callbackFail("Failed to contact server1.");
             }
             });
@@ -71,14 +85,37 @@ class HelperFunctions {
     
     }
     
-    // A default error function to give the "callWebService" function, if ones doesn't really care ¯\_(ツ)_/¯
+    // A default error function to give the "callWebService" function, if one doesn't really care ¯\_(ツ)_/¯
     func webServiceDefaultFail(err: String) {
-        var alert: UIAlertView = UIAlertView()
-        alert.title = "Error"
-        alert.message = err
-        alert.addButtonWithTitle("Ok")
+        var alert: UIAlertView = UIAlertView();
+        alert.title = "Error";
+        alert.message = err;
+        alert.addButtonWithTitle("Ok");
         
-        alert.show()
+        alert.show();
+    }
+    
+    // Handles shared/common mistakes, like if the sessession has expired etc.
+    // If no matches, it calls the supplied callbackFail
+    func handleSharedMistakes(err: String, callbackFail: (String) -> Void) {
+        self.statError("Webservice: " + err);
+        
+        switch err {
+            case "Session expired.":
+                println("ERROR: Session Expired");
+                // Update local db to not logged in
+            
+                // Goto login screen
+                //let toViewController: UIViewController = LoginViewController();
+                //let segue: UIStoryboard = UIStoryboardSegue(identifier: "Logout", source: nil, destination: toViewController);
+                //prepareForSegue(segue, sender: nil);
+                //segue.perform();
+                
+                // Show message "You have been logged out, please log in again."
+                webServiceDefaultFail("You have been logged out for security reasons, please log in again.")
+            default:
+                callbackFail(err);
+        }
     }
     
     // Converts degrees to radians
@@ -166,5 +203,10 @@ class HelperFunctions {
         let timestamp = 0;
         
         self.db.execute("INSERT INTO stat_action (statScreenId, type, msg, timestamp) VALUES ((SELECT id FROM stat_screen ORDER BY id DESC LIMIT 1), \(type), \(msg), \(timestamp))");
+    }
+    
+    // STAT: Report error
+    func statError(err: String) {
+        statAction("Error", msg: err);
     }
 }

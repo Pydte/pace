@@ -1181,7 +1181,7 @@
         <!--Epic Runner-->
         <scene sceneID="zL2-gx-mfA">
             <objects>
-                <viewController id="W8q-5t-AhF" customClass="MainScreenViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MainScreenController" storyboardIdentifier="MainScreenController" id="W8q-5t-AhF" customClass="MainScreenViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7zk-Wk-o6e">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1454,7 +1454,7 @@
         <!--Login View Controller-->
         <scene sceneID="z4Y-Pe-jmf">
             <objects>
-                <viewController id="2BX-Pb-UOX" customClass="LoginViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="LoginController" storyboardIdentifier="LoginController" id="2BX-Pb-UOX" customClass="LoginViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Jo-d0-qVx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2487,13 +2487,13 @@ P</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="d0x-cK-PT8"/>
-        <segue reference="cGr-4D-Jrw"/>
+        <segue reference="DDe-hD-AaQ"/>
+        <segue reference="ywH-R1-92u"/>
+        <segue reference="vLK-Zy-ags"/>
         <segue reference="Fey-b3-m5h"/>
-        <segue reference="ELW-Fu-FZT"/>
-        <segue reference="eDO-9U-3ef"/>
+        <segue reference="cGr-4D-Jrw"/>
+        <segue reference="d0x-cK-PT8"/>
         <segue reference="LU8-OD-Lhj"/>
         <segue reference="gqT-L8-fgk"/>
-        <segue reference="7q7-Gt-bAt"/>
     </inferredMetricsTieBreakers>
 </document>

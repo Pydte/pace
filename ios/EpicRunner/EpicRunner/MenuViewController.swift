@@ -108,6 +108,10 @@ class MenuViewController: UITableViewController {
         return cell!;
     }
     
+    func logout() {
+        self.performSegueWithIdentifier("Logout", sender: self);
+    }
+    
     override func viewDidAppear(animated: Bool) {
         // Reload data, some menus might have been unlocked :)
         println("reloadData on viewDidAppear");
