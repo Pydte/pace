@@ -9,6 +9,8 @@
 import UIKit
 
 class RunScreenContainerLeftViewController: UIViewController {
+    let screenName = "runScreenContainerObjective";
+    
     @IBOutlet var lblDescription: UILabel!;
     @IBOutlet var lblMedalBronze: UILabel!;
     @IBOutlet var lblMedalSilver: UILabel!;
@@ -87,6 +89,16 @@ class RunScreenContainerLeftViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
     }
     
 

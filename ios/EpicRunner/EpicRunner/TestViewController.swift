@@ -9,6 +9,7 @@
 import UIKit
 
 class TestViewController: UIViewController {
+    let screenName = "getRunningCertificateIntro"
 
     @IBOutlet weak var btnMenu: UIBarButtonItem!;
     
@@ -57,8 +58,15 @@ class TestViewController: UIViewController {
             generateRunViewController.medalSilver = 4;
             generateRunViewController.medalGold = 8;
         }
-        
     }
-
-
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
 }

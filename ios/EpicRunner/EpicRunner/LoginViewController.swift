@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     
     override func viewDidAppear(animated: Bool)
     {
-        super.viewWillAppear(animated);
+        super.viewDidAppear(animated);
         HelperFunctions().statScreenEntered(screenName);
         
         //Check if the user already is logged in.

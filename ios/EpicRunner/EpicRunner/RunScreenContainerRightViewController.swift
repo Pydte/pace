@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 
 class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate {
+    let screenName = "runScreenContainerMap";
 
     @IBOutlet var mapView: MKMapView!
     
@@ -320,7 +321,17 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
         self.mapView.setRegion(region, animated: true);
     }
     
-
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+    
+    
     /*
     // #pragma mark - Navigation
 

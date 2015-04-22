@@ -10,9 +10,14 @@ import UIKit
 class SWUITableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        super.touchesBegan(touches, withEvent: event);
+        HelperFunctions().statAction("TouchedMenuItem", msg: self.accessibilityLabel)
+    }
 }
 
 class MenuViewController: UITableViewController {
+    let screenName = "menu"
     let db = SQLiteDB.sharedInstance();
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
@@ -108,17 +113,19 @@ class MenuViewController: UITableViewController {
         return cell!;
     }
     
-    func logout() {
-        self.performSegueWithIdentifier("Logout", sender: self);
-    }
-    
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
         // Reload data, some menus might have been unlocked :)
         println("reloadData on viewDidAppear");
         self.tableView.reloadData();
+        HelperFunctions().statScreenEntered(screenName);
     }
     
-    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+
     // #pragma mark state preservation / restoration
     
     override func encodeRestorableStateWithCoder(coder : NSCoder) {

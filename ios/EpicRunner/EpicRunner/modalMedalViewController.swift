@@ -32,7 +32,7 @@ class modalMedalViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        super.viewWillAppear(animated);
+        super.viewDidAppear(animated);
         HelperFunctions().statScreenEntered(screenName);
     }
     

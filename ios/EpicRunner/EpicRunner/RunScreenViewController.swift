@@ -1176,7 +1176,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     }
     
     override func viewDidAppear(animated: Bool) {
-        super.viewWillAppear(animated);
+        super.viewDidAppear(animated);
         HelperFunctions().statScreenEntered(screenName);
     }
     

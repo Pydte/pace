@@ -9,6 +9,8 @@
 import UIKit
 
 class RunScreenContainerIntervalViewController: UIViewController {
+    let screenName = "runScreenContainerInterval";
+    
     @IBOutlet weak var lblPassed: UILabel!
     @IBOutlet weak var lblFailed: UILabel!
     @IBOutlet weak var lblSwitchIn: UILabel!
@@ -27,6 +29,15 @@ class RunScreenContainerIntervalViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
 
     /*
     // MARK: - Navigation

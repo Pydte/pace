@@ -10,7 +10,6 @@ import UIKit
 import MapKit
 
 class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDelegate {
-    
     var intController: RunScreenContainerIntervalViewController?;
     var cerController: RunScreenContainerCertificateViewController?;
     
@@ -201,8 +200,6 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
         // * Draw route on map
         self.rightController!.drawRoute();
     }
-    
-    
     
     /*
     // #pragma mark - Navigation

@@ -209,4 +209,9 @@ class HelperFunctions {
     func statError(err: String) {
         statAction("Error", msg: err);
     }
+    
+    // STAT: Report button touched
+    func statTouch(btn: String) {
+        statAction("Touched", msg: btn);
+    }
 }

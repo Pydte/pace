@@ -1296,6 +1296,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="Main1"/>
                                 <connections>
                                     <outlet property="label" destination="sdq-B3-oR7" id="HSA-YT-0B0"/>
                                     <segue destination="06V-dE-ckG" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="gqT-L8-fgk"/>
@@ -1316,6 +1317,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="Run Selector"/>
                                 <connections>
                                     <outlet property="label" destination="nYb-Xy-5A6" id="dH2-rp-TzK"/>
                                     <segue destination="xiq-B9-izy" kind="custom" identifier="RunSelector" customClass="SWRevealViewControllerSeguePushController" id="sqv-J8-Zh2"/>
@@ -1337,6 +1339,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="History"/>
                                 <connections>
                                     <outlet property="label" destination="loa-jn-2t1" id="86a-ug-UVy"/>
                                     <segue destination="Ugi-Wg-shH" kind="custom" identifier="History" customClass="SWRevealViewControllerSeguePushController" id="w2r-eN-XkL"/>
@@ -1358,6 +1361,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="Community"/>
                                 <connections>
                                     <outlet property="label" destination="ZzV-PY-U9q" id="aRJ-Xl-vRj"/>
                                 </connections>
@@ -1378,6 +1382,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="Shop"/>
                                 <connections>
                                     <outlet property="label" destination="Ocg-Rb-1Cw" id="D3I-U0-A3x"/>
                                 </connections>
@@ -1398,6 +1403,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="Settings"/>
                                 <connections>
                                     <outlet property="label" destination="kE0-FM-fGK" id="r2Q-tF-eRp"/>
                                 </connections>
@@ -1418,6 +1424,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration" label="Log out"/>
                                 <connections>
                                     <outlet property="label" destination="NXZ-l3-dn9" id="eGf-gt-dAH"/>
                                     <segue destination="2BX-Pb-UOX" kind="custom" identifier="Logout" customClass="SWRevealViewControllerSeguePushController" id="Zro-Gy-3Zr"/>
@@ -1937,7 +1944,7 @@ To collect a point you have to run into it and then you have to return the point
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="yXh-yd-YxE" customClass="RunScreenContainerViewController" customModule="EpicRunner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="8EH-0y-zPT">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="280"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P88-io-bbz">

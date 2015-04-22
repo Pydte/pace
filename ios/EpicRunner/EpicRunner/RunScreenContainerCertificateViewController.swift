@@ -9,6 +9,8 @@
 import UIKit
 
 class RunScreenContainerCertificateViewController: UIViewController {
+    let screenName = "runScreenContainerDefault";
+    
     @IBOutlet weak var lblTimeLeft: UILabel!;
     @IBOutlet weak var lblDistance: UILabel!;
     @IBOutlet weak var lblPointsCaptured: UILabel!;
@@ -25,7 +27,16 @@ class RunScreenContainerCertificateViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+    
     /*
     // MARK: - Navigation
 

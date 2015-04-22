@@ -458,8 +458,6 @@ class RunSelectorViewControllerSwift: UIViewController {
     }
 
     override func viewWillAppear(animated: Bool) {
-        HelperFunctions().statScreenEntered(screenName);
-        
         // Do we have access?
         let queryAccess = db.query("SELECT loggedInLevel, loggedInTuRunSelector FROM settings");
         let level: Int = queryAccess[0]["loggedInLevel"]!.asInt();
@@ -494,8 +492,6 @@ class RunSelectorViewControllerSwift: UIViewController {
     }
     
     override func viewWillDisappear(animated:Bool) {
-        HelperFunctions().statScreenExited(screenName);
-        
         // Clean up
         println("View will disappear, cleaning up views!");
         item1?.destroy(false);
@@ -505,4 +501,15 @@ class RunSelectorViewControllerSwift: UIViewController {
         item5?.destroy(false);
         itemLocked?.destroy(false);
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated);
+        HelperFunctions().statScreenExited(screenName);
+    }
+    
 }
