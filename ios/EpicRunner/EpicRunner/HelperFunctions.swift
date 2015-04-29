@@ -65,8 +65,13 @@ class HelperFunctions {
                     } else {
                         println("Mr. Server is not happy.");
                         
-                        let errArr: NSArray = dic!.objectForKey("errors") as NSArray;
-                        self.handleSharedMistakes(errArr[0] as String, callbackFail); // Will call the callback function, if appropriet
+                        let err: AnyObject? = dic!.objectForKey("errors");
+                        var errStr: String = "No error description provided.";
+                        if (err != nil) {
+                            errStr = (err as NSArray)[0] as String;
+                        }
+                        
+                        self.handleSharedMistakes(errStr, callbackFail); // Will call the callback function, if appropriet
                     }
                 } else {
                     println("The server did not respond with a valid response.");
@@ -112,7 +117,7 @@ class HelperFunctions {
                 //segue.perform();
                 
                 // Show message "You have been logged out, please log in again."
-                webServiceDefaultFail("You have been logged out for security reasons, please log in again.")
+                webServiceDefaultFail("You have to manually log out and then log in again, for security reasons.")
             default:
                 callbackFail(err);
         }
@@ -189,7 +194,7 @@ class HelperFunctions {
     
     // STAT: Screen Exited
     func statScreenExited(screen: String) {
-        println("STAT Screen Exited: \(screen)");
+        //println("STAT Screen Exited: \(screen)");
         let timestamp = NSDate().timeIntervalSince1970;
         
         self.db.execute("UPDATE stat_screen SET exitedTimestamp = \(timestamp) WHERE id = (SELECT id FROM stat_screen WHERE screen = '\(screen)' ORDER BY enteredTimestamp DESC LIMIT 1)");
@@ -197,7 +202,7 @@ class HelperFunctions {
     
     // STAT: Action
     func statAction(type: String, msg: String) {
-        println("STAT Action: \(msg)");
+        //println("STAT Action: \(msg)");
         let type = 0;
         let msg = 0;
         let timestamp = 0;

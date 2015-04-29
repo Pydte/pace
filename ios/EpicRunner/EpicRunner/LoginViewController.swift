@@ -18,16 +18,6 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        //FB settings
-        self.fbLoginView.delegate = self;
-        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"];
-    }
-    
-    override func viewDidAppear(animated: Bool)
-    {
-        super.viewDidAppear(animated);
-        HelperFunctions().statScreenEntered(screenName);
-        
         //Check if the user already is logged in.
         let db = SQLiteDB.sharedInstance();
         let query = db.query("SELECT loggedInUserId FROM settings");
@@ -39,6 +29,16 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             println("User already logged in");
             self.performSegueWithIdentifier("segueFromLoginToApp", sender: self);
         }
+
+        //FB settings
+        self.fbLoginView.delegate = self;
+        self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"];
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        super.viewDidAppear(animated);
+        HelperFunctions().statScreenEntered(screenName);
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -52,26 +52,14 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     }
     
     func loginViewFetchedUserInfo(loginView: FBLoginView!, user: FBGraphUser) {
-        //Set email
-        self.email = user.objectForKey("email") as String;
-        //self.email = "jr@pandisign.dk";
-        println("**setting email : \(self.email)**");
-        
-        
-        //println("Hello \(user.first_name) \(user.last_name)");
-        //println(user.objectForKey("id")); (unique user id)
-        //println(user);
-    }
-    
-    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
         func callbackSuccess(data: AnyObject) {
             println("Sign in successful");
             let json = JSON(data)
             let sessionToken2: String = json["session_token"].string!;
             println(sessionToken2);
-            
+            //print(data);
             let dic: NSDictionary = data as NSDictionary;
-            let id = 6;
+            let id = 11; //6=jr@pandisign.com, 11=marci@marci.dk
             //let id: Int = json["id"].intValue;
             let level: Int = json["level"].intValue;
             let tuRunSelector: Int = json["tutorial_completed"].intValue;
@@ -103,8 +91,13 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
         if (!self.doOnce) {
             self.doOnce = true;
             loginView.hidden = true;
+            //Set email
+            self.email = user.objectForKey("email") as String;
+            //self.email = "jr@pandisign.dk";
+            println("**setting email : \(self.email)**");
             
-            println("Facebook succeeded locally.");
+            
+            
             println("Authenticating with EpicRunner servers..")
             var FBAuthToken = FBSession.activeSession().accessTokenData.accessToken;
             println(FBAuthToken);
@@ -114,6 +107,13 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             
             println("\"Done\"");
         }
+        //println("Hello \(user.first_name) \(user.last_name)");
+        //println(user.objectForKey("id")); (unique user id)
+        //println(user);
+    }
+    
+    func loginViewShowingLoggedInUser(loginView: FBLoginView!) {
+        println("Facebook succeeded locally.");
     }
     
     func loginViewHandleError(loginView: FBLoginView!, error: NSError) {

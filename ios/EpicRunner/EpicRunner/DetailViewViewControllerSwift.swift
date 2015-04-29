@@ -137,7 +137,7 @@ class DetailViewViewControllerSwift: UIViewController {
                 removeMapOverlay();
             } else {
                 // Load from webservice
-                HelperFunctions().callWebService("old-run-locations", params: "runid=\(self.selectedRun!.realRunId!)&userid=\(self.userId)&session_token='\(self.sessionToken)'", callbackSuccess: callbackSuccess, callbackFail: callbackFail);
+                HelperFunctions().callWebService("old-run-locations", params: "runid=\(self.selectedRun!.realRunId!)&userid=\(self.userId)&session_token=\(self.sessionToken)", callbackSuccess: callbackSuccess, callbackFail: callbackFail);
             }
         } else {
             removeMapOverlay();

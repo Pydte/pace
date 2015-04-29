@@ -29,7 +29,7 @@ class modalCertificateViewController: UIViewController {
             /// Post to server
             let userId: Int = query[0]["loggedInUserId"]!.asInt();
             let sessionToken: String = query[0]["loggedInSessionToken"]!.asString();
-            HelperFunctions().callWebService("update-level", params: "userid=\(userId)&new_level=1&session_token='\(sessionToken)'", callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
+            HelperFunctions().callWebService("update-level", params: "userid=\(userId)&new_level=1&session_token=\(sessionToken)", callbackSuccess: callbackSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
         }
     }
     

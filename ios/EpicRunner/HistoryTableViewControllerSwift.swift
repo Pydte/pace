@@ -36,6 +36,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         let queryId = db.query("SELECT loggedInUserId, loggedInSessionToken FROM settings");
         self.userId = queryId[0]["loggedInUserId"]!.asInt();
         self.sessionToken = queryId[0]["loggedInSessionToken"]!.asString();
+        println(self.sessionToken);
         
         // Bind pull to update
         self.refreshControl?.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged);
@@ -86,7 +87,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         
         if (!self.loadMoreLocal) {
             //Retrieve numOfRunsToRetrieve from web service with offset numOfRuns
-            HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&session_token='\(self.sessionToken!)'&count=\(numOfRunsToRetrieve)&offset=\(numOfRuns)", callbackSuccess: loadMoreSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
+            HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&session_token=\(self.sessionToken!)&count=\(numOfRunsToRetrieve)&offset=\(numOfRuns)", callbackSuccess: loadMoreSuccess, callbackFail: HelperFunctions().webServiceDefaultFail);
         } else {
             //Retrieve runs locally
             loadData(numOfRunsToRetrieve, offset: numOfRuns);
@@ -322,7 +323,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Updating history..");
         
         //Make webservice request
-        HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&session_token='\(self.sessionToken!)'&count=40&offset=0", callbackSuccess: refreshSuccess, callbackFail: refreshFail);
+        HelperFunctions().callWebService("old-runs", params: "userid=\(self.userId)&session_token=\(self.sessionToken!)&count=40&offset=0", callbackSuccess: refreshSuccess, callbackFail: refreshFail);
     }
 
     func refreshSuccess(data: AnyObject?) {
