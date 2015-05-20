@@ -39,7 +39,7 @@ class RunSelectorViewControllerSwift: UIViewController {
     var runId: Int = 0;
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad();
         
         // Bind menu button
         self.btnMenu.target = self.revealViewController();
@@ -98,7 +98,9 @@ class RunSelectorViewControllerSwift: UIViewController {
             lblLoadingText.hidden = false;
             idcLoading.startAnimating();
             
-            HelperFunctions().callWebService("selectable-runs", params: "id=\(self.userId)&session_token=\(self.sessionToken)", callbackSuccess: showRuns, callbackFail: HelperFunctions().webServiceDefaultFail);
+            print("id=\(self.userId)&session_token=\(self.sessionToken!)");
+            
+            HelperFunctions().callWebService("selectable-runs", params: "id=\(self.userId)&session_token=\(self.sessionToken!)", callbackSuccess: showRuns, callbackFail: HelperFunctions().webServiceDefaultFail);
         } else {
             // Just show local runs
             showRuns(nil);
@@ -284,13 +286,13 @@ class RunSelectorViewControllerSwift: UIViewController {
         }
         
         // Post new locked run to server
-        HelperFunctions().callWebService("lock-run", params: "user_id=\(self.userId)&session_token=\(self.sessionToken)&active_run_id=\(runId)", callbackSuccess: callback, callbackFail: HelperFunctions().webServiceDefaultFail);
+        HelperFunctions().callWebService("lock-run", params: "user_id=\(self.userId)&session_token=\(self.sessionToken!)&active_run_id=\(runId)", callbackSuccess: callback, callbackFail: HelperFunctions().webServiceDefaultFail);
     }
     
     func itemKilled(timedOut: Bool) {
         if (timedOut) {
             // Get new item
-            HelperFunctions().callWebService("selectable-runs", params: "id=\(self.userId)&session_token=\(self.sessionToken)", callbackSuccess: rearrangeItems, callbackFail: HelperFunctions().webServiceDefaultFail);
+            HelperFunctions().callWebService("selectable-runs", params: "id=\(self.userId)&session_token=\(self.sessionToken!)", callbackSuccess: rearrangeItems, callbackFail: HelperFunctions().webServiceDefaultFail);
         }
     }
     
@@ -373,7 +375,7 @@ class RunSelectorViewControllerSwift: UIViewController {
                 run_locations += "&la[]=\(latitude)&lo[]=\(longitude)&ho[]=\(horizontalAccuracy)&ve[]=\(verticalAccuracy)&al[]=\(altitude)&sp[]=\(speed)&ti[]=\(timestamp))";
             }
             
-            var params: String = "user_id=\(self.userId)&session_token=\(self.sessionToken)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
+            var params: String = "user_id=\(self.userId)&session_token=\(self.sessionToken!)&max_speed=\(maxSpeed)&min_altitude=\(minAltitude)&max_altitude=\(maxAltitude)&avg_speed=\(avgSpeed)&distance=\(distance)&duration=\(duration)\(run_locations)";
             var webService: String = "post-free-run";
             if (runTypeId != 0) {
                 webService = "post-run";
