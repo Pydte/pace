@@ -327,7 +327,6 @@ class HistoryTableViewControllerSwift: UITableViewController {
     }
 
     func refreshSuccess(data: AnyObject?) {
-        println(data);
         //Extract data into db
         let dic: NSDictionary = data as NSDictionary;
         let runs: NSArray = dic.objectForKey("runs") as NSArray;

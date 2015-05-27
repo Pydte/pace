@@ -49,6 +49,12 @@ class RunSelectorViewControllerSwift: UIViewController {
         let queryId = db.query("SELECT loggedInUserId, loggedInSessionToken FROM settings");
         self.userId = queryId[0]["loggedInUserId"]!.asInt();
         self.sessionToken = queryId[0]["loggedInSessionToken"]!.asString();
+        
+        
+        
+        
+        // Focus TEST
+        
     }
     
     func loadRunSelector() {
@@ -97,8 +103,6 @@ class RunSelectorViewControllerSwift: UIViewController {
             lblLoadingText.text = "Fetching available runs..";
             lblLoadingText.hidden = false;
             idcLoading.startAnimating();
-            
-            print("id=\(self.userId)&session_token=\(self.sessionToken!)");
             
             HelperFunctions().callWebService("selectable-runs", params: "id=\(self.userId)&session_token=\(self.sessionToken!)", callbackSuccess: showRuns, callbackFail: HelperFunctions().webServiceDefaultFail);
         } else {
