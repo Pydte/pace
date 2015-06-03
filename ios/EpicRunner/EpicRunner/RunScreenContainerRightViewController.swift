@@ -141,15 +141,18 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                 //container!.runPointsAnno.append(mkPointAnno);
                 self.mapView.addAnnotation(mkPointAnno);
             }
-            
+
             for (var j=startIndex; j<endIndex; j++) {
                 let location: CLLocation = self.container!.finishedRun!.locations[j];
                 pointsCoordinate.append(CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude));
             }
-            
-            let polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: endIndex-startIndex);
+
+            //FAILS ON ARCHIVE - IF "C" IS NOT STATIC INT??
+            let c: Int = 5; //endIndex-startIndex;
+            var polyline: MKPolyline = MKPolyline(coordinates: &pointsCoordinate, count: c);
             polyline.title = "\(self.container!.intPassed[i])";
             self.mapView.addOverlay(polyline);
+            
         }
         // Draw route, if not interval run
         if (container!.intLocNumAtIntEnd.count == 0) {
@@ -211,7 +214,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
             return nil;
         }
     }
-    
+
     func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
         // Make dot not selectable
         userLocation.title = "";
@@ -233,7 +236,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                 
                 let defaultConfigObject: NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
                 let defaultSession: NSURLSession = NSURLSession(configuration: defaultConfigObject, delegate: nil, delegateQueue: NSOperationQueue.mainQueue());
-                
+
                 let url: NSURL = NSURL(string: "http://marci.dk/epicrunner/locping.php")!;
                 let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url);
                 let coord = userLocation.location.coordinate;
@@ -249,7 +252,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                         
                         var error: NSError?
                         let dic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as NSDictionary;
-                        
+
                         let player2lat: Double = dic.objectForKey("lat")!.doubleValue;
                         let player2lon: Double = dic.objectForKey("lon")!.doubleValue;
                         let p2: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: player2lat, longitude: player2lon);

@@ -11,7 +11,6 @@
 		7208EF881AA0B84C0002BB95 /* README_SwiftyJSON.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */; };
 		72093E8C1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72093E8B1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift */; };
 		720CE24919112BA900D1FA43 /* player2_dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 720CE24819112BA900D1FA43 /* player2_dot.png */; };
-		720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */ = {isa = PBXBuildFile; fileRef = 720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */; };
 		7215A81A19FA77B20041751B /* RunScreenContainerRightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */; };
 		7215A81F19FAB69C0041751B /* RunScreenContainerLeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */; };
 		721AF6C519755AB20084E0D1 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721AF6C419755AB20084E0D1 /* Run.swift */; };
@@ -75,7 +74,6 @@
 		72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */; };
 		72DF246B197BC7C400F9A96B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF246A197BC7C400F9A96B /* AppDelegate.swift */; };
 		72DF246E197BCAE600F9A96B /* README_SQLiteDB.txt in Resources */ = {isa = PBXBuildFile; fileRef = 72DF246D197BCAE600F9A96B /* README_SQLiteDB.txt */; };
-		72DF2470197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old in Sources */ = {isa = PBXBuildFile; fileRef = 72DF246F197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old */; };
 		72E328661A161C5E0075E2DC /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E328651A161C5E0075E2DC /* SQLiteDB.swift */; };
 		72F1EBF419BE0CC800DB0DE1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F1EBF319BE0CC800DB0DE1 /* LoginViewController.swift */; };
 		72F1EBF619BE1D1600DB0DE1 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F1EBF519BE1D1600DB0DE1 /* SignUpViewController.swift */; };
@@ -110,8 +108,6 @@
 		7208EF871AA0B84C0002BB95 /* README_SwiftyJSON.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SwiftyJSON.txt; sourceTree = "<group>"; };
 		72093E8B1AB0B1F100937E78 /* RunScreenContainerCertificateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerCertificateViewController.swift; sourceTree = "<group>"; };
 		720CE24819112BA900D1FA43 /* player2_dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player2_dot.png; sourceTree = "<group>"; };
-		720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.h.old; sourceTree = "<group>"; };
-		720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OnePLocationRunViewController.m.old; sourceTree = "<group>"; };
 		7215A81919FA77B20041751B /* RunScreenContainerRightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerRightViewController.swift; sourceTree = "<group>"; };
 		7215A81E19FAB69C0041751B /* RunScreenContainerLeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunScreenContainerLeftViewController.swift; sourceTree = "<group>"; };
 		721AF6C319755AB20084E0D1 /* EpicRunner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EpicRunner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -180,7 +176,6 @@
 		72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		72DF246A197BC7C400F9A96B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		72DF246D197BCAE600F9A96B /* README_SQLiteDB.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_SQLiteDB.txt; sourceTree = "<group>"; };
-		72DF246F197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SQLiteDB.old.swift.h.old; sourceTree = "<group>"; };
 		72E328651A161C5E0075E2DC /* SQLiteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
 		72F1EBF319BE0CC800DB0DE1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		72F1EBF519BE1D1600DB0DE1 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -364,8 +359,6 @@
 				7244D50E197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift */,
 				72DF2439197BC45B00F9A96B /* MainScreenViewController.swift */,
 				7244D50A197BF6700034D91F /* DemoSelectorViewControllerSwift.swift */,
-				720CE24A1923BC0F00D1FA43 /* OnePLocationRunViewController.h.old */,
-				720CE24B1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old */,
 				7244D50C197BF6860034D91F /* OnePLocationRunViewControllerSwift.swift */,
 				72F1EBF319BE0CC800DB0DE1 /* LoginViewController.swift */,
 				72C8D9051A7BB0B700DADD2A /* CustomLoginViewController.swift */,
@@ -386,7 +379,6 @@
 		72DF246C197BCAB900F9A96B /* SQLiteDB */ = {
 			isa = PBXGroup;
 			children = (
-				72DF246F197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old */,
 				72DF246D197BCAE600F9A96B /* README_SQLiteDB.txt */,
 				72E328651A161C5E0075E2DC /* SQLiteDB.swift */,
 				72A5816D1A1D0CA700FC6926 /* String-Extras.swift */,
@@ -521,14 +513,12 @@
 				721AF6C519755AB20084E0D1 /* Run.swift in Sources */,
 				72A79B7D19813BD80054ADC0 /* RunScreenViewController.swift in Sources */,
 				726236211A8E058F0045ABAB /* TestViewController.swift in Sources */,
-				720CE24C1923BC0F00D1FA43 /* OnePLocationRunViewController.m.old in Sources */,
 				72F1EBF419BE0CC800DB0DE1 /* LoginViewController.swift in Sources */,
 				7244D50F197BF6D10034D91F /* RunFinishedSummaryViewControllerSwift.swift in Sources */,
 				729FE79F1A600BCB00833747 /* RunScreenContainerIntervalViewController.swift in Sources */,
 				72AA3A3419D9C9E300179DA8 /* HelperFunctions.swift in Sources */,
 				72DF243A197BC45B00F9A96B /* MainScreenViewController.swift in Sources */,
 				72A5816E1A1D0CA700FC6926 /* String-Extras.swift in Sources */,
-				72DF2470197BCB4B00F9A96B /* SQLiteDB.old.swift.h.old in Sources */,
 				72CD37BD19C768520049AD4E /* SWRevealViewController.m in Sources */,
 				7215A81F19FAB69C0041751B /* RunScreenContainerLeftViewController.swift in Sources */,
 				72DF246B197BC7C400F9A96B /* AppDelegate.swift in Sources */,
