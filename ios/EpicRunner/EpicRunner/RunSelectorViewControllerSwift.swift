@@ -122,7 +122,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         //        }
         if let dic: NSDictionary = data as? NSDictionary {
             // Extract runs from webservice into database
-            let runs: NSArray = dic.objectForKey("runs") as NSArray;
+            let runs: NSArray = dic.objectForKey("runs") as! NSArray;
             self.extractRunsIntoDb(runs);
         }
         
@@ -206,7 +206,7 @@ class RunSelectorViewControllerSwift: UIViewController {
     
     func lockRun(runId: Int) {
         func callback(data: AnyObject) {
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             
             // If succeeds: Delete current locked run & Set run to locked
             self.db.execute("DELETE FROM active_runs WHERE userId=\(self.userId) AND locked=1;");
@@ -302,8 +302,8 @@ class RunSelectorViewControllerSwift: UIViewController {
     
     func rearrangeItems(data: AnyObject) {
         // Extract runs from webservice into database
-        let dic: NSDictionary = data as NSDictionary;
-        let runs: NSArray = dic.objectForKey("runs") as NSArray;
+        let dic: NSDictionary = data as! NSDictionary;
+        let runs: NSArray = dic.objectForKey("runs") as! NSArray;
         self.extractRunsIntoDb(runs);
         
         // On success:
@@ -336,7 +336,7 @@ class RunSelectorViewControllerSwift: UIViewController {
     func syncAllRuns() {
         func syncAllRunsSuccess(data: AnyObject) {
             // Update realRunId, synced
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let realRunId: Int = dic.objectForKey("posted_id")!.integerValue;
             self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.runId)");
             
@@ -458,7 +458,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         // Pass the selected object to the new view controller.
         
         if (segue.identifier == "segueDetailView") {
-            var destCtrl: MissionDVViewController = segue.destinationViewController as MissionDVViewController;
+            var destCtrl: MissionDVViewController = segue.destinationViewController as! MissionDVViewController;
             destCtrl.selectedRunId = self.selectedRunId;
         }
     }
@@ -469,7 +469,7 @@ class RunSelectorViewControllerSwift: UIViewController {
         let level: Int = queryAccess[0]["loggedInLevel"]!.asInt();
         if (level == 0) {
             println("No access, you should at least be level 1!");
-            var noAccessController: UIViewController = self.storyboard?.instantiateViewControllerWithIdentifier("noAccess") as UIViewController;
+            var noAccessController: UIViewController = self.storyboard?.instantiateViewControllerWithIdentifier("noAccess") as! UIViewController;
             self.addChildViewController(noAccessController);
             self.view.addSubview(noAccessController.view);
         } else {

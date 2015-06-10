@@ -29,7 +29,7 @@ class CustomLoginViewController: UIViewController {
     @IBAction func loginTouched(sender: AnyObject) {
         func callbackSuccess(data: AnyObject) {
             println("Sign in successful");
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let id: Int = dic.objectForKey("id")!.integerValue;
             
             //Save userID in database

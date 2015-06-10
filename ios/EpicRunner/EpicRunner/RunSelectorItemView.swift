@@ -113,7 +113,7 @@ class RunSelectorItemView: UIView {
             alert.show();
         } else {
             // On touch open detail view
-            let h = superview!.nextResponder() as RunSelectorViewControllerSwift;
+            let h = superview!.nextResponder() as! RunSelectorViewControllerSwift;
             h.selectedRunId = self.runId;
             h.performSegueWithIdentifier("segueDetailView", sender: self);
         }
@@ -279,7 +279,7 @@ class RunSelectorItemView: UIView {
             );
             
             // Let the controller know that i'm out
-            let h = superview!.nextResponder() as RunSelectorViewControllerSwift;
+            let h = superview!.nextResponder() as! RunSelectorViewControllerSwift;
             h.lockRun(self.runId);
         }
     }
@@ -297,7 +297,7 @@ class RunSelectorItemView: UIView {
             self.tickTimer = nil;
             
             // Let the controller know that i'm out
-            let h = superview!.nextResponder() as RunSelectorViewControllerSwift;
+            let h = superview!.nextResponder() as! RunSelectorViewControllerSwift;
             h.itemKilled(timedOut);
             
             // Commit suicide

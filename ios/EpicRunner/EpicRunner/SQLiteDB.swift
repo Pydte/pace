@@ -33,11 +33,11 @@ let SQLITE_DATE = SQLITE_NULL + 1
 				return "\(value!)"
 				
 			case SQLITE_TEXT:
-				return value as String
+				return value as! String
 				
 			case SQLITE_BLOB:
-				if let str = NSString(data:value as NSData, encoding:NSUTF8StringEncoding) {
-					return str
+				if let str = NSString(data:value as! NSData, encoding:NSUTF8StringEncoding) {
+					return str as String
 				} else {
 					return ""
 				}
@@ -48,7 +48,7 @@ let SQLITE_DATE = SQLITE_NULL + 1
 			case SQLITE_DATE:
 				let fmt = NSDateFormatter()
 				fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
-				return fmt.stringFromDate(value as NSDate)
+				return fmt.stringFromDate(value as! NSDate)
 				
 			default:
 				return ""
@@ -58,14 +58,14 @@ let SQLITE_DATE = SQLITE_NULL + 1
 	func asInt()->Int {
 		switch (type) {
 			case SQLITE_INTEGER, SQLITE_FLOAT:
-				return value as Int
+				return value as! Int
 				
 			case SQLITE_TEXT:
-				let str = value as NSString
+				let str = value as! NSString
 				return str.integerValue
 				
 			case SQLITE_BLOB:
-				if let str = NSString(data:value as NSData, encoding:NSUTF8StringEncoding) {
+				if let str = NSString(data:value as! NSData, encoding:NSUTF8StringEncoding) {
 					return str.integerValue
 				} else {
 					return 0
@@ -75,7 +75,7 @@ let SQLITE_DATE = SQLITE_NULL + 1
 				return 0
 				
 			case SQLITE_DATE:
-				return Int((value as NSDate).timeIntervalSince1970)
+				return Int((value as! NSDate).timeIntervalSince1970)
 				
 			default:
 				return 0
@@ -85,14 +85,14 @@ let SQLITE_DATE = SQLITE_NULL + 1
 	func asDouble()->Double {
 		switch (type) {
 			case SQLITE_INTEGER, SQLITE_FLOAT:
-				return value as Double
+				return value as! Double
 			
 			case SQLITE_TEXT:
-				let str = value as NSString
+				let str = value as! NSString
 				return str.doubleValue
 			
 			case SQLITE_BLOB:
-				if let str = NSString(data:value as NSData, encoding:NSUTF8StringEncoding) {
+				if let str = NSString(data:value as! NSData, encoding:NSUTF8StringEncoding) {
 					return str.doubleValue
 				} else {
 					return 0.0
@@ -102,7 +102,7 @@ let SQLITE_DATE = SQLITE_NULL + 1
 				return 0.0
 			
 			case SQLITE_DATE:
-				return (value as NSDate).timeIntervalSince1970
+				return (value as! NSDate).timeIntervalSince1970
 			
 			default:
 				return 0.0
@@ -116,7 +116,7 @@ let SQLITE_DATE = SQLITE_NULL + 1
 				return str.dataUsingEncoding(NSUTF8StringEncoding)
 			
 			case SQLITE_TEXT:
-				let str = value as NSString
+				let str = value as! NSString
 				return str.dataUsingEncoding(NSUTF8StringEncoding)
 			
 			case SQLITE_BLOB:
@@ -128,7 +128,7 @@ let SQLITE_DATE = SQLITE_NULL + 1
 			case SQLITE_DATE:
 				let fmt = NSDateFormatter()
 				fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
-				let str = fmt.stringFromDate(value as NSDate)
+				let str = fmt.stringFromDate(value as! NSDate)
 				return str.dataUsingEncoding(NSUTF8StringEncoding)
 			
 			default:
@@ -139,19 +139,19 @@ let SQLITE_DATE = SQLITE_NULL + 1
 	func asDate()->NSDate? {
 		switch (type) {
 			case SQLITE_INTEGER, SQLITE_FLOAT:
-				let tm = value as Double
+				let tm = value as! Double
 				return NSDate(timeIntervalSince1970:tm)
 			
 			case SQLITE_TEXT:
 				let fmt = NSDateFormatter()
 				fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
-				return fmt.dateFromString(value as String)
+				return fmt.dateFromString(value as! String)
 			
 			case SQLITE_BLOB:
-				if let str = NSString(data:value as NSData, encoding:NSUTF8StringEncoding) {
+				if let str = NSString(data:value as! NSData, encoding:NSUTF8StringEncoding) {
 					let fmt = NSDateFormatter()
 					fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
-					return fmt.dateFromString(str)
+					return fmt.dateFromString(str as! String)
 				} else {
 					return nil
 				}
@@ -384,26 +384,26 @@ let SQLITE_DATE = SQLITE_NULL + 1
 //				println("Binding: \(params![ndx-1]) at Index: \(ndx)")
 				// Check for data types
 				if params![ndx-1] is String {
-					let txt = params![ndx-1] as String
+					let txt = params![ndx-1] as! String
 					flag = sqlite3_bind_text(stmt, CInt(ndx), txt, -1, transient)
 				} else if params![ndx-1] is NSData {
-					let data = params![ndx-1] as NSData
+					let data = params![ndx-1] as! NSData
 					flag = sqlite3_bind_blob(stmt, CInt(ndx), data.bytes, -1, nil)
 				} else if params![ndx-1] is NSDate {
-					let date = params![ndx-1] as NSDate
+					let date = params![ndx-1] as! NSDate
 					let txt = fmt.stringFromDate(date)
 					flag = sqlite3_bind_text(stmt, CInt(ndx), txt, -1, transient)
 				} else if params![ndx-1] is Int {
 					// Is this an integer or float
-					let vfl = params![ndx-1] as Double
+					let vfl = params![ndx-1] as! Double
 					let vint = Double(Int(vfl))
 					if vfl == vint {
 						// Integer
-						let val = params![ndx-1] as Int
+						let val = params![ndx-1] as! Int
 						flag = sqlite3_bind_int(stmt, CInt(ndx), CInt(val))
 					} else {
 						// Float
-						let val = params![ndx-1] as Double
+						let val = params![ndx-1] as! Double
 						flag = sqlite3_bind_double(stmt, CInt(ndx), CDouble(val))
 					}
 				}

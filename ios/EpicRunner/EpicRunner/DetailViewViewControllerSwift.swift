@@ -71,7 +71,7 @@ class DetailViewViewControllerSwift: UIViewController {
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if (overlay.isKindOfClass(MKPolyline)){
-            let route: MKPolyline = overlay as MKPolyline;
+            let route: MKPolyline = overlay as! MKPolyline;
             var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
             routeRenderer.strokeColor = UIColor.blueColor();
             return routeRenderer;
@@ -83,7 +83,7 @@ class DetailViewViewControllerSwift: UIViewController {
     func loadRouteData() {
         func callbackSuccess(data: AnyObject?) {
             //Extract data into db
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let runs: NSArray = dic.objectForKey("runs") as NSArray;
             
             for run in runs {
@@ -153,7 +153,7 @@ class DetailViewViewControllerSwift: UIViewController {
         var dateFormatter: NSDateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "MMM. dd, yyyy, HH:mm";
         self.lblDate.text = dateFormatter.stringFromDate(self.selectedRun!.start!);
-        self.lblDistance.text = NSString(format: "%.2f", self.selectedRun!.distance/1000);
+        self.lblDistance.text = NSString(format: "%.2f", self.selectedRun!.distance/1000) as String;
         self.lblRun.text = HelperFunctions().runHeadline[self.selectedRun!.runTypeId];
         self.imgMedal.image = UIImage(named: "medal_\(HelperFunctions().runMedal[self.selectedRun!.medal])");
         
@@ -193,11 +193,11 @@ class DetailViewViewControllerSwift: UIViewController {
         
         // Convert avg. speed from m/s to min/km
         avgSpeed = 16.66666666666667/avgSpeed;
-        self.lblAvgSpeed.text = NSString(format: "%.2f", avgSpeed);
+        self.lblAvgSpeed.text = NSString(format: "%.2f", avgSpeed) as String;
         
         // Set altitude
-        self.lblMinAltitude.text = NSString(format: "%.0f", minAltitude);
-        self.lblMaxAltitude.text = NSString(format: "%.0f", maxAltitude);
+        self.lblMinAltitude.text = NSString(format: "%.0f", minAltitude) as String;
+        self.lblMaxAltitude.text = NSString(format: "%.0f", maxAltitude) as String;
     }
     
     func drawRoute() {

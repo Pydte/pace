@@ -108,8 +108,8 @@ class HistoryTableViewControllerSwift: UITableViewController {
     
     func loadMoreSuccess(data: AnyObject?) {
         //Extract data into db
-        let dic: NSDictionary = data as NSDictionary;
-        let runs: NSArray = dic.objectForKey("runs") as NSArray;
+        let dic: NSDictionary = data as! NSDictionary;
+        let runs: NSArray = dic.objectForKey("runs") as! NSArray;
         extractRunsIntoDb(runs);
         
         let numOfRuns = self.runs.count;
@@ -140,7 +140,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("HistoryPrototypeCell", forIndexPath: indexPath) as UITableViewCell;
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("HistoryPrototypeCell", forIndexPath: indexPath) as! UITableViewCell;
         
         
         //// Load more automatically - Not used
@@ -233,7 +233,7 @@ class HistoryTableViewControllerSwift: UITableViewController {
             let selectedRowIndexPath = myTableView?.indexPathForSelectedRow();
             let run: Run = self.runs[selectedRowIndexPath!.row];
             
-            var detailViewViewController: DetailViewViewControllerSwift = segue.destinationViewController as DetailViewViewControllerSwift;
+            var detailViewViewController: DetailViewViewControllerSwift = segue.destinationViewController as! DetailViewViewControllerSwift;
             detailViewViewController.selectedRun = run;
             
             self.selectedIndex = selectedRowIndexPath!.row;
@@ -328,8 +328,8 @@ class HistoryTableViewControllerSwift: UITableViewController {
 
     func refreshSuccess(data: AnyObject?) {
         //Extract data into db
-        let dic: NSDictionary = data as NSDictionary;
-        let runs: NSArray = dic.objectForKey("runs") as NSArray;
+        let dic: NSDictionary = data as! NSDictionary;
+        let runs: NSArray = dic.objectForKey("runs") as! NSArray;
         extractRunsIntoDb(runs);
         
         //Retrieve runs from db

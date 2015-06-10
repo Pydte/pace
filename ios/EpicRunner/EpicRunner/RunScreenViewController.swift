@@ -112,7 +112,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
     
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!)  {
-        let userLocation: CLLocation = locations[0] as CLLocation;
+        let userLocation: CLLocation = locations[0] as! CLLocation;
         let isInBackground: Bool = UIApplication.sharedApplication().applicationState == UIApplicationState.Background;
         
         if (!isInBackground) {
@@ -224,7 +224,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 self.locRunPointBReached = true;
                 
                 // Update map anno & Container
-                self.locRunNextPointAnno.setCoordinate(self.locRunPointA!);
+                self.locRunNextPointAnno.coordinate = self.locRunPointA!;
                 self.runScreenContainerViewController!.locRunNextPointAnno = self.locRunNextPointAnno;
                 
                 // Update current objective
@@ -583,7 +583,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 //tickContainer-Everything-Else:
                 
                 // Update distance
-                self.runScreenContainerViewController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000);
+                self.runScreenContainerViewController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000) as String;
                 
                 // Update time
                 let runTimeInSeconds: NSNumber = NSDate().timeIntervalSinceDate(self.currentRun!.start!);
@@ -599,7 +599,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                     let speedInt: Int = Int(speed);
                     let speedDec = Int((speed-Double(speedInt))*60);
                     
-                    self.runScreenContainerViewController!.lblSpeed.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+                    self.runScreenContainerViewController!.lblSpeed.text = "\(speedInt):" + (NSString(format: "%.2d", speedDec) as String);
                 }
                 
                 // Update medal
@@ -638,7 +638,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             let speedInt: Int = Int(targetSpeed);
             let speedDec = Int((targetSpeed-Double(speedInt))*60);
             
-            self.runScreenContainerViewController!.intController!.lblTargetPace.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+            self.runScreenContainerViewController!.intController!.lblTargetPace.text = "\(speedInt):" + (NSString(format: "%.2d", speedDec) as String);
             
             // Update Current pace & obj
             if (self.currentRun!.locations.count > 0) {
@@ -651,7 +651,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 let speedInt: Int = Int(speed);
                 let speedDec = Int((speed-Double(speedInt))*60);
                 
-                self.runScreenContainerViewController!.intController!.lblCurrentPace.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+                self.runScreenContainerViewController!.intController!.lblCurrentPace.text = "\(speedInt):" + (NSString(format: "%.2d", speedDec) as String);
                 
                 // Set color and specify current obj
                 if (self.intSprintMode) {
@@ -704,10 +704,10 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             var timeRemaining: Int = Int(self.cerEndDate.timeIntervalSinceDate(NSDate()));
             
             // Update time left
-            self.runScreenContainerViewController!.cerController!.lblTimeLeft.text = NSString(format: "%02d:", timeRemaining/60) + NSString(format: "%02d", timeRemaining%60);
+            self.runScreenContainerViewController!.cerController!.lblTimeLeft.text = NSString(format: "%02d:", timeRemaining/60) as! String + (NSString(format: "%02d", timeRemaining%60) as! String);
             
             // Update distance
-            self.runScreenContainerViewController!.cerController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000);
+            self.runScreenContainerViewController!.cerController!.lblDistance.text = NSString(format: "%.2f km", self.totalDistance/1000) as String;
             
             // Update points captured
             var pointsCaptured: Int = self.totalNumOfPoints-self.runPoints.count;
@@ -728,7 +728,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
                 let speedInt: Int = Int(speed);
                 let speedDec = Int((speed-Double(speedInt))*60);
                 
-                self.runScreenContainerViewController!.cerController!.lblSpeed.text = "\(speedInt):" + NSString(format: "%.2d", speedDec);
+                self.runScreenContainerViewController!.cerController!.lblSpeed.text = "\(speedInt):" + (NSString(format: "%.2d", speedDec) as! String);
             }
             
         }
@@ -809,7 +809,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         if (!self.currentRun!.aborted) {
             // Medal modal
             if (self.currentMedalInt > 0) {
-                let modalMedal = self.storyboard?.instantiateViewControllerWithIdentifier("modalMedal") as modalMedalViewController;
+                let modalMedal = self.storyboard?.instantiateViewControllerWithIdentifier("modalMedal") as! modalMedalViewController;
                 modalMedal.runTimeInSeconds = self.currentRun!.end!.timeIntervalSinceDate(self.currentRun!.start!);
                 modalMedal.wonMedal = self.currentMedalInt;
                 self.modals.append(modalMedal);
@@ -817,7 +817,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             
             // Certificate modal
             if (self.currentRun!.runTypeId == 4) {
-                let modalCertificate = self.storyboard?.instantiateViewControllerWithIdentifier("modalCertificate") as UIViewController;
+                let modalCertificate = self.storyboard?.instantiateViewControllerWithIdentifier("modalCertificate") as! UIViewController;
                 self.modals.append(modalCertificate);
             }
         }
@@ -905,7 +905,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
             println("Upload successful");
             
             // Update realRunId, synced
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let realRunId: Int = dic.objectForKey("posted_id")!.integerValue;
             self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.runId)");
             
@@ -960,7 +960,7 @@ class RunScreenViewController: UIViewController, CLLocationManagerDelegate, UIGe
         // Pass the selected object to the new view controller.
         if (segue.identifier != nil) {
             if (segue.identifier == "SegueRunFinished") {
-                var runFinishedSummaryViewController: RunFinishedSummaryViewControllerSwift = segue.destinationViewController as RunFinishedSummaryViewControllerSwift;
+                var runFinishedSummaryViewController: RunFinishedSummaryViewControllerSwift = segue.destinationViewController as! RunFinishedSummaryViewControllerSwift;
                 runFinishedSummaryViewController.finishedRun = self.currentRun;
             }
             if (segue.identifier == "toContainer") {

@@ -47,7 +47,7 @@ class modalMedalViewController: UIViewController {
     }
     
     @IBAction func btnDismissedClicked(sender: AnyObject) {
-        var rs: RunScreenViewController = self.parentViewController! as RunScreenViewController;
+        var rs: RunScreenViewController = self.parentViewController! as! RunScreenViewController;
         rs.nextModal();
     }
 

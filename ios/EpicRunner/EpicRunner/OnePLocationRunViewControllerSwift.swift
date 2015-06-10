@@ -61,7 +61,7 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
     
     // #pragma mark - Navigation
     override func shouldPerformSegueWithIdentifier(identifier: String!, sender: AnyObject!) -> Bool {
-        if(identifier? == "SegueStartRun") {
+        if(identifier == "SegueStartRun") {
             if (!self.endPosAuto) {
                 // There should be a point chosen, otherwise abort
                 if (self.location == nil) {
@@ -97,8 +97,8 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        if(segue.identifier? == "SegueStartRun") {
-            var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+        if(segue.identifier == "SegueStartRun") {
+            var runScreenViewController: RunScreenViewController = segue.destinationViewController as! RunScreenViewController;
             runScreenViewController.autoroute1 = true;
             runScreenViewController.onePointLocationRunDistance = (self.approxDistField.text as NSString).doubleValue * 1000.0;
             
@@ -123,7 +123,7 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
         var point: MKPointAnnotation = MKPointAnnotation();
         point.coordinate = touchMapCoordinate;
         for annotation in self.mapView.annotations {
-            self.mapView.removeAnnotation(annotation as MKAnnotation);
+            self.mapView.removeAnnotation(annotation as! MKAnnotation);
         }
         
         
@@ -146,7 +146,7 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
                 println("Error \(error.description)");
             } else {
                 // Take the last MKRoute object
-                let route: MKRoute = response.routes[response.routes.count-1] as MKRoute;
+                let route: MKRoute = response.routes[response.routes.count-1] as! MKRoute;
                 let pointCount: Int = route.polyline.pointCount;
                 
                 // Allocate a array to hold 1 points/coordinates
@@ -162,7 +162,7 @@ class OnePLocationRunViewControllerSwift: UIViewController, MKMapViewDelegate {
                 self.mapView.addAnnotation(point);
                 
                 // Set distance
-                self.approxDistField.text = NSString(format: "%.2f", route.distance/1000.0);
+                self.approxDistField.text = NSString(format: "%.2f", route.distance/1000.0) as String;
             }
             self.LoadingIcon_endPos.stopAnimating();
         });

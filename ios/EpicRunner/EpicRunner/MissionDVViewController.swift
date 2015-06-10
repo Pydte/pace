@@ -57,7 +57,7 @@ class MissionDVViewController: UIViewController {
         }
         
         // Set distance
-        lblDistance.text = "Distance: " + NSString(format: "%.2f km", self.distance);
+        lblDistance.text = "Distance: " + (NSString(format: "%.2f km", self.distance) as String);
         
         // Set description
         lblDescription.text = HelperFunctions().runDescription[self.selectedRunTypeId];
@@ -134,7 +134,7 @@ class MissionDVViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "SegueGenerateRun") {
-            var generateRunViewController: GenerateRunViewController = segue.destinationViewController as GenerateRunViewController;
+            var generateRunViewController: GenerateRunViewController = segue.destinationViewController as! GenerateRunViewController;
             generateRunViewController.runId = self.selectedRunId;
             generateRunViewController.runTypeId = self.selectedRunTypeId;
             generateRunViewController.locRunDistance = self.distance*1000;

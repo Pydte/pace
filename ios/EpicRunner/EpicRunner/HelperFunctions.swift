@@ -68,10 +68,10 @@ class HelperFunctions {
                         let err: AnyObject? = dic!.objectForKey("errors");
                         var errStr: String = "No error description provided.";
                         if (err != nil) {
-                            errStr = (err as NSArray)[0] as String;
+                            errStr = (err as! NSArray)[0] as! String;
                         }
                         
-                        self.handleSharedMistakes(errStr, callbackFail); // Will call the callback function, if appropriet
+                        self.handleSharedMistakes(errStr, callbackFail: callbackFail); // Will call the callback function, if appropriet
                     }
                 } else {
                     println("The server did not respond with a valid response.");

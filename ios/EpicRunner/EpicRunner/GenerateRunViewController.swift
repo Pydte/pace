@@ -267,7 +267,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
                 }
             } else {
                 // Take the last MKRoute object
-                let route: MKRoute = response.routes[response.routes.count-1] as MKRoute;
+                let route: MKRoute = response.routes[response.routes.count-1] as! MKRoute;
                 let pointCount: Int = route.polyline.pointCount;
                 
                 // Allocate a array to hold 1 points/coordinates
@@ -365,7 +365,7 @@ class GenerateRunViewController: UIViewController, MKMapViewDelegate, CLLocation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         // General
-        let runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+        let runScreenViewController: RunScreenViewController = segue.destinationViewController as! RunScreenViewController;
         runScreenViewController.runId = self.runId;
         runScreenViewController.runTypeId = self.runTypeId;
         runScreenViewController.medalBronze = self.medalBronze;

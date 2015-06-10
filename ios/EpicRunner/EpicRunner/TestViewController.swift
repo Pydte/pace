@@ -50,7 +50,7 @@ class TestViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if (segue.identifier == "segueStartCalRun") {
-            var generateRunViewController: GenerateRunViewController = segue.destinationViewController as GenerateRunViewController;
+            var generateRunViewController: GenerateRunViewController = segue.destinationViewController as! GenerateRunViewController;
             //generateRunViewController.runId = 0;
             generateRunViewController.runTypeId = 4;
             generateRunViewController.locRunDistance = 3600;

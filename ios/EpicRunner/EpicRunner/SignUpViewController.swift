@@ -33,7 +33,7 @@ class SignUpViewController: UIViewController {
         func callbackSuccess(data: AnyObject) {
             println("Sign up successful");
             
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let id: Int = dic.objectForKey("id")!.integerValue;
             println("id: \(id)");
             
@@ -60,7 +60,7 @@ class SignUpViewController: UIViewController {
         //Format birth date
         let dateFormatter = NSDateFormatter();
         dateFormatter.dateFormat = "YYYY-MM-DD";
-        let birthDate = dateFormatter.dateFromString(NSString(format: "%@-%@-%@", txtDateYear.text, txtDateMonth.text, txtDateDay.text));
+        let birthDate = dateFormatter.dateFromString(NSString(format: "%@-%@-%@", txtDateYear.text, txtDateMonth.text, txtDateDay.text) as String);
         
         //Format gender
         var gender: String;

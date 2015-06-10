@@ -195,7 +195,7 @@ class RunScreenContainerViewController: UIViewController, UIGestureRecognizerDel
         
         // * Change speed to avg speed
         lblSpeedDesc.text = "Avg speed:";
-        lblSpeed.text = NSString(format: "%.2f", self.avgSpeed);
+        lblSpeed.text = NSString(format: "%.2f", self.avgSpeed) as String;
         
         // * Draw route on map
         self.rightController!.drawRoute();

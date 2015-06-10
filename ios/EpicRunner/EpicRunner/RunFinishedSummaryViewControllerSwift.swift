@@ -89,7 +89,7 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         dateFormatter.dateFormat = "MMM. dd, yyyy, HH:mm";
         self.lblDate.text = dateFormatter.stringFromDate(self.finishedRun!.start!);
         
-        self.lblDistance.text = NSString(format: "%.2f", self.finishedRun!.distance/1000);
+        self.lblDistance.text = NSString(format: "%.2f", self.finishedRun!.distance/1000) as String;
         
         let runTimeInSeconds: NSNumber = self.finishedRun!.end!.timeIntervalSinceDate(self.finishedRun!.start!);
         let runTimeInMinutes: Double = Double(runTimeInSeconds) / Double(60);
@@ -144,11 +144,11 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
         
         // Convert avg. speed from m/s to min/km
         avgSpeed = 16.66666666666667/avgSpeed;
-        self.lblAvgSpeed.text = NSString(format: "%.2f", avgSpeed);
+        self.lblAvgSpeed.text = NSString(format: "%.2f", avgSpeed) as String;
         
         // Set altitude
-        self.lblMinAltitude.text = NSString(format: "%.0f", minAltitude);
-        self.lblMaxAltitude.text = NSString(format: "%.0f", maxAltitude);
+        self.lblMinAltitude.text = NSString(format: "%.0f", minAltitude) as String;
+        self.lblMaxAltitude.text = NSString(format: "%.0f", maxAltitude) as String;
         
         // Find longest distance horizontal and vertical
         let locTopLeft: CLLocation    = CLLocation(latitude: latTop, longitude: lonLeft);
@@ -182,7 +182,7 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
             println("Upload successful");
             
             // Update realRunId, synced
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let realRunId: Int = dic.objectForKey("posted_id")!.integerValue;
             self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.runId)");
             
@@ -226,7 +226,7 @@ class RunFinishedSummaryViewControllerSwift: UIViewController {
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if (overlay.isKindOfClass(MKPolyline)){
-            let route: MKPolyline = overlay as MKPolyline;
+            let route: MKPolyline = overlay as! MKPolyline;
             var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
             routeRenderer.strokeColor = UIColor.blueColor();
             return routeRenderer;

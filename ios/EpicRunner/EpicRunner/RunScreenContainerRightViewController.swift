@@ -198,7 +198,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
     
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if (overlay.isKindOfClass(MKPolyline)){
-            let route: MKPolyline = overlay as MKPolyline;
+            let route: MKPolyline = overlay as! MKPolyline;
             var routeRenderer: MKPolylineRenderer = MKPolylineRenderer(polyline: route);
             
             routeRenderer.lineCap = kCGLineCapRound;
@@ -240,7 +240,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                 let url: NSURL = NSURL(string: "http://marci.dk/epicrunner/locping.php")!;
                 let urlRequest: NSMutableURLRequest = NSMutableURLRequest(URL: url);
                 let coord = userLocation.location.coordinate;
-                let params: String = NSString(format: "lat=%f&lon=%f", coord.latitude, coord.longitude);
+                let params: String = NSString(format: "lat=%f&lon=%f", coord.latitude, coord.longitude) as String;
                 urlRequest.HTTPMethod = "POST";
                 urlRequest.HTTPBody = params.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false);
                 
@@ -251,7 +251,7 @@ class RunScreenContainerRightViewController: UIViewController, MKMapViewDelegate
                         //println(text);
                         
                         var error: NSError?
-                        let dic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as NSDictionary;
+                        let dic: NSDictionary = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as! NSDictionary;
 
                         let player2lat: Double = dic.objectForKey("lat")!.doubleValue;
                         let player2lon: Double = dic.objectForKey("lon")!.doubleValue;

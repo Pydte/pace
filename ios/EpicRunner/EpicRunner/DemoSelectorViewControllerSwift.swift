@@ -42,11 +42,11 @@ class DemoSelectorViewControllerSwift: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         //Always show navigationBar
-        if(segue.identifier? == "SegueMultiplayer") {
-            var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+        if(segue.identifier == "SegueMultiplayer") {
+            var runScreenViewController: RunScreenViewController = segue.destinationViewController as! RunScreenViewController;
             runScreenViewController.multiplayer = true;
-        } else if (segue.identifier? == "Segue1AutoRoute") {
-            var runScreenViewController: RunScreenViewController = segue.destinationViewController as RunScreenViewController;
+        } else if (segue.identifier == "Segue1AutoRoute") {
+            var runScreenViewController: RunScreenViewController = segue.destinationViewController as! RunScreenViewController;
             runScreenViewController.autoroute1 = true;
             runScreenViewController.onePointLocationRunDistance = self.OnePointLocationRunDistance;
         }
@@ -59,7 +59,7 @@ class DemoSelectorViewControllerSwift: UIViewController {
         self.navigationController!.setNavigationBarHidden(false, animated:true);
         super.viewWillAppear(true);
         
-        if(segue.identifier? == "SegueStartRun") {
+        if(segue.identifier == "SegueStartRun") {
             //[self performSegueWithIdentifier:@"SegueTest" sender:self];
             //MapViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"ContactDetailViewController"];
             //Contact *contact = [self.contacts objectAtIndex:indexPath.row];

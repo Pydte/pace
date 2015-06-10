@@ -58,7 +58,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             let sessionToken2: String = json["session_token"].string!;
             println(sessionToken2);
             //print(data);
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let id = 11; //6=jr@pandisign.com, 11=marci@marci.dk
             //let id: Int = json["id"].intValue;
             let level: Int = json["level"].intValue;
@@ -92,7 +92,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
             self.doOnce = true;
             loginView.hidden = true;
             //Set email
-            self.email = user.objectForKey("email") as String;
+            self.email = user.objectForKey("email") as! String;
             //self.email = "jr@pandisign.dk";
             println("**setting email : \(self.email)**");
             

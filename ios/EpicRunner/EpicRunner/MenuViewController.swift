@@ -11,7 +11,7 @@ class SWUITableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        super.touchesBegan(touches, withEvent: event);
+        super.touchesBegan(touches as Set<NSObject>, withEvent: event);
         HelperFunctions().statAction("TouchedMenuItem", msg: self.accessibilityLabel)
     }
 }
@@ -69,11 +69,11 @@ class MenuViewController: UITableViewController {
         switch (indexPath.row)
         {
         case 0:
-            cell = (tableView.dequeueReusableCellWithIdentifier("Main") as SWUITableViewCell)
+            cell = (tableView.dequeueReusableCellWithIdentifier("Main") as! SWUITableViewCell)
             break;
             
         case 1:
-            cell = (tableView.dequeueReusableCellWithIdentifier("Run") as SWUITableViewCell)
+            cell = (tableView.dequeueReusableCellWithIdentifier("Run") as! SWUITableViewCell)
             println("mother fucking DOING IT?!");
             // If menu item is locked, show it
             if (loggedInLevel < 1) {
@@ -87,23 +87,23 @@ class MenuViewController: UITableViewController {
             break;
             
         case 2:
-            cell = (tableView.dequeueReusableCellWithIdentifier("History") as SWUITableViewCell)
+            cell = (tableView.dequeueReusableCellWithIdentifier("History") as! SWUITableViewCell)
             break;
             
         case 3:
-            cell = (tableView.dequeueReusableCellWithIdentifier("Community") as SWUITableViewCell)
+            cell = (tableView.dequeueReusableCellWithIdentifier("Community") as! SWUITableViewCell)
             break;
             
         case 4:
-            cell = (tableView.dequeueReusableCellWithIdentifier("Shop") as SWUITableViewCell)
+            cell = (tableView.dequeueReusableCellWithIdentifier("Shop") as! SWUITableViewCell)
             break;
             
         case 5:
-            cell = (tableView.dequeueReusableCellWithIdentifier("Settings") as SWUITableViewCell)
+            cell = (tableView.dequeueReusableCellWithIdentifier("Settings") as! SWUITableViewCell)
             break;
             
         case 6:
-            cell = (tableView.dequeueReusableCellWithIdentifier("Logout") as SWUITableViewCell)
+            cell = (tableView.dequeueReusableCellWithIdentifier("Logout") as! SWUITableViewCell)
             break;
         
         default:
