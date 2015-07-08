@@ -10,8 +10,8 @@ import UIKit
 class SWUITableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        super.touchesBegan(touches as Set<NSObject>, withEvent: event);
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        super.touchesBegan(touches, withEvent: event);
         HelperFunctions().statAction("TouchedMenuItem", msg: self.accessibilityLabel)
     }
 }

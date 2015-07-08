@@ -61,7 +61,7 @@ class Hardware {
     // 86_64    ==    Simulator
     func toString() -> String {
         var name: [Int32] = [CTL_HW, HW_MACHINE]
-        var size: UInt = 2
+        var size: Int = 2
         sysctl(&name, 2, nil, &size, &name, 0)
         var hw_machine = [CChar](count: Int(size), repeatedValue: 0)
         sysctl(&name, 2, &hw_machine, &size, &name, 0)

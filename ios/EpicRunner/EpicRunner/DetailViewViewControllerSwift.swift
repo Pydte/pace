@@ -84,7 +84,7 @@ class DetailViewViewControllerSwift: UIViewController {
         func callbackSuccess(data: AnyObject?) {
             //Extract data into db
             let dic: NSDictionary = data as! NSDictionary;
-            let runs: NSArray = dic.objectForKey("runs") as NSArray;
+            let runs: NSArray = dic.objectForKey("runs") as! NSArray;
             
             for run in runs {
                 let la: Double = run.objectForKey("la")!.doubleValue;
@@ -285,12 +285,12 @@ class DetailViewViewControllerSwift: UIViewController {
             println("Upload successful");
             
             // Update realRunId, synced
-            let dic: NSDictionary = data as NSDictionary;
+            let dic: NSDictionary = data as! NSDictionary;
             let realRunId: Int = dic.objectForKey("posted_id")!.integerValue;
             self.db.execute("UPDATE Runs SET realRunId=\(realRunId), synced=1 WHERE id=\(self.selectedRun!.dbId)");
             
             // Remove from active_runs (run selector) IF NOT free run AND Locked
-            if (self.selectedRun!.realRunId? != nil) {
+            if (self.selectedRun!.realRunId != nil) {
                 self.db.execute("DELETE FROM active_runs WHERE locked=1 AND runId=\(self.selectedRun!.realRunId!)");
             }
             
@@ -342,7 +342,7 @@ class DetailViewViewControllerSwift: UIViewController {
         // Delete run (LOCAL ONLY)
         if (segue.identifier == "unwindToHistory") {
             // Get reference to the destination view controller
-            let hvc: HistoryTableViewControllerSwift = segue.destinationViewController as HistoryTableViewControllerSwift;
+            let hvc: HistoryTableViewControllerSwift = segue.destinationViewController as! HistoryTableViewControllerSwift;
             
             // Tell history controller to delete run
             hvc.deleteRun();
