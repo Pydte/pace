@@ -1,2 +1,4 @@
 EpicRunner.xcodeproj/project.xcworkspace EpicRunner.xcodeproj/xcshareddata EpicRunner.xcodeproj/xcuserdata
 ios/EpicRunner/EpicRunner.xcodeproj/project.xcworkspace/xcuserdata/jeppe.xcuserdatad/UserInterfaceState.xcuserstate
+*.pyc
+*.swp

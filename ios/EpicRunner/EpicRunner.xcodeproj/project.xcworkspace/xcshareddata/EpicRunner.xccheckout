@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>647264BE-8740-4307-BDA1-673C6A5D049C</string>
 	<key>IDESourceControlProjectName</key>
-	<string>EpicRunner</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>FD0A40FDE7A8903938B6765937BF6C874E7F699E</key>
 		<string>https://github.com/pandisign/epicrunner.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ios/EpicRunner/EpicRunner.xcodeproj</string>
+	<string>ios/EpicRunner/EpicRunner.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>FD0A40FDE7A8903938B6765937BF6C874E7F699E</key>
