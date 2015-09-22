@@ -7,11 +7,12 @@ class ActionsResource(object):
     def on_get(self, req, resp):
         """Handles GET requests"""
         resp.status = falcon.HTTP_200
-        query = actions.select().where(actions.userid == 10)
-		for pet in query:
-	     	print pet.id, pet.ip
+        resp.body =	 test
+        #query = pw_actions.select().where(actions.userid == 10)
+        #for pet in query:
+        #    print pet.id, pet.ip
 
-        resp.body = 'Hello world!'
+        #resp.body = 'Hello world!'
  
     def on_post(self, req, resp):
         """Handles POST requests"""
@@ -42,4 +43,4 @@ wsgi = api = falcon.API()
 actions = ActionsResource()
  
 # things will handle all requests to the '/things' URL path
-api.add_route('/actions', things)
+api.add_route('/actions', actions)
