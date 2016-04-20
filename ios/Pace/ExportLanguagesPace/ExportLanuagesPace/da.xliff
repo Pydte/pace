@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file original="Pace/Base.lproj/LaunchScreen.storyboard" source-language="en" datatype="plaintext" target-language="da">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="7.2" build-num="7C68"/>
+    </header>
+    <body>
+      <trans-unit id="bLW-Ym-z6w.text">
+        <source>Loading..</source>
+        <target>Arbejder..</target>
+        <note>Class = "UILabel"; text = "Loading.."; ObjectID = "bLW-Ym-z6w";</note>
+      </trans-unit>
+      <trans-unit id="hub-qL-xcr.text">
+        <source>PACE</source>
+        <target>PACE</target>
+        <note>Class = "UILabel"; text = "PACE"; ObjectID = "hub-qL-xcr";</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Pace/Base.lproj/Main.storyboard" source-language="en" datatype="plaintext" target-language="da">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="7.2" build-num="7C68"/>
+    </header>
+    <body>
+      <trans-unit id="0XM-y9-sOw.text">
+        <source>Detail view content goes here</source>
+        <target>Detail view content goes here</target>
+        <note>Class = "UILabel"; text = "Detail view content goes here"; ObjectID = "0XM-y9-sOw";</note>
+      </trans-unit>
+      <trans-unit id="7bK-jq-Zjz.title">
+        <source>Master</source>
+        <target>Master</target>
+        <note>Class = "UITableViewController"; title = "Master"; ObjectID = "7bK-jq-Zjz";</note>
+      </trans-unit>
+      <trans-unit id="Arm-wq-HPj.text">
+        <source>Title</source>
+        <target>Title</target>
+        <note>Class = "UILabel"; text = "Title"; ObjectID = "Arm-wq-HPj";</note>
+      </trans-unit>
+      <trans-unit id="JEX-9P-axG.title">
+        <source>Detail</source>
+        <target>Detail</target>
+        <note>Class = "UIViewController"; title = "Detail"; ObjectID = "JEX-9P-axG";</note>
+      </trans-unit>
+      <trans-unit id="RMx-3f-FxP.title">
+        <source>Master</source>
+        <target>Master</target>
+        <note>Class = "UINavigationController"; title = "Master"; ObjectID = "RMx-3f-FxP";</note>
+      </trans-unit>
+      <trans-unit id="Zdf-7t-Un8.title">
+        <source>Master</source>
+        <target>Master</target>
+        <note>Class = "UINavigationItem"; title = "Master"; ObjectID = "Zdf-7t-Un8";</note>
+      </trans-unit>
+      <trans-unit id="mOI-FS-AaM.title">
+        <source>Detail</source>
+        <target>Detail</target>
+        <note>Class = "UINavigationItem"; title = "Detail"; ObjectID = "mOI-FS-AaM";</note>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="Pace/Info.plist" source-language="en" datatype="plaintext" target-language="da">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="7.2" build-num="7C68"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+      </trans-unit>
+      <trans-unit id="CFBundleShortVersionString">
+        <source>1.0</source>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="PaceTests/Info.plist" source-language="en" datatype="plaintext" target-language="da">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="7.2" build-num="7C68"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+      </trans-unit>
+      <trans-unit id="CFBundleShortVersionString">
+        <source>1.0</source>
+      </trans-unit>
+    </body>
+  </file>
+  <file original="PaceUITests/Info.plist" source-language="en" datatype="plaintext" target-language="da">
+    <header>
+      <tool tool-id="com.apple.dt.xcode" tool-name="Xcode" tool-version="7.2" build-num="7C68"/>
+    </header>
+    <body>
+      <trans-unit id="CFBundleName">
+        <source>$(PRODUCT_NAME)</source>
+      </trans-unit>
+      <trans-unit id="CFBundleShortVersionString">
+        <source>1.0</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
